@@ -54,7 +54,7 @@ body {
   font-family: 'Mukta', sans-serif;
 }
 
-/* --- Sidebar Styles (FIXED for Overlay) --- */
+/* --- Sidebar Styles (FIXED for Overlay & RIGHT ALIGNMENT) --- */
 .sidebar {
   width: 250px;
   background-color: var(--secondary-bg);
@@ -62,7 +62,8 @@ body {
   position: fixed;
   height: 100%;
   top: 0;
-  left: 0;
+  /* Default desktop position */
+  left: 0; 
   /* Ensured highest z-index to overlay header-bar (z-index: 999) */
   z-index: 1001; 
   padding: 0;
@@ -71,6 +72,25 @@ body {
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
+}
+
+/* NEW: Internal Close Button for Mobile Sidebar - Hidden on Desktop */
+#sidebar-close-btn {
+    display: none; 
+    position: absolute;
+    top: 15px;
+    left: 15px; 
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1002;
+    transition: color 0.2s;
+}
+#sidebar-close-btn:hover {
+    color: var(--accent-color);
 }
 
 .profile {
@@ -187,6 +207,17 @@ body {
   padding-bottom: 10px;
   font-weight: 700;
 }
+
+/* New style for h2 in detail sections */
+.section h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    font-weight: 700;
+}
+
 
 /* Reset section h1 style for the hero */
 .section#about h1 {
@@ -566,7 +597,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* --- Mobile Header Bar for Toggle --- */
+/* --- Mobile Header Bar for Toggle (Updated order) --- */
 .header-bar {
   display: none; /* Hidden on desktop */
   position: fixed;
@@ -584,20 +615,7 @@ body {
   padding: 0 20px;
 }
 
-.menu-toggle {
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--accent-color);
-}
-
-.mobile-logo {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--text-color);
-  order: 2;
-}
-
-/* New style for the mobile language button */
+/* Mobile Language Button (Order 1, Left) */
 .lang-toggle-btn-mobile {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -609,11 +627,28 @@ body {
     transition: all 0.2s ease;
     font-family: 'Mukta', sans-serif;
     font-size: 14px;
-    order: 3; /* To place it on the right */
+    order: 1; /* To place it on the left */
 }
 .lang-toggle-btn-mobile:hover {
     background-color: var(--accent-hover);
 }
+
+/* Mobile Logo (Order 2, Center) */
+.mobile-logo {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-color);
+  order: 2;
+}
+
+/* Menu Toggle (Order 3, Right) */
+.menu-toggle {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--accent-color);
+  order: 3;
+}
+
 
 /* --- Language Switcher Desktop Styles (New) --- */
 .lang-switcher.desktop-only button {
@@ -637,16 +672,37 @@ body {
 /* --- Media Queries for Mobile/Tablet --- */
 @media (max-width: 1024px) {
   .sidebar {
-    width: 250px;
-    transform: translateX(-250px);
-    /* FIX: Removed padding-top here to allow full overlay */
+    /* Set to right instead of left */
+    left: auto; 
+    right: 0;
+    /* Translate off the screen from the right */
+    transform: translateX(250px);
+    border-left: 1px solid var(--border-color); /* Add left border */
+    border-right: none; /* Remove right border */
     padding-top: 0; 
   }
 
   .sidebar.open {
+    /* Slide in from the right */
     transform: translateX(0);
   }
 
+  /* Show the internal close button on mobile */
+  #sidebar-close-btn {
+      display: block; 
+      right: 10px; /* Position top right of sidebar */
+      left: auto;
+      color: var(--accent-color); 
+      top: 10px;
+      font-size: 1.8rem;
+  }
+  /* Push profile content down to avoid collision with the close button */
+  .profile {
+    padding-top: 50px; 
+  }
+
+
+  /* No margin for main content on mobile */
   .main-content {
     margin-left: 0;
     /* FIX: Set padding to match the header-bar height (60px) */
@@ -703,7 +759,7 @@ body {
   }
 }
 
-/* Hide mobile button on larger screens */
+/* Hide mobile button and adjust sidebar for desktop */
 @media (min-width: 1025px) {
   .header-bar {
     display: none;
@@ -711,20 +767,38 @@ body {
   .lang-toggle-btn-mobile {
       display: none !important;
   }
+  #sidebar-close-btn {
+      display: none !important;
+  }
+  /* Restore sidebar to left for desktop */
+  .sidebar {
+      left: 0;
+      right: auto;
+      transform: translateX(0);
+      border-right: 1px solid var(--border-color);
+      border-left: none;
+  }
+  .profile {
+      padding-top: 25px; /* Restore desktop padding */
+  }
 }
 
     </style>
   </head>
   <body>
     <header class="header-bar">
-        <div class="menu-toggle">
-            <i class="fas fa-bars menu-icon"></i>
-        </div>
-        <div class="mobile-logo" data-i18n="site_title">बिनिशा इन्टरप्राइजस्</div>
         <button id="lang-toggle-btn-mobile" onclick="toggleLanguage()" class="lang-toggle-btn-mobile">ENG</button>
+        <div class="mobile-logo" data-i18n="site_title">बिनिशा इन्टरप्राइजस्</div>
+        <div class="menu-toggle">
+            <i class="fas fa-bars menu-icon"></i> 
+        </div>
     </header>
 
     <nav class="sidebar">
+        <button id="sidebar-close-btn" aria-label="Close menu">
+            <i class="fas fa-xmark"></i>
+        </button>
+
         <div class="profile">
             <div class="profile-info">
                 <h2>Binisha Enterprises</h2>
@@ -851,49 +925,20 @@ body {
                 </div>
             </a>
             
-
-            <a href="javascript:void(0)" onclick="navigateToDetail('photo-details')" class="service-card-link">
-                <div class="service-card">
-                    <span class="service-icon"><i class="fa-solid fa-camera"></i></span>
-                    <h4 data-i18n="service_photo_title">फोटो स्टुडियो सेवाहरू</h4>
-                    <p data-i18n="service_photo_text">पासपोर्ट फोटो, कागजात प्रिन्टिङ, लेमिनेसन, र सामान्य फोटोग्राफी सेवाहरू।</p>
-                </div>
-            </a>
-
-           
-
             <a href="javascript:void(0)" onclick="navigateToDetail('internet-bill-details')" class="service-card-link">
                 <div class="service-card">
-                    <span class="service-icon"><i class="fa-solid fa-wifi"></i></span>
-                    <h4 data-i18n="service_internet_title">इन्टरनेट बिल भुक्तानी</h4>
-                    <p data-i18n="service_internet_text">सबै प्रमुख स्थानीय इन्टरनेट सेवा प्रदायकहरूको लागि झन्झटमुक्त भुक्तानी।</p>
+                    <span class="service-icon"><i class="fa-solid fa-file-invoice"></i></span>
+                    <h4 data-i18n="service_bill_payment_title">बिल भुक्तानी सेवा</h4>
+                    <p data-i18n="service_bill_payment_text">बिजुली, इन्टरनेट, र पानीको बिल लगायतका सबै स्थानीय बिलहरू एकै ठाउँमा तिर्नुहोस्।</p>
                 </div>
             </a>
-            
-            <a href="javascript:void(0)" onclick="navigateToDetail('water-bill-details')" class="service-card-link">
-                <div class="service-card">
-                    <span class="service-icon"><i class="fa-solid fa-droplet"></i></span>
-                    <h4 data-i18n="service_water_title">पानीको बिल भुक्तानी</h4>
-                    <p data-i18n="service_water_text">आफ्नो स्थानीय पानी उपयोगिता बिलहरू छिट्टै तिर्नुहोस् र ढिलो शुल्कबाट बच्नुहोस्।</p>
-                </div>
-            </a>
-            
-            <a href="javascript:void(0)" onclick="navigateToDetail('electric-bill-details')" class="service-card-link">
-                <div class="service-card">
-                    <span class="service-icon"><i class="fa-solid fa-bolt"></i></span>
-                    <h4 data-i18n="service_electric_title">बिजुलीको बिल भुक्तानी</h4>
-                    <p data-i18n="service_electric_text">आफ्नो बिजुली उपयोगिता बिलहरूको लागि सुरक्षित र तत्काल भुक्तानी।</p>
-                </div>
-            </a>
-            
-           
-          </div>
+            </div>
         </section>
         
         <section id="remittance-details" class="section">
             <div class="detail-section-content">
                
-                <h1 data-i18n="remittance_detail_title">रेमिट्यान्स/पैसा ट्रान्सफर सेवा</h1>
+                <h2 data-i18n="remittance_detail_title">रेमिट्यान्स/पैसा ट्रान्सफर सेवा</h2>
                 <p data-i18n="remittance_detail_intro">
                     हाम्रो मार्फत सुरक्षित, छिटो र भरपर्दो रूपमा पैसा पठाउनुहोस् वा प्राप्त गर्नुहोस्। हामी स्थानीय र अन्तर्राष्ट्रिय दुवै रेमिट्यान्स सेवाहरूमा विशेष सहयोग गर्छौं।
                 </p>
@@ -919,7 +964,7 @@ body {
         <section id="insurance-details" class="section">
             <div class="detail-section-content">
              
-                <h1 data-i18n="insurance_detail_title">बिमा सेवा</h1>
+                <h2 data-i18n="insurance_detail_title">बिमा सेवा</h2>
                 <p data-i18n="insurance_detail_intro">
                     हामी जीवन, स्वास्थ्य, र सवारीसाधन बिमाको लागि आधिकारिक एजेन्ट हौं। बिमा किन्न, बिमा प्रिमियम तिर्न, वा बिमासम्बन्धी कुनै पनि जानकारीको लागि हामीलाई भेट्नुहोस्।
                 </p>
@@ -938,7 +983,7 @@ body {
         <section id="photo-details" class="section">
             <div class="detail-section-content">
                 
-                <h1 data-i18n="photo_detail_title">फोटो स्टुडियो सेवा</h1>
+                <h2 data-i18n="photo_detail_title">फोटो स्टुडियो सेवा</h2>
                 <p data-i18n="photo_detail_intro">
                     पासपोर्ट फोटो, तत्काल प्रिन्टिङ, लेमिनेसन, र कागजात स्क्यानिङको लागि हामीकहाँ आउनुहोस्।
                 </p>
@@ -962,7 +1007,7 @@ body {
             <div class="detail-section-content">
                 
                 </div>
-                <h1 data-i18n="air_ticket_detail_title">हवाई टिकट बुकिङ</h1>
+                <h2 data-i18n="air_ticket_detail_title">हवाई टिकट बुकिङ</h2>
                 <p data-i18n="air_ticket_detail_intro">
                     सस्तो दरमा घरेलु र अन्तर्राष्ट्रिय उडान टिकटहरू तुरुन्तै बुकिङ गर्नुहोस्।
                 </p>
@@ -982,17 +1027,16 @@ body {
         <section id="internet-bill-details" class="section">
             <div class="detail-section-content">
              
-                <h1 data-i18n="internet_bill_detail_title">इन्टरनेट बिल भुक्तानी</h1>
-                <p data-i18n="internet_bill_detail_intro">
-                    तुरुन्तै आफ्नो इन्टरनेट बिल तिर्नुहोस् र सेवा अवरोधबाट बच्नुहोस्।
+                <h2 data-i18n="bill_payment_detail_title">बिल भुक्तानी सेवा</h2>
+                <p data-i18n="bill_payment_detail_intro">
+                    बिजुली, इन्टरनेट, र पानीको बिल लगायतका सबै स्थानीय उपयोगिता बिलहरू तिर्नको लागि एक-स्टप पसल। ढिलो शुल्कबाट बच्नका लागि सुरक्षित र छिटो भुक्तानी गर्नुहोस्।
                 </p>
                 <div class="detail-gallery-grid">
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Internet+1" alt="Internet Image 1" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Internet+2" alt="Internet Image 2" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Internet+3" alt="Internet Image 3" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Internet+4" alt="Internet Image 4" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Internet+5" alt="Internet Image 5" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Internet+6" alt="Internet Image 6" /></div>
+                    <div class="detail-gallery-item"><img src="service/14.jpg" alt="Electric Bill Image 1" /></div>
+                    <div class="detail-gallery-item"><img src="service/15.jpeg" alt="Water Bill Image 2" /></div>
+                    <div class="detail-gallery-item"><img src="service/16.png" alt="Internet Bill Image 3" /></div>
+                    <div class="detail-gallery-item"><img src="service/17.jpg" alt="Utility Image 4" /></div>
+                  
                 </div>
                 <div class="detail-cta">
                     <a href="https://wa.me/9779855029952" target="_blank" class="btn btn-primary" data-i18n="btn_whatsapp_contact">
@@ -1001,57 +1045,11 @@ body {
                 </div>
             </div>
         </section>
-
-        <section id="water-bill-details" class="section">
-            <div class="detail-section-content">
-              
-                <h1 data-i18n="water_bill_detail_title">पानीको बिल भुक्तानी</h1>
-                <p data-i18n="water_bill_detail_intro">
-                    ढिलो शुल्कबाट बच्नका लागि आफ्नो पानीको बिल सुरक्षित र छिटो तिर्नुहोस्।
-                </p>
-                <div class="detail-gallery-grid">
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Water+1" alt="Water Image 1" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Water+2" alt="Water Image 2" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Water+3" alt="Water Image 3" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Water+4" alt="Water Image 4" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Water+5" alt="Water Image 5" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Water+6" alt="Water Image 6" /></div>
-                </div>
-                <div class="detail-cta">
-                    <a href="https://wa.me/9779855029952" target="_blank" class="btn btn-primary" data-i18n="btn_whatsapp_contact">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp मा सम्पर्क गर्नुहोस्
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section id="electric-bill-details" class="section">
-            <div class="detail-section-content">
-               
-                <h1 data-i18n="electric_bill_detail_title">बिजुलीको बिल भुक्तानी</h1>
-                <p data-i18n="electric_bill_detail_intro">
-                    तपाईंको बिजुलीको बिल छिटो र सुरक्षित रूपमा तिर्नको लागि स्थानीय सुविधा।
-                </p>
-                <div class="detail-gallery-grid">
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Electric+1" alt="Electric Image 1" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Electric+2" alt="Electric Image 2" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Electric+3" alt="Electric Image 3" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Electric+4" alt="Electric Image 4" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Electric+5" alt="Electric Image 5" /></div>
-                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Electric+6" alt="Electric Image 6" /></div>
-                </div>
-                <div class="detail-cta">
-                    <a href="https://wa.me/9779855029952" target="_blank" class="btn btn-primary" data-i18n="btn_whatsapp_contact">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp मा सम्पर्क गर्नुहोस्
-                    </a>
-                </div>
-            </div>
-        </section>
-
+        
         <section id="recharge-details" class="section">
             <div class="detail-section-content">
                
-                <h1 data-i18n="recharge_detail_title">मोबाइल रिचार्ज</h1>
+                <h2 data-i18n="recharge_detail_title">मोबाइल रिचार्ज</h2>
                 <p data-i18n="recharge_detail_intro">
                     सबै प्रमुख सेवा प्रदायकहरूको लागि मोबाइल ब्यालेन्स तुरुन्तै रिचार्ज गर्नुहोस्।
                 </p>
@@ -1243,11 +1241,8 @@ body {
           
           // Close sidebar on mobile
           const sidebar = document.querySelector('.sidebar');
-          const menuIcon = document.querySelector('.menu-icon');
           if (window.innerWidth <= 1024 && sidebar.classList.contains('open')) {
-              sidebar.classList.remove('open');
-              menuIcon.classList.remove('fa-xmark');
-              menuIcon.classList.add('fa-bars');
+              closeSidebar();
           }
       }
 
@@ -1293,16 +1288,14 @@ body {
           service_photo_text: 'Passport photos, document printing, lamination, and general photography services.',
           service_plane_title: 'Air Ticket Booking',
           service_plane_text: 'Domestic and international flight ticket booking and confirmation assistance.',
-          service_internet_title: 'Internet Bill Payment',
-          service_internet_text: 'Hassle-free payment for all major local internet service providers.',
-          service_water_title: 'Water Bill Payment',
-          service_water_text: 'Pay your local water utility bills quickly and avoid late fees.',
-          service_electric_title: 'Electricity Bill Payment',
-          service_electric_text: 'Secure and instant payment for your electricity utility bills.',
           service_recharge_title: 'Mobile and DTH Recharge',
           service_recharge_text: 'Recharge your mobile phone balance and DTH subscriptions.',
           
-          // NEW DETAIL SECTION TRANSLATIONS
+          // NEW COMBINED SERVICE TRANSLATIONS
+          service_bill_payment_title: 'Bill Payment Service',
+          service_bill_payment_text: 'Pay all local utility bills including electricity, internet, and water bills in one place.',
+
+          // NEW DETAIL SECTION TRANSLATIONS (Renaming 'internet' details to generic 'bill_payment' details)
           remittance_detail_title: 'Remittance Service',
           remittance_detail_intro: 'Send or receive money safely, quickly, and reliably through us. We specialize in assisting with both local and international remittance services.',
           remittance_detail_features_heading: 'Our Key Features:',
@@ -1317,13 +1310,11 @@ body {
           photo_detail_intro: 'Visit us for passport photos, instant printing, lamination, and document scanning.',
           air_ticket_detail_title: 'Air Ticket Booking',
           air_ticket_detail_intro: 'Book domestic and international flight tickets instantly at affordable rates.',
-          internet_bill_detail_title: 'Internet Bill Payment',
-          internet_bill_detail_intro: 'Pay your internet bill instantly and avoid service interruption.',
-          water_bill_detail_title: 'Water Bill Payment',
-          water_bill_detail_intro: 'Pay your water utility bills securely and quickly to avoid late fees.',
-          electric_bill_detail_title: 'Electricity Bill Payment',
-          electric_bill_detail_intro: 'Local convenience to pay your electricity bill quickly and securely.',
-          recharge_detail_title: 'Mobile & DTH Recharge',
+          
+          bill_payment_detail_title: 'Bill Payment Service',
+          bill_payment_detail_intro: 'A one-stop shop for paying all local utility bills including electricity, internet, and water bills. Pay securely and quickly to avoid late fees.',
+
+          recharge_detail_title: 'Mobile Recharge',
           recharge_detail_intro: 'Instantly recharge your mobile balance and DTH subscriptions for all major providers.',
           // END NEW DETAIL SECTION TRANSLATIONS
           
@@ -1382,16 +1373,14 @@ body {
           service_photo_text: 'पासपोर्ट फोटो, कागजात प्रिन्टिङ, लेमिनेसन, र सामान्य फोटोग्राफी सेवाहरू।',
           service_plane_title: 'हवाई टिकट बुकिङ',
           service_plane_text: 'घरेलु तथा अन्तर्राष्ट्रिय उडान टिकट बुकिङ र पुष्टिकरण सहायता।',
-          service_internet_title: 'इन्टरनेट बिल भुक्तानी',
-          service_internet_text: 'सबै प्रमुख स्थानीय इन्टरनेट सेवा प्रदायकहरूको लागि झन्झटमुक्त भुक्तानी।',
-          service_water_title: 'पानीको बिल भुक्तानी',
-          service_water_text: 'आफ्नो स्थानीय पानी उपयोगिता बिलहरू छिट्टै तिर्नुहोस् र ढिलो शुल्कबाट बच्नुहोस्।',
-          service_electric_title: 'बिजुलीको बिल भुक्तानी',
-          service_electric_text: 'आफ्नो बिजुली उपयोगिता बिलहरूको लागि सुरक्षित र तत्काल भुक्तानी।',
-          service_recharge_title: 'मोबाइल र डीटीएच रिचार्ज',
+          service_recharge_title: 'मोबाइल रिचार्ज',
           service_recharge_text: 'आफ्नो मोबाइल फोन ब्यालेन्स र डीटीएच सदस्यताहरू रिचार्ज गर्नुहोस्।',
           
-          // NEW DETAIL SECTION TRANSLATIONS
+          // NEW COMBINED SERVICE TRANSLATIONS
+          service_bill_payment_title: 'बिल भुक्तानी सेवा',
+          service_bill_payment_text: 'बिजुली, इन्टरनेट, र पानीको बिल लगायतका सबै स्थानीय बिलहरू एकै ठाउँमा तिर्नुहोस्।',
+
+          // NEW DETAIL SECTION TRANSLATIONS (Renaming 'internet' details to generic 'bill_payment' details)
           remittance_detail_title: 'रेमिट्यान्स सेवा',
           remittance_detail_intro: 'हाम्रो मार्फत सुरक्षित, छिटो र भरपर्दो रूपमा पैसा पठाउनुहोस् वा प्राप्त गर्नुहोस्। हामी स्थानीय र अन्तर्राष्ट्रिय दुवै रेमिट्यान्स सेवाहरूमा विशेष सहयोग गर्छौं।',
           remittance_detail_features_heading: 'हाम्रा मुख्य सुविधाहरू:',
@@ -1406,13 +1395,11 @@ body {
           photo_detail_intro: 'पासपोर्ट फोटो, तत्काल प्रिन्टिङ, लेमिनेसन, र कागजात स्क्यानिङको लागि हामीकहाँ आउनुहोस्।',
           air_ticket_detail_title: 'हवाई टिकट बुकिङ',
           air_ticket_detail_intro: 'सस्तो दरमा घरेलु र अन्तर्राष्ट्रिय उडान टिकटहरू तुरुन्तै बुकिङ गर्नुहोस्।',
-          internet_bill_detail_title: 'इन्टरनेट बिल भुक्तानी',
-          internet_bill_detail_intro: 'तुरुन्तै आफ्नो इन्टरनेट बिल तिर्नुहोस् र सेवा अवरोधबाट बच्नुहोस्।',
-          water_bill_detail_title: 'पानीको बिल भुक्तानी',
-          water_bill_detail_intro: 'ढिलो शुल्कबाट बच्नका लागि आफ्नो पानीको बिल सुरक्षित र छिटो तिर्नुहोस्।',
-          electric_bill_detail_title: 'बिजुलीको बिल भुक्तानी',
-          electric_bill_detail_intro: 'तपाईंको बिजुलीको बिल छिटो र सुरक्षित रूपमा तिर्नको लागि स्थानीय सुविधा।',
-          recharge_detail_title: 'मोबाइल र डीटीएच रिचार्ज',
+          
+          bill_payment_detail_title: 'बिल भुक्तानी सेवा',
+          bill_payment_detail_intro: 'बिजुली, इन्टरनेट, र पानीको बिल लगायतका सबै स्थानीय उपयोगिता बिलहरू तिर्नको लागि एक-स्टप पसल। ढिलो शुल्कबाट बच्नका लागि सुरक्षित र छिटो भुक्तानी गर्नुहोस्।',
+          
+          recharge_detail_title: 'मोबाइल रिचार्ज',
           recharge_detail_intro: 'सबै प्रमुख सेवा प्रदायकहरूको लागि मोबाइल ब्यालेन्स र डीटीएच सदस्यताहरू तुरुन्तै रिचार्ज गर्नुहोस्।',
           // END NEW DETAIL SECTION TRANSLATIONS
           
@@ -1517,11 +1504,24 @@ body {
         }
       }
 
+      // NEW: Function to handle closing the sidebar consistently
+      function closeSidebar() {
+          const sidebar = document.querySelector('.sidebar');
+          const menuIcon = document.querySelector('.menu-icon');
+          sidebar.classList.remove('open');
+          // Change the icon in the header bar back to the hamburger
+          menuIcon.classList.remove('fa-xmark');
+          menuIcon.classList.add('fa-bars');
+      }
+
+
       document.addEventListener('DOMContentLoaded', function () {
         const navItems = document.querySelectorAll('.nav-item');
         const sidebar = document.querySelector('.sidebar');
         const menuToggle = document.querySelector('.menu-toggle');
         const menuIcon = document.querySelector('.menu-icon');
+        // NEW: Get the internal close button
+        const sidebarCloseBtn = document.getElementById('sidebar-close-btn'); 
 
         // Initial translation application
         applyTranslations(currentLang);
@@ -1531,18 +1531,23 @@ body {
         history.replaceState({ section: 'about', detail: null }, '', '#about');
 
 
-        // Sidebar/Menu Toggle for Mobile
+        // Sidebar/Menu Toggle for Mobile (Toggles open/close state)
         if (menuToggle) {
           menuToggle.addEventListener('click', function () {
-            sidebar.classList.toggle('open');
             if (sidebar.classList.contains('open')) {
-              menuIcon.classList.remove('fa-bars');
-              menuIcon.classList.add('fa-xmark');
+                closeSidebar(); // Use the dedicated close function
             } else {
-              menuIcon.classList.remove('fa-xmark');
-              menuIcon.classList.add('fa-bars');
+                sidebar.classList.add('open');
+                // Change from bars to times (X) when open
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
             }
           });
+        }
+        
+        // NEW: Internal Close Button listener
+        if (sidebarCloseBtn) {
+            sidebarCloseBtn.addEventListener('click', closeSidebar);
         }
 
 
@@ -1561,9 +1566,7 @@ body {
 
             // Close sidebar on mobile after clicking a link
             if (window.innerWidth <= 1024 && sidebar.classList.contains('open')) {
-              sidebar.classList.remove('open');
-              menuIcon.classList.remove('fa-xmark');
-              menuIcon.classList.add('fa-bars');
+              closeSidebar();
             }
           });
         });
@@ -1575,12 +1578,12 @@ body {
                 let targetSectionId = state.detail || state.section;
                 
                 // If we're coming back from a detail page, we need to activate the 'services' nav item
-                if (state.detail) {
-                     targetSectionId = 'services'; // Switch to the services page
+                if (state.detail && state.detail !== state.section) {
+                     targetSectionId = state.section; // Should be 'services'
                 } else if (state.section) {
                     targetSectionId = state.section;
                 } else {
-                    targetSectionId = 'about'; // Default to about if no state is present (shouldn't happen with replaceState)
+                    targetSectionId = 'about'; // Default to about 
                 }
 
                 switchSection(targetSectionId);
@@ -1592,11 +1595,14 @@ body {
                     navToActivate.classList.add('active');
                 }
             } else {
-                 // Fallback if initial state was lost (unlikely with replaceState)
+                 // Fallback if initial state was lost
                  switchSection('about');
                  document.querySelectorAll('.nav-item').forEach((nav) => nav.classList.remove('active'));
                  document.querySelector('.nav-item[data-section="about"]').classList.add('active');
             }
+            
+            // Ensure sidebar is closed when navigating history
+            closeSidebar(); 
         });
 
 
