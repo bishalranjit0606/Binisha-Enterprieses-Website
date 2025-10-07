@@ -597,14 +597,16 @@ body {
   transform: translateY(-1px);
 }
 
-/* --- Mobile Header Bar for Toggle (Updated order) --- */
+/* ----------------------------------------------------------- */
+/* --- MOBILE HEADER REDESIGN (ENHANCED) --- */
+/* ----------------------------------------------------------- */
 .header-bar {
   display: none; /* Hidden on desktop */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px; /* Fixed height for mobile header */
+  height: 65px; /* Slightly taller for better touch target */
   background-color: var(--secondary-bg);
   border-bottom: 1px solid var(--border-color);
   z-index: 999;
@@ -612,40 +614,50 @@ body {
   display: flex;
   justify-content: space-between; /* Space out logo, menu, and new button */
   align-items: center;
-  padding: 0 20px;
+  padding: 0 15px; /* Reduced side padding slightly */
 }
 
-/* Mobile Language Button (Order 1, Left) */
+/* Mobile Language Button (Order 1, Left) - Sleeker look */
 .lang-toggle-btn-mobile {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-weight: 600;
+    background-color: transparent; /* Changed to transparent for a cleaner look */
+    color: var(--accent-color); /* Highlight color */
+    border: 1px solid var(--accent-color); /* Subtle border */
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-family: 'Mukta', sans-serif;
-    font-size: 14px;
-    order: 1; /* To place it on the left */
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px; /* Smaller font for sleekness */
+    order: 1; 
 }
 .lang-toggle-btn-mobile:hover {
-    background-color: var(--accent-hover);
+    background-color: var(--accent-color);
+    color: var(--text-color);
 }
 
-/* Mobile Logo (Order 2, Center) */
+/* Mobile Logo (Order 2, Center) - Enhanced font and color */
 .mobile-logo {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.3rem; /* Slightly larger */
+  font-weight: 700;
   color: var(--text-color);
+  font-family: 'Poppins', sans-serif; /* Using Poppins for logo on mobile */
+  text-align: center;
+  flex-grow: 1; /* Allow it to take available space */
+  margin: 0 10px; /* Space from buttons */
   order: 2;
 }
+.mobile-logo .text-accent {
+    color: var(--accent-color);
+    font-weight: 800;
+}
 
-/* Menu Toggle (Order 3, Right) */
+/* Menu Toggle (Order 3, Right) - Bigger, more prominent icon */
 .menu-toggle {
-  font-size: 1.5rem;
+  font-size: 1.8rem; /* Larger icon */
   cursor: pointer;
   color: var(--accent-color);
+  padding: 5px; /* Padding for better touch area */
   order: 3;
 }
 
@@ -705,8 +717,8 @@ body {
   /* No margin for main content on mobile */
   .main-content {
     margin-left: 0;
-    /* FIX: Set padding to match the header-bar height (60px) */
-    padding-top: 60px; 
+    /* FIX: Set padding to match the header-bar height (65px) */
+    padding-top: 65px; 
   }
 
   .header-bar {
@@ -757,6 +769,26 @@ body {
       width: 100%; /* Full width buttons on very small screens */
       justify-content: center;
   }
+  
+  /* Optimization for very small screens */
+  .header-bar {
+      height: 60px; /* Slight reduction for very small screens */
+      padding: 0 10px;
+  }
+  .mobile-logo {
+      font-size: 1.2rem;
+      margin: 0 5px;
+  }
+  .lang-toggle-btn-mobile {
+      padding: 5px 8px;
+      font-size: 12px;
+  }
+  .menu-toggle {
+      font-size: 1.6rem;
+  }
+  .main-content {
+      padding-top: 60px;
+  }
 }
 
 /* Hide mobile button and adjust sidebar for desktop */
@@ -788,7 +820,9 @@ body {
   <body>
     <header class="header-bar">
         <button id="lang-toggle-btn-mobile" onclick="toggleLanguage()" class="lang-toggle-btn-mobile">ENG</button>
-        <div class="mobile-logo" data-i18n="site_title">बिनिशा इन्टरप्राइजस्</div>
+        <div class="mobile-logo font-poppins" data-i18n="site_title">
+            <span class="text-accent">B</span>inisha
+        </div>
         <div class="menu-toggle">
             <i class="fas fa-bars menu-icon"></i> 
         </div>
@@ -1479,6 +1513,18 @@ body {
                 }
             }
         });
+        
+        // Custom update for the mobile logo
+        const mobileLogoEl = document.querySelector('.mobile-logo');
+        if (mobileLogoEl && translations[lang] && translations[lang]['site_title']) {
+             // For English, use 'Binisha Enterprises'
+            if (lang === 'en') {
+                mobileLogoEl.innerHTML = `<span class="text-accent">B</span>inisha`;
+            } else {
+                 // For Nepali, use the full translated title
+                mobileLogoEl.textContent = translations[lang]['site_title'];
+            }
+        }
       }
 
       function toggleLanguage() {
@@ -1528,7 +1574,7 @@ body {
         updateButtonText(currentLang);
 
         // Add the initial state to history for the default active section ('about')
-        history.replaceState({ section: 'about', detail: null }, '', '#about');
+        history.replaceState({ section: 'about', detail: null }, '', `#about`);
 
 
         // Sidebar/Menu Toggle for Mobile (Toggles open/close state)
