@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="np">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="site_title">बिनिशा इन्टरप्राइजस् - स्थानीय डिजिटल र वित्तीय सेवाहरू</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap&family=Mukta:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-color: #0d0d0d; /* Darker Black */
+  --secondary-bg: #1a1a1a;
+  --border-color: #333;
+  --text-color: #fff; /* White */
+  --secondary-text: #ccc;
+  --accent-color: #ff3333; /* Bright Red */
+  --accent-hover: #e51f1f;
+  --shadow-light: 0 4px 15px rgba(255, 51, 51, 0.15);
+  --shadow-dark: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+body {
+  font-family: 'Mukta', 'Poppins', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: margin-left 0.3s ease;
+}
+
+/* --- Utility Classes --- */
+.text-accent {
+  color: var(--accent-color);
+}
+.text-secondary {
+  color: var(--secondary-text);
+}
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+.font-mukta {
+  font-family: 'Mukta', sans-serif;
+}
+
+/* --- Sidebar Styles (FIXED for Overlay) --- */
+.sidebar {
+  width: 250px;
+  background-color: var(--secondary-bg);
+  color: var(--text-color);
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 0;
+  /* Ensured highest z-index to overlay header-bar (z-index: 999) */
+  z-index: 1001; 
+  padding: 0;
+  box-shadow: var(--shadow-dark);
+  transition: transform 0.3s ease;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Reduced vertical padding for a tighter look */
+  padding: 25px 15px 25px 15px;
+  /* Removed margin-bottom, using padding and border-bottom instead */
+  border-bottom: 1px solid var(--border-color);
+}
+
+.profile-info {
+  text-align: center;
+}
+
+.profile-info h2 {
+  font-size: 1.4rem; /* Slightly smaller, cleaner title */
+  font-weight: 700; /* Bold title */
+  margin-bottom: 3px; /* Reduced space below title */
+  color: var(--text-color); /* Changed to white for better contrast/modern look */
+}
+
+.profile-info p {
+  font-size: 0.85rem; /* Slightly smaller location text */
+  color: var(--secondary-text);
+  font-weight: 300;
+}
+
+/* New: Styles for the language switcher above nav items */
+.lang-switcher.desktop-only {
+    padding: 10px 15px;
+    margin-bottom: 15px; /* Added margin for separation */
+    border-bottom: 1px solid var(--border-color); /* Added separator */
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.nav-item-container {
+    flex-grow: 1; /* Allows the nav container to take up remaining vertical space */
+    overflow-y: auto; /* Adds scrollbar if nav items exceed screen height */
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  /* Standardized padding for better click area and look */
+  padding: 18px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--secondary-text);
+  transition: all 0.2s ease;
+  border-left: 5px solid transparent; /* Keep accent indicator on the left */
+  margin-bottom: 2px; /* Slight gap between items for visual separation */
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 51, 51, 0.1); /* Light red hover */
+  color: var(--text-color);
+  border-left-color: var(--accent-color);
+}
+
+.nav-item.active {
+  background-color: rgba(255, 51, 51, 0.2);
+  color: var(--text-color);
+  border-left-color: var(--accent-color);
+}
+
+.nav-item .icon {
+  margin-right: 15px;
+  font-size: 1.2rem;
+  width: 20px; /* Ensures icons align even if they have different widths */
+  text-align: center;
+  /* Added a color to the icon for better visibility */
+  color: var(--accent-color); 
+}
+/* Active item icon should be the main text color */
+.nav-item.active .icon {
+    color: var(--text-color);
+}
+
+/* --- Main Content Area --- */
+.main-content {
+  margin-left: 250px; /* Space for sidebar */
+  padding: 20px;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+/* --- Section Styles (Tabs Content) */
+.section {
+  display: none;
+  padding: 0px; /* Removed padding here, sections will manage their own padding */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Faster, simpler transition */
+  border-radius: 15px;
+  background-color: var(--secondary-bg);
+  box-shadow: var(--shadow-dark);
+}
+
+.section.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: var(--accent-color);
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 10px;
+  font-weight: 700;
+}
+
+/* Reset section h1 style for the hero */
+.section#about h1 {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.section p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: var(--secondary-text);
+}
+
+/* --- NEW: Hero Section Styles --- */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 40px;
+  background-color: var(--secondary-bg);
+  border-radius: 15px;
+  margin-bottom: 40px;
+  border: 1px solid var(--border-color);
+}
+.hero-text {
+  flex: 1;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive font size */
+  line-height: 1.1;
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+.hero .highlight {
+  color: var(--accent-color);
+}
+.hero p {
+  font-size: 1.1rem;
+  color: var(--secondary-text);
+  margin-bottom: 30px;
+}
+.hero-image {
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: var(--shadow-dark);
+  border: 4px solid var(--accent-color);
+}
+
+/* --- NEW: Button Styles --- */
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    cursor: pointer; /* Added for general buttons */
+}
+.btn i {
+    margin-right: 8px;
+}
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border: 2px solid var(--accent-color);
+}
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 51, 51, 0.4);
+}
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+}
+.btn-secondary:hover {
+    background-color: var(--border-color);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+/* --- NEW: Section Header Styles (For Services and Why Choose Us) --- */
+.section-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 40px;
+}
+.section-header h2 {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+.section-header p {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1rem;
+    color: var(--secondary-text);
+}
+
+.services-section {
+    padding: 0 40px 40px 40px;
+    border-radius: 15px;
+}
+
+/* --- Updated Service Card Grid --- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 0 40px 40px 40px; /* Padding for the grid container */
+}
+
+/* Added a class for the clickable service cards */
+.service-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: contents; /* Allows the link to contain the grid item structure */
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 30px 20px;
+  border-radius: 15px;
+  background-color: var(--secondary-bg); /* Ensure card background is consistent */
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-dark);
+  transition: transform 0.3s ease, background 0.3s ease;
+  cursor: pointer; /* Indicate clickability */
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(255, 51, 51, 0.2);
+  /* Added hover background back to CSS, removed from JS */
+  background: linear-gradient(135deg, #e51f1f15, #ff666615); 
+}
+
+.service-card .service-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 51, 51, 0.1);
+    border-radius: 50%;
+    margin-bottom: 15px;
+    color: var(--accent-color);
+    font-size: 1.8rem;
+    transition: background-color 0.3s;
+}
+.service-card:hover .service-icon {
+    background-color: rgba(255, 51, 51, 0.25);
+}
+.service-card h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+.service-card p {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    margin-bottom: 0;
+}
+
+
+/* --- Detail Section Styles (New) --- */
+.detail-section-content {
+    padding: 40px;
+}
+/* New style for the back button container */
+.detail-back-container {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+.detail-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.detail-gallery-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow-dark);
+}
+.detail-cta {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+
+/* --- Gallery Section Specifics --- */
+.gallery-container {
+  padding: 40px;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.gallery-item {
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: var(--shadow-dark);
+  transition: transform 0.3s ease;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+  min-height: 150px;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+/* --- Contact Form Styles --- */
+.contact-container {
+  padding: 40px;
+}
+.contact-content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.contact-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.contact-info-item {
+  flex: 1 1 200px;
+  background-color: var(--bg-color);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.contact-info-item i {
+  color: var(--accent-color);
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+.contact-info-item h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.contact-info-item p {
+  margin: 5px 0 0 0;
+  font-size: 0.95rem;
+}
+
+/* New social links styling */
+.social-links {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    font-size: 1.5rem;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.social-link.facebook {
+    background-color: #3b5998;
+}
+.social-link.whatsapp {
+    background-color: #25d366;
+}
+
+.social-link:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* --- NEW: Map Styles --- */
+.map-container {
+  height: 400px;
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: var(--shadow-dark);
+  border: 1px solid var(--border-color);
+}
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.contact-form button[type="submit"] {
+  padding: 15px 20px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.contact-form button[type="submit"]:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+/* --- Mobile Header Bar for Toggle --- */
+.header-bar {
+  display: none; /* Hidden on desktop */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px; /* Fixed height for mobile header */
+  background-color: var(--secondary-bg);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 999;
+  /* FLEX CONTAINER FOR ALIGNMENT */
+  display: flex;
+  justify-content: space-between; /* Space out logo, menu, and new button */
+  align-items: center;
+  padding: 0 20px;
+}
+
+.menu-toggle {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--accent-color);
+}
+
+.mobile-logo {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-color);
+  order: 2;
+}
+
+/* New style for the mobile language button */
+.lang-toggle-btn-mobile {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Mukta', sans-serif;
+    font-size: 14px;
+    order: 3; /* To place it on the right */
+}
+.lang-toggle-btn-mobile:hover {
+    background-color: var(--accent-hover);
+}
+
+/* --- Language Switcher Desktop Styles (New) --- */
+.lang-switcher.desktop-only button {
+  width: 100%;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Mukta', sans-serif;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+.lang-switcher.desktop-only button:hover {
+  background-color: var(--accent-hover);
+}
+
+
+/* --- Media Queries for Mobile/Tablet --- */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 250px;
+    transform: translateX(-250px);
+    /* FIX: Removed padding-top here to allow full overlay */
+    padding-top: 0; 
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+    /* FIX: Set padding to match the header-bar height (60px) */
+    padding-top: 60px; 
+  }
+
+  .header-bar {
+    display: flex;
+  }
+
+  .lang-switcher.desktop-only {
+      display: none; /* Hide desktop button */
+  }
+  
+  .hero {
+      flex-direction: column;
+      text-align: center;
+      gap: 20px;
+      padding: 30px;
+  }
+  .hero h1 {
+      font-size: 2.5rem;
+  }
+  .hero-image {
+      width: 100%;
+      height: auto;
+      max-width: 300px;
+  }
+  .hero-buttons {
+      justify-content: center;
+  }
+  
+  .services-section,
+  .services-grid {
+      padding: 0 20px 20px 20px;
+  }
+  .section-header {
+      padding-top: 20px;
+  }
+  .contact-container,
+  .gallery-container,
+  .detail-section-content {
+      padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero-buttons .btn {
+      width: 100%; /* Full width buttons on very small screens */
+      justify-content: center;
+  }
+}
+
+/* Hide mobile button on larger screens */
+@media (min-width: 1025px) {
+  .header-bar {
+    display: none;
+  }
+  .lang-toggle-btn-mobile {
+      display: none !important;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <header class="header-bar">
+        <div class="menu-toggle">
+            <i class="fas fa-bars menu-icon"></i>
+        </div>
+        <div class="mobile-logo" data-i18n="site_title">बिनिशा इन्टरप्राइजस्</div>
+        <button id="lang-toggle-btn-mobile" onclick="toggleLanguage()" class="lang-toggle-btn-mobile">ENG</button>
+    </header>
+
+    <nav class="sidebar">
+        <div class="profile">
+            <div class="profile-info">
+                <h2>Binisha Enterprises</h2>
+                <p data-i18n="location_short">पथलैया, बारा, नेपाल</p>
+            </div>
+        </div>
+
+        <div class="lang-switcher desktop-only">
+            <button id="lang-toggle-btn-desktop" onclick="toggleLanguage()">ENG</button>
+        </div>
+
+        <div class="nav-item-container">
+            <div class="nav-item active" data-section="about" data-i18n="nav_about" aria-label="हाम्रो बारेमा">
+                <i class="fa-solid fa-circle-info icon"></i>हाम्रो बारेमा
+            </div>
+            <div class="nav-item" data-section="services" data-i18n="nav_services" aria-label="सेवाहरू">
+                <i class="fa-solid fa-handshake icon"></i>सेवाहरू
+            </div>
+            <div class="nav-item" data-section="gallery" data-i18n="nav_gallery" aria-label="ग्यालेरी">
+                <i class="fa-solid fa-images icon"></i>ग्यालेरी
+            </div>
+            <div class="nav-item" data-section="contact" data-i18n="nav_contact" aria-label="सम्पर्क गर्नुहोस्">
+                <i class="fa-solid fa-headset icon"></i>सम्पर्क गर्नुहोस्
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        
+        <section id="about" class="section active">
+          <div class="hero">
+            <div class="hero-text">
+              <h1>
+                <span data-i18n="hero_heading_1">डिजिटल सेवा अब तपाईंको छेउमै</span>
+                
+              </h1>
+              <p data-i18n="hero_tagline">
+               बिनिशा इन्टरप्राइजस्मा स्वागत छ, पथलैया, बारा, नेपालमा रहेको तपाईंको विश्वसनीय स्थानीय सेवा पसल। हामी हाम्रो समुदायलाई आवश्यक दैनिक वित्तीय तथा डिजिटल सेवाहरू प्रदान गरेर सहयोग गर्छौं।
+              </p>
+              <div class="hero-buttons">
+                <a href="javascript:void(0)" class="btn btn-primary" onclick="changeSection('services')" data-i18n="btn_view_services">
+                  <i class="fa-solid fa-list-check"></i> सेवाहरू हेर्नुहोस्
+                </a>
+                <a href="javascript:void(0)" class="btn btn-secondary" onclick="changeSection('contact')" data-i18n="btn_contact_us">
+                  <i class="fa-solid fa-phone"></i> हामीलाई सम्पर्क गर्नुहोस्
+                </a>
+              </div>
+            </div>
+            <img
+              src="images/1.jpg"
+              alt="Binisha Enterprises Shop Front"
+              class="hero-image"
+              onerror="this.onerror=null; this.src='https://placehold.co/350x350/ff3333/0d0d0d?text=Shop+Image+1';"
+            />
+          </div>
+
+          <div class="services-section">
+            <div class="section-header">
+                <h2 data-i18n="why_choose_heading">बिनिशा इन्टरप्राइजस् किन रोज्ने?</h2>
+                <p data-i18n="why_choose_tagline">हामी सजिलो पहुँचमा छौं र तपाईंको सबै आवश्यक आवश्यकताहरूको लागि व्यक्तिगत स्पर्शका साथ भरपर्दो सेवा प्रदान गर्न प्रतिबद्ध छौं।</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon"><i class="fa-solid fa-location-dot"></i></span>
+                    <h4 data-i18n="why_convenience_title">स्थानीय सुविधा</h4>
+                    <p data-i18n="why_convenience_text">गाउँको केन्द्रमै रहेकाले, हामी तपाईंलाई आवश्यक सेवाहरूको लागि यात्रा गर्ने समय र प्रयास बचत गर्छौं।</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon"><i class="fa-solid fa-user-shield"></i></span>
+                    <h4 data-i18n="why_trust_title">विश्वसनीय र सुरक्षित</h4>
+                    <p data-i18n="why_trust_text">समुदायले विश्वास गर्ने पसलबाट आफ्नो वित्त र संवेदनशील कागजातहरू ह्यान्डल गर्नुहोस्।</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon"><i class="fa-solid fa-tag"></i></span>
+                    <h4 data-i18n="why_price_title">उचित मूल्य निर्धारण</h4>
+                    <p data-i18n="why_price_text">हामी प्रिन्टिङदेखि टिकटिङसम्मका सबै सेवाहरूका लागि सस्तो दरहरू प्रस्ताव गर्दछौं।</p>
+                </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="services" class="section">
+          <div class="section-header">
+            <h2 data-i18n="services_heading">हाम्रा सेवाहरू</h2>
+            <p data-i18n="services_tagline">तपाईंको दैनिक जीवन र व्यापार लेनदेनहरू सरल बनाउन आवश्यक सेवाहरूको विस्तृत दायरा।</p>
+          </div>
+
+          <div class="services-grid">
+
+             <a href="javascript:void(0)" onclick="navigateToDetail('insurance-details')" class="service-card-link">
+                <div class="service-card">
+                    <span class="service-icon">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </span>
+                    <h4 data-i18n="service_insurance_title">बिमा सेवा</h4>
+                    <p data-i18n="service_insurance_text">हामी जीवन, स्वास्थ्य, र सवारीसाधन बिमाको एजेन्ट हौं र यसको प्रिमियम सजिलै भुक्तानी गर्ने सेवा पनि दिन्छौं।</p>
+                </div>
+            </a>
+            
+            <a href="javascript:void(0)" onclick="navigateToDetail('remittance-details')" class="service-card-link">
+                <div class="service-card">
+                    <span class="service-icon">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </span>
+                    <h4 data-i18n="service_money_title">रेमिट्यान्स/पैसा ट्रान्सफर</h4>
+                    <p data-i18n="service_money_text">स्थानीय र अन्तर्राष्ट्रिय दुवै स्थानमा छिटो र भरपर्दो पैसा ट्रान्सफर।</p>
+                </div>
+            </a>
+
+             <a href="javascript:void(0)" onclick="navigateToDetail('air-ticket-details')" class="service-card-link">
+                <div class="service-card">
+                    <span class="service-icon"><i class="fa-solid fa-plane-departure"></i></span>
+                    <h4 data-i18n="service_plane_title">हवाई टिकट बुकिङ</h4>
+                    <p data-i18n="service_plane_text">घरेलु तथा अन्तर्राष्ट्रिय उडान टिकट बुकिङ र पुष्टिकरण सहायता।</p>
+                </div>
+            </a>
+
+            <a href="javascript:void(0)" onclick="navigateToDetail('recharge-details')" class="service-card-link">
+                <div class="service-card">
+                    <span class="service-icon"><i class="fa-solid fa-mobile-screen-button"></i></span>
+                    <h4 data-i18n="service_recharge_title">मोबाइल र डीटीएच रिचार्ज</h4>
+                    <p data-i18n="service_recharge_text">आफ्नो मोबाइल फोन ब्यालेन्स र डीटीएच सदस्यताहरू रिचार्ज गर्नुहोस्।</p>
+                </div>
+            </a>
+            
+
+            <a href="javascript:void(0)" onclick="navigateToDetail('photo-details')" class="service-card-link">
+                <div class="service-card">
+                    <span class="service-icon"><i class="fa-solid fa-camera"></i></span>
+                    <h4 data-i18n="service_photo_title">फोटो स्टुडियो सेवाहरू</h4>
+                    <p data-i18n="service_photo_text">पासपोर्ट फोटो, कागजात प्रिन्टिङ, लेमिनेसन, र सामान्य फोटोग्राफी सेवाहरू।</p>
+                </div>
+            </a>
+
+           
+
+            <a href="javascript:void(0)" onclick="navigateToDetail('internet-bill-details')" class="service-card-link">
+                <div class="service-card">
+                    <span class="service-icon"><i class="fa-solid fa-wifi"></i></span>
+                    <h4 data-i18n="service_internet_title">इन्टरनेट बिल भुक्तानी</h4>
+                    <p data-i18n="service_internet_text">सबै प्रमुख स्थानीय इन्टरनेट सेवा प्रदायकहरूको लागि झन्झटमुक्त भुक्तानी।</p>
+                </div>
+            </a>
+            
+            <a href="javascript:void(0)" onclick="navigateToDetail('water-bill-details')" class="service-card-link">
+                <div class="service-card">
+                    <span class="service-icon"><i class="fa-solid fa-droplet"></i></span>
+                    <h4 data-i18n="service_water_title">पानीको बिल भुक्तानी</h4>
+                    <p data-i18n="service_water_text">आफ्नो स्थानीय पानी उपयोगिता बिलहरू छिट्टै तिर्नुहोस् र ढिलो शुल्कबाट बच्नुहोस्।</p>
+                </div>
+            </a>
+            
+            <a href="javascript:void(0)" onclick="navigateToDetail('electric-bill-details')" class="service-card-link">
+                <div class="service-card">
+                    <span class="service-icon"><i class="fa-solid fa-bolt"></i></span>
+                    <h4 data-i18n="service_electric_title">बिजुलीको बिल भुक्तानी</h4>
+                    <p data-i18n="service_electric_text">आफ्नो बिजुली उपयोगिता बिलहरूको लागि सुरक्षित र तत्काल भुक्तानी।</p>
+                </div>
+            </a>
+            
+           
+          </div>
+        </section>
+        
+        <section id="remittance-details" class="section">
+            <div class="detail-section-content">
+               
+                <h1 data-i18n="remittance_detail_title">रेमिट्यान्स/पैसा ट्रान्सफर सेवा</h1>
+                <p data-i18n="remittance_detail_intro">
+                    हाम्रो मार्फत सुरक्षित, छिटो र भरपर्दो रूपमा पैसा पठाउनुहोस् वा प्राप्त गर्नुहोस्। हामी स्थानीय र अन्तर्राष्ट्रिय दुवै रेमिट्यान्स सेवाहरूमा विशेष सहयोग गर्छौं।
+                </p>
+
+                <div class="detail-gallery-grid">
+                    <div class="detail-gallery-item"><img src="service/2.jpg" alt="Remittance Counter 1" onerror="this.onerror=null; this.src='https://placehold.co/150x150/ff3333/0d0d0d?text=Remit+1';" /></div>
+                    <div class="detail-gallery-item"><img src="service/3.png" alt="Remittance Counter 2" onerror="this.onerror=null; this.src='https://placehold.co/150x150/ff3333/0d0d0d?text=Remit+2';" /></div>
+                    <div class="detail-gallery-item"><img src="service/4.png" alt="Remittance Counter 3" onerror="this.onerror=null; this.src='https://placehold.co/150x150/ff3333/0d0d0d?text=Remit+3';" /></div>
+                    <div class="detail-gallery-item"><img src="service/5.png" alt="Remittance Counter 4" onerror="this.onerror=null; this.src='https://placehold.co/150x150/ff3333/0d0d0d?text=Remit+4';" /></div>
+                    <div class="detail-gallery-item"><img src="service/6.jpg" alt="Remittance Counter 5" onerror="this.onerror=null; this.src='https://placehold.co/150x150/ff3333/0d0d0d?text=Remit+5';" /></div>
+                    <div class="detail-gallery-item"><img src="service/7.png" alt="Remittance Counter 6" onerror="this.onerror=null; this.src='https://placehold.co/150x150/ff3333/0d0d0d?text=Remit+6';" /></div>
+                </div>
+                
+
+                <div class="detail-cta">
+                    <a href="https://wa.me/9779855029952" target="_blank" class="btn btn-primary" data-i18n="btn_whatsapp_contact">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp मा सम्पर्क गर्नुहोस्
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="insurance-details" class="section">
+            <div class="detail-section-content">
+             
+                <h1 data-i18n="insurance_detail_title">बिमा सेवा</h1>
+                <p data-i18n="insurance_detail_intro">
+                    हामी जीवन, स्वास्थ्य, र सवारीसाधन बिमाको लागि आधिकारिक एजेन्ट हौं। बिमा किन्न, बिमा प्रिमियम तिर्न, वा बिमासम्बन्धी कुनै पनि जानकारीको लागि हामीलाई भेट्नुहोस्।
+                </p>
+
+                <div class="detail-gallery-grid">
+                    <div class="detail-gallery-item"><img src="service/1.jpg" alt="Insurance Services 1" onerror="this.onerror=null; this.src='https://placehold.co/150x150/ff3333/0d0d0d?text=Insure+1';" /></div>
+                  
+            </div>
+             <div class="detail-cta">
+                    <a href="https://wa.me/9779855029952" target="_blank" class="btn btn-primary" data-i18n="btn_whatsapp_contact">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp मा सम्पर्क गर्नुहोस्
+                    </a>
+                </div>
+        </section>
+
+        <section id="photo-details" class="section">
+            <div class="detail-section-content">
+                
+                <h1 data-i18n="photo_detail_title">फोटो स्टुडियो सेवा</h1>
+                <p data-i18n="photo_detail_intro">
+                    पासपोर्ट फोटो, तत्काल प्रिन्टिङ, लेमिनेसन, र कागजात स्क्यानिङको लागि हामीकहाँ आउनुहोस्।
+                </p>
+                <div class="detail-gallery-grid">
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Photo+1" alt="Studio Image 1" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Photo+2" alt="Studio Image 2" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Photo+3" alt="Studio Image 3" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Photo+4" alt="Studio Image 4" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Photo+5" alt="Studio Image 5" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Photo+6" alt="Studio Image 6" /></div>
+                </div>
+                <div class="detail-cta">
+                    <a href="https://wa.me/9779855029952" target="_blank" class="btn btn-primary" data-i18n="btn_whatsapp_contact">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp मा सम्पर्क गर्नुहोस्
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <section id="air-ticket-details" class="section">
+            <div class="detail-section-content">
+                
+                </div>
+                <h1 data-i18n="air_ticket_detail_title">हवाई टिकट बुकिङ</h1>
+                <p data-i18n="air_ticket_detail_intro">
+                    सस्तो दरमा घरेलु र अन्तर्राष्ट्रिय उडान टिकटहरू तुरुन्तै बुकिङ गर्नुहोस्।
+                </p>
+                <div class="detail-gallery-grid">
+                    <div class="detail-gallery-item"><img src="service/8.jpg" alt="Air Ticket Image 1" /></div>
+                    <div class="detail-gallery-item"><img src="service/yeti.png" alt="Air Ticket Image 2" /></div>
+                    
+               
+            </div>
+             <div class="detail-cta">
+                    <a href="https://wa.me/9779855029952" target="_blank" class="btn btn-primary" data-i18n="btn_whatsapp_contact">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp मा सम्पर्क गर्नुहोस्
+                    </a>
+                </div>
+        </section>
+
+        <section id="internet-bill-details" class="section">
+            <div class="detail-section-content">
+             
+                <h1 data-i18n="internet_bill_detail_title">इन्टरनेट बिल भुक्तानी</h1>
+                <p data-i18n="internet_bill_detail_intro">
+                    तुरुन्तै आफ्नो इन्टरनेट बिल तिर्नुहोस् र सेवा अवरोधबाट बच्नुहोस्।
+                </p>
+                <div class="detail-gallery-grid">
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Internet+1" alt="Internet Image 1" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Internet+2" alt="Internet Image 2" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Internet+3" alt="Internet Image 3" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Internet+4" alt="Internet Image 4" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Internet+5" alt="Internet Image 5" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Internet+6" alt="Internet Image 6" /></div>
+                </div>
+                <div class="detail-cta">
+                    <a href="https://wa.me/9779855029952" target="_blank" class="btn btn-primary" data-i18n="btn_whatsapp_contact">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp मा सम्पर्क गर्नुहोस्
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="water-bill-details" class="section">
+            <div class="detail-section-content">
+              
+                <h1 data-i18n="water_bill_detail_title">पानीको बिल भुक्तानी</h1>
+                <p data-i18n="water_bill_detail_intro">
+                    ढिलो शुल्कबाट बच्नका लागि आफ्नो पानीको बिल सुरक्षित र छिटो तिर्नुहोस्।
+                </p>
+                <div class="detail-gallery-grid">
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Water+1" alt="Water Image 1" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Water+2" alt="Water Image 2" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Water+3" alt="Water Image 3" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Water+4" alt="Water Image 4" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Water+5" alt="Water Image 5" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Water+6" alt="Water Image 6" /></div>
+                </div>
+                <div class="detail-cta">
+                    <a href="https://wa.me/9779855029952" target="_blank" class="btn btn-primary" data-i18n="btn_whatsapp_contact">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp मा सम्पर्क गर्नुहोस्
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="electric-bill-details" class="section">
+            <div class="detail-section-content">
+               
+                <h1 data-i18n="electric_bill_detail_title">बिजुलीको बिल भुक्तानी</h1>
+                <p data-i18n="electric_bill_detail_intro">
+                    तपाईंको बिजुलीको बिल छिटो र सुरक्षित रूपमा तिर्नको लागि स्थानीय सुविधा।
+                </p>
+                <div class="detail-gallery-grid">
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Electric+1" alt="Electric Image 1" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Electric+2" alt="Electric Image 2" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Electric+3" alt="Electric Image 3" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Electric+4" alt="Electric Image 4" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Electric+5" alt="Electric Image 5" /></div>
+                    <div class="detail-gallery-item"><img src="https://placehold.co/150x150/1a1a1a/cccccc?text=Electric+6" alt="Electric Image 6" /></div>
+                </div>
+                <div class="detail-cta">
+                    <a href="https://wa.me/9779855029952" target="_blank" class="btn btn-primary" data-i18n="btn_whatsapp_contact">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp मा सम्पर्क गर्नुहोस्
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="recharge-details" class="section">
+            <div class="detail-section-content">
+               
+                <h1 data-i18n="recharge_detail_title">मोबाइल रिचार्ज</h1>
+                <p data-i18n="recharge_detail_intro">
+                    सबै प्रमुख सेवा प्रदायकहरूको लागि मोबाइल ब्यालेन्स तुरुन्तै रिचार्ज गर्नुहोस्।
+                </p>
+                <div class="detail-gallery-grid">
+                    <div class="detail-gallery-item"><img src="service/10.jpg" alt="Recharge Image 1" /></div>
+                    <div class="detail-gallery-item"><img src="service/11.jpg" alt="Recharge Image 2" /></div>
+             
+                  
+                </div>
+                <div class="detail-cta">
+                    <a href="https://wa.me/9779855029952" target="_blank" class="btn btn-primary" data-i18n="btn_whatsapp_contact">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp मा सम्पर्क गर्नुहोस्
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="gallery" class="section">
+          <div class="gallery-container">
+            <h1 data-i18n="gallery_title">ग्यालेरी</h1>
+            <p data-i18n="gallery_intro">
+              हाम्रो कार्यालय र हामीले सेवा दिने क्षेत्रका केही झलकहरू।
+            </p>
+            <div class="gallery-grid">
+              <div class="gallery-item">
+                <img
+                  src="images/7.jpg"
+                  alt="Office Front View"
+                  onerror="this.onerror=null; this.src='https://placehold.co/400x300/1a1a1a/cccccc?text=Image+2';"
+                />
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="images/4.jpg"
+                  alt="Customer Service"
+                  onerror="this.onerror=null; this.src='https://placehold.co/400x300/1a1a1a/cccccc?text=Image+3';"
+                />
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="images/5.jpg"
+                  alt="Digital Counter"
+                  onerror="this.onerror=null; this.src='https://placehold.co/400x300/1a1a1a/cccccc?text=Image+4';"
+                />
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="images/6.jpg"
+                  alt="Community Event"
+                  onerror="this.onerror=null; this.src='https://placehold.co/400x300/1a1a1a/cccccc?text=Image+5';"
+                />
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="images/8.jpg"
+                  alt="Pathlaiya Market"
+                  onerror="this.onerror=null; this.src='https://placehold.co/400x300/1a1a1a/cccccc?text=Image+6';"
+                />
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="images/3.jpg"
+                  alt="Our Team"
+                  onerror="this.onerror=null; this.src='https://placehold.co/400x300/1a1a1a/cccccc?text=Image+7';"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" class="section">
+          <div class="contact-container">
+            <h1 data-i18n="contact_title">सम्पर्क गर्नुहोस्</h1>
+            <p data-i18n="contact_intro">
+              हामीलाई कुनै पनि सेवा वा सहयोगको लागि सिधै सम्पर्क गर्नुहोस्, वा तलको
+              फारम भर्नुहोस्।
+            </p>
+
+            <div class="contact-info-item">
+                  <i class="fa-solid fa-phone"></i>
+                  <h3 data-i18n="contact_phone_title">फोन</h3>
+                  <p>
+                    <a href="tel:+9779855029952" style="color: var(--accent-color); text-decoration: none; display: block;">+977 9855029952</a>
+                    <a href="tel:+9779705252952" style="color: var(--accent-color); text-decoration: none; display: block; margin-top: 5px;">+977 9705252952</a>
+                  </p>
+                </div>
+
+                <div class="contact-info-item">
+                  <i class="fa-brands fa-whatsapp"></i>
+                  <h3 data-i18n="contact_whatsapp_title">WhatsApp</h3>
+                  <p><a href="https://wa.me/9779855029952" target="_blank" style="color: var(--accent-color); text-decoration: none;">+977 9855029952</a></p>
+                </div>
+
+                
+                <div class="contact-info-item">
+                  <i class="fa-solid fa-envelope"></i>
+                  <h3 data-i18n="contact_email_title">ईमेल</h3>
+                  <p><a href="mailto:pathlaiya123@gmail.com" style="color: var(--accent-color); text-decoration: none;">pathlaiya123@gmail.com</a></p>
+                </div>
+
+                <div class="contact-details">
+                <div class="contact-info-item">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <h3 data-i18n="contact_location_title">ठेगाना</h3>
+                  <p data-i18n="location_full">पथलैया बजार, बारा, नेपाल</p>
+                </div>
+                 </div>
+              
+              <h2 data-i18n="contact_map_heading" class="font-poppins text-accent" style="font-size: 1.5rem; margin-top: 0; text-align: center;">हाम्रो स्थान</h2>
+              <div class="map-container">
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3550.04018335013!2d84.97772207505324!3d27.19843017657921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb5375a0f99cc1%3A0x9b87c3c9eed38a0f!2sRanjit%20Enterprises!5e0!3m2!1sen!2snp!4v1700000000000!5m2!1sen!2snp" 
+                  allowfullscreen="" 
+                  loading="lazy" 
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              </div>
+              
+             
+            
+            </div>
+          </div>
+        </section>
+    </main>
+
+    <div id="custom-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:2000; justify-content:center; align-items:center;">
+        <div style="background:var(--secondary-bg); padding:30px; border-radius:15px; max-width:400px; text-align:center; border:2px solid var(--accent-color);">
+            <p id="modal-message" style="color:var(--text-color); margin-bottom:20px; font-size:1.1rem;"></p>
+            <button onclick="closeModal()" style="padding:10px 20px; background:var(--accent-color); color:white; border:none; border-radius:8px; cursor:pointer;">बुझियो</button>
+        </div>
+    </div>
+
+    <script>
+      // --- Helper Functions for Modal (Replaces alert) ---
+      function showModal(message) {
+          const modal = document.getElementById('custom-modal');
+          document.getElementById('modal-message').textContent = message;
+          modal.style.display = 'flex';
+      }
+
+      function closeModal() {
+          document.getElementById('custom-modal').style.display = 'none';
+      }
+      
+      // Function for form submission via modal
+      function showFormSentModal() {
+        const message = currentLang === 'np' ? "तपाईंको सन्देश सफलतापूर्वक पठाइएको छ! हामी छिट्टै तपाईंसँग सम्पर्क गर्नेछौं।" : "Your message has been sent successfully! We will contact you shortly.";
+        showModal(message);
+        document.querySelector('.contact-form').reset();
+      }
+
+      // Function to allow buttons to click the navigation items
+      function changeSection(targetSectionId) {
+          const targetNavItem = document.querySelector(`.nav-item[data-section="${targetSectionId}"]`);
+          if (targetNavItem) {
+              // Programmatically trigger a click on the navigation item
+              targetNavItem.click();
+          } else {
+              // This is used by the back button on detail pages, so we handle the direct section switch
+              switchSection(targetSectionId);
+              
+              // New: Update history state for main section change (only if not an internal back action)
+              if (targetSectionId !== 'services') {
+                history.pushState({ section: targetSectionId, detail: null }, '', `#${targetSectionId}`);
+              }
+              
+              // Activate the 'services' navigation item visually and for accessibility if going back to services
+              if (targetSectionId === 'services') {
+                document.querySelectorAll('.nav-item').forEach((nav) => nav.classList.remove('active'));
+                const servicesNavItem = document.querySelector('.nav-item[data-section="services"]');
+                if (servicesNavItem) {
+                    servicesNavItem.classList.add('active');
+                }
+              }
+          }
+      }
+      
+      // NEW FUNCTION: Navigate to a detail section
+      function navigateToDetail(targetSectionId) {
+          // Deactivate the main navigation items' 'active' state
+          document.querySelectorAll('.nav-item').forEach((nav) => nav.classList.remove('active'));
+          
+          // Switch the main content section
+          switchSection(targetSectionId); 
+          
+          // FIX: Add state to browser history for back button functionality
+          history.pushState({ section: 'services', detail: targetSectionId }, '', `#${targetSectionId}`);
+          
+          // Close sidebar on mobile
+          const sidebar = document.querySelector('.sidebar');
+          const menuIcon = document.querySelector('.menu-icon');
+          if (window.innerWidth <= 1024 && sidebar.classList.contains('open')) {
+              sidebar.classList.remove('open');
+              menuIcon.classList.remove('fa-xmark');
+              menuIcon.classList.add('fa-bars');
+          }
+      }
+
+      // --- Translation Data ---
+      const translations = {
+        en: {
+          site_title: 'Binisha Enterprises',
+          location_short: 'Pathalaiya, Bara, Nepal',
+          location_full: 'Pathalaiya Bazar, Bara, Nepal',
+          nav_about: 'About Us',
+          nav_services: 'Services',
+          nav_gallery: 'Gallery',
+          nav_contact: 'Contact Us',
+          
+          // New Hero Section Translations
+          hero_heading_1: 'Financial & Digital Services',
+          hero_heading_2: 'Your Local Hub',
+          hero_tagline: 'Welcome to Binisha Enterprises, your reliable local service shop in Pathalaiya, Bara, Nepal. We support our community by providing essential daily financial and digital services.',
+          btn_view_services: 'View Services',
+          btn_contact_us: 'Contact Us',
+          btn_whatsapp_contact: 'Contact us on WhatsApp', 
+          // New Back Button Translation
+          btn_back_to_services: 'Back to Services',
+
+          // New Why Choose Us Translations
+          why_choose_heading: 'Why Choose Binisha Enterprises?',
+          why_choose_tagline: 'We are easily accessible and committed to providing reliable service with a personal touch for all your essential needs.',
+          why_convenience_title: 'Local Convenience',
+          why_convenience_text: 'Located right in the heart of the village, we save you time and effort traveling for essential services.',
+          why_trust_title: 'Trustworthy and Secure',
+          why_trust_text: 'Handle your finances and sensitive documents through a shop trusted by the community.',
+          why_price_title: 'Fair Pricing',
+          why_price_text: 'We offer affordable rates for all our services, from printing to ticketing.',
+          
+          // Services Section Translations
+          services_heading: 'Our Services',
+          services_tagline: 'A comprehensive range of essential services to simplify your daily life and business transactions.',
+          service_money_title: 'Remittance/Money Transfer',
+          service_money_text: 'Quick and reliable money transfer to both local and international locations.',
+          service_insurance_title: 'Insurance Services',
+          service_insurance_text: 'We are agents for life, health, and vehicle insurance and also provide premium payment services.',
+          service_photo_title: 'Photo Studio Services',
+          service_photo_text: 'Passport photos, document printing, lamination, and general photography services.',
+          service_plane_title: 'Air Ticket Booking',
+          service_plane_text: 'Domestic and international flight ticket booking and confirmation assistance.',
+          service_internet_title: 'Internet Bill Payment',
+          service_internet_text: 'Hassle-free payment for all major local internet service providers.',
+          service_water_title: 'Water Bill Payment',
+          service_water_text: 'Pay your local water utility bills quickly and avoid late fees.',
+          service_electric_title: 'Electricity Bill Payment',
+          service_electric_text: 'Secure and instant payment for your electricity utility bills.',
+          service_recharge_title: 'Mobile and DTH Recharge',
+          service_recharge_text: 'Recharge your mobile phone balance and DTH subscriptions.',
+          
+          // NEW DETAIL SECTION TRANSLATIONS
+          remittance_detail_title: 'Remittance Service',
+          remittance_detail_intro: 'Send or receive money safely, quickly, and reliably through us. We specialize in assisting with both local and international remittance services.',
+          remittance_detail_features_heading: 'Our Key Features:',
+          remittance_detail_features: '<li>Instant cash withdrawal with minimal fees.</li><li>Easily receive funds sent from foreign employment.</li><li>Guaranteed reliable and secure transactions.</li>',
+          
+          insurance_detail_title: 'Insurance Service',
+          insurance_detail_intro: 'We are authorized agents for life, health, and vehicle insurance. Visit us to buy insurance, pay premiums, or for any insurance-related information.',
+          insurance_detail_features_heading: 'Benefits of Our Service:',
+          insurance_detail_features: '<li>Premium payment for all major insurance companies.</li><li>Free consultation on life, health, and vehicle insurance.</li><li>Local and personalized insurance support.</li>',
+          
+          photo_detail_title: 'Photo Studio Services',
+          photo_detail_intro: 'Visit us for passport photos, instant printing, lamination, and document scanning.',
+          air_ticket_detail_title: 'Air Ticket Booking',
+          air_ticket_detail_intro: 'Book domestic and international flight tickets instantly at affordable rates.',
+          internet_bill_detail_title: 'Internet Bill Payment',
+          internet_bill_detail_intro: 'Pay your internet bill instantly and avoid service interruption.',
+          water_bill_detail_title: 'Water Bill Payment',
+          water_bill_detail_intro: 'Pay your water utility bills securely and quickly to avoid late fees.',
+          electric_bill_detail_title: 'Electricity Bill Payment',
+          electric_bill_detail_intro: 'Local convenience to pay your electricity bill quickly and securely.',
+          recharge_detail_title: 'Mobile & DTH Recharge',
+          recharge_detail_intro: 'Instantly recharge your mobile balance and DTH subscriptions for all major providers.',
+          // END NEW DETAIL SECTION TRANSLATIONS
+          
+          // Gallery/Contact Section Translations
+          gallery_title: 'Gallery',
+          gallery_intro: 'A few glimpses of our office and the area we serve.',
+          contact_title: 'Contact Us',
+          contact_intro: 'Contact us directly for any service or support, or fill out the form below.',
+          contact_location_title: 'Address',
+          contact_email_title: 'Email',
+          contact_phone_title: 'Phone',
+          contact_map_heading: 'Our Location',
+          contact_form_heading: 'Send Us a Message',
+          contact_form_name: 'Name',
+          contact_form_email: 'Email',
+          contact_form_message: 'Message',
+          contact_form_submit: 'Send Message',
+        },
+        np: {
+          site_title: 'बिनिशा इन्टरप्राइजस्',
+          location_short: 'पथलैया, बारा, नेपाल',
+          location_full: 'पथलैया बजार, बारा, नेपाल',
+          nav_about: 'हाम्रो बारेमा',
+          nav_services: 'सेवाहरू',
+          nav_gallery: 'ग्यालेरी',
+          nav_contact: 'सम्पर्क गर्नुहोस्',
+          
+          // New Hero Section Translations (UPDATED TEXT)
+          hero_heading_1: 'आर्थिक तथा डिजिटल सेवाहरू',
+          hero_heading_2: 'तपाईंको स्थानीय केन्द्र',
+          hero_tagline: 'बिनिशा इन्टरप्राइजमा स्वागत छ, पथलैया, बारा, नेपालमा रहेको तपाईंको विश्वसनीय स्थानीय सेवा पसल। हामी हाम्रो समुदायलाई आवश्यक दैनिक वित्तीय तथा डिजिटल सेवाहरू प्रदान गरेर सहयोग गर्छौं।',
+          btn_view_services: 'सेवाहरू हेर्नुहोस्',
+          btn_contact_us: 'हामीलाई सम्पर्क गर्नुहोस्',
+          btn_whatsapp_contact: 'WhatsApp मा सम्पर्क गर्नुहोस्', 
+          // New Back Button Translation
+          btn_back_to_services: 'सेवाहरूमा फर्किनुहोस्',
+
+          // New Why Choose Us Translations
+          why_choose_heading: 'बिनिशा इन्टरप्राइजस् किन रोज्ने?',
+          why_choose_tagline: 'हामी सजिलो पहुँचमा छौं र तपाईंको सबै आवश्यक आवश्यकताहरूको लागि व्यक्तिगत स्पर्शका साथ भरपर्दो सेवा प्रदान गर्न प्रतिबद्ध छौं।',
+          why_convenience_title: 'स्थानीय सुविधा',
+          why_convenience_text: 'गाउँको केन्द्रमै रहेकाले, हामी तपाईंलाई आवश्यक सेवाहरूको लागि यात्रा गर्ने समय र प्रयास बचत गर्छौं।',
+          why_trust_title: 'विश्वसनीय र सुरक्षित',
+          why_trust_text: 'समुदायले विश्वास गर्ने पसलबाट आफ्नो वित्त र संवेदनशील कागजातहरू ह्यान्डल गर्नुहोस्।',
+          why_price_title: 'उचित मूल्य निर्धारण',
+          why_price_text: 'हामी प्रिन्टिङदेखि टिकटिङसम्मका सबै सेवाहरूका लागि सस्तो दरहरू प्रस्ताव गर्दछौं।',
+
+          // Services Section Translations
+          services_heading: 'हाम्रा सेवाहरू',
+          services_tagline: 'तपाईंको दैनिक जीवन र व्यापार लेनदेनहरू सरल बनाउन आवश्यक सेवाहरूको विस्तृत दायरा।',
+          service_money_title: 'रेमिट्यान्स/पैसा ट्रान्सफर',
+          service_money_text: 'स्थानीय र अन्तर्राष्ट्रिय दुवै स्थानमा छिटो र भरपर्दो पैसा ट्रान्सफर।',
+          service_insurance_title: 'बिमा सेवा',
+          service_insurance_text: 'हामी जीवन, स्वास्थ्य, र सवारीसाधन बिमाको एजेन्ट हौं र यसको प्रिमियम सजिलै भुक्तानी गर्ने सेवा पनि दिन्छौं।',
+          service_photo_title: 'फोटो स्टुडियो सेवाहरू',
+          service_photo_text: 'पासपोर्ट फोटो, कागजात प्रिन्टिङ, लेमिनेसन, र सामान्य फोटोग्राफी सेवाहरू।',
+          service_plane_title: 'हवाई टिकट बुकिङ',
+          service_plane_text: 'घरेलु तथा अन्तर्राष्ट्रिय उडान टिकट बुकिङ र पुष्टिकरण सहायता।',
+          service_internet_title: 'इन्टरनेट बिल भुक्तानी',
+          service_internet_text: 'सबै प्रमुख स्थानीय इन्टरनेट सेवा प्रदायकहरूको लागि झन्झटमुक्त भुक्तानी।',
+          service_water_title: 'पानीको बिल भुक्तानी',
+          service_water_text: 'आफ्नो स्थानीय पानी उपयोगिता बिलहरू छिट्टै तिर्नुहोस् र ढिलो शुल्कबाट बच्नुहोस्।',
+          service_electric_title: 'बिजुलीको बिल भुक्तानी',
+          service_electric_text: 'आफ्नो बिजुली उपयोगिता बिलहरूको लागि सुरक्षित र तत्काल भुक्तानी।',
+          service_recharge_title: 'मोबाइल र डीटीएच रिचार्ज',
+          service_recharge_text: 'आफ्नो मोबाइल फोन ब्यालेन्स र डीटीएच सदस्यताहरू रिचार्ज गर्नुहोस्।',
+          
+          // NEW DETAIL SECTION TRANSLATIONS
+          remittance_detail_title: 'रेमिट्यान्स सेवा',
+          remittance_detail_intro: 'हाम्रो मार्फत सुरक्षित, छिटो र भरपर्दो रूपमा पैसा पठाउनुहोस् वा प्राप्त गर्नुहोस्। हामी स्थानीय र अन्तर्राष्ट्रिय दुवै रेमिट्यान्स सेवाहरूमा विशेष सहयोग गर्छौं।',
+          remittance_detail_features_heading: 'हाम्रा मुख्य सुविधाहरू:',
+          remittance_detail_features: '<li>न्यूनतम शुल्कमा तत्काल रकम निकाल्ने सुविधा।</li><li>वैदेशिक रोजगारीबाट आएको रकम पनि सजिलै लिनुहोस्।</li><li>भरपर्दो र सुरक्षित लेनदेनको ग्यारेन्टी।</li>',
+
+          insurance_detail_title: 'बिमा सेवा',
+          insurance_detail_intro: 'हामी जीवन, स्वास्थ्य, र सवारीसाधन बिमाको लागि आधिकारिक एजेन्ट हौं। बिमा किन्न, बिमा प्रिमियम तिर्न, वा बिमासम्बन्धी कुनै पनि जानकारीको लागि हामीलाई भेट्नुहोस्।',
+          insurance_detail_features_heading: 'हाम्रो सेवाका फाइदाहरू:',
+          insurance_detail_features: '<li>सबै प्रमुख बिमा कम्पनीहरूको लागि प्रिमियम भुक्तानी।</li><li>जीवन, स्वास्थ्य, र सवारीसाधन बिमामा निःशुल्क परामर्श।</li><li>स्थानीय र निजीकृत बिमा सहयोग।</li>',
+          
+          photo_detail_title: 'फोटो स्टुडियो सेवा',
+          photo_detail_intro: 'पासपोर्ट फोटो, तत्काल प्रिन्टिङ, लेमिनेसन, र कागजात स्क्यानिङको लागि हामीकहाँ आउनुहोस्।',
+          air_ticket_detail_title: 'हवाई टिकट बुकिङ',
+          air_ticket_detail_intro: 'सस्तो दरमा घरेलु र अन्तर्राष्ट्रिय उडान टिकटहरू तुरुन्तै बुकिङ गर्नुहोस्।',
+          internet_bill_detail_title: 'इन्टरनेट बिल भुक्तानी',
+          internet_bill_detail_intro: 'तुरुन्तै आफ्नो इन्टरनेट बिल तिर्नुहोस् र सेवा अवरोधबाट बच्नुहोस्।',
+          water_bill_detail_title: 'पानीको बिल भुक्तानी',
+          water_bill_detail_intro: 'ढिलो शुल्कबाट बच्नका लागि आफ्नो पानीको बिल सुरक्षित र छिटो तिर्नुहोस्।',
+          electric_bill_detail_title: 'बिजुलीको बिल भुक्तानी',
+          electric_bill_detail_intro: 'तपाईंको बिजुलीको बिल छिटो र सुरक्षित रूपमा तिर्नको लागि स्थानीय सुविधा।',
+          recharge_detail_title: 'मोबाइल र डीटीएच रिचार्ज',
+          recharge_detail_intro: 'सबै प्रमुख सेवा प्रदायकहरूको लागि मोबाइल ब्यालेन्स र डीटीएच सदस्यताहरू तुरुन्तै रिचार्ज गर्नुहोस्।',
+          // END NEW DETAIL SECTION TRANSLATIONS
+          
+          // Gallery/Contact Section Translations
+          gallery_title: 'ग्यालेरी',
+          gallery_intro: 'हाम्रो कार्यालय र हामीले सेवा दिने क्षेत्रका केही झलकहरू।',
+          contact_title: 'सम्पर्क गर्नुहोस्',
+          contact_intro: 'हामीलाई कुनै पनि सेवा वा सहयोगको लागि सिधै सम्पर्क गर्नुहोस्, वा तलको फारम भर्नुहोस्।',
+          contact_location_title: 'ठेगाना',
+          contact_email_title: 'ईमेल',
+          contact_phone_title: 'फोन',
+          contact_map_heading: 'हाम्रो स्थान',
+          contact_form_heading: 'हामीलाई सन्देश पठाउनुहोस्',
+          contact_form_name: 'नाम',
+          contact_form_email: 'ईमेल',
+          contact_form_message: 'सन्देश',
+          contact_form_submit: 'सन्देश पठाउनुहोस्',
+        },
+      };
+
+      let currentLang = 'np'; // Default language
+
+      // Get references to both language buttons
+      const mobileLangBtn = document.getElementById('lang-toggle-btn-mobile');
+      const desktopLangBtn = document.getElementById('lang-toggle-btn-desktop');
+
+      function updateButtonText(lang) {
+        const text = lang === 'np' ? 'ENG' : 'नेपाली';
+        if (mobileLangBtn) {
+            mobileLangBtn.textContent = text;
+        }
+        if (desktopLangBtn) {
+            desktopLangBtn.textContent = text;
+        }
+      }
+
+      function applyTranslations(lang) {
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach((el) => {
+          const key = el.getAttribute('data-i18n');
+          if (translations[lang] && translations[lang][key]) {
+            // Check if element contains icon, if so, only update text nodes
+            const icon = el.querySelector('.icon, .fa-solid, .fa-brands');
+            
+            // Check for list elements to apply innerHTML for the list items
+            if (el.tagName === 'UL' && key.includes('_features')) {
+                el.innerHTML = translations[lang][key];
+            }
+            else if (icon) {
+                 // Preserve button/nav item icon and update text
+                 el.innerHTML = `<i class="${icon.className}"></i>${translations[lang][key]}`;
+            } else {
+                 el.textContent = translations[lang][key];
+            }
+          }
+        });
+
+        // Update title
+        document.title = document.querySelector('[data-i18n="site_title"]').textContent;
+
+        // Update placeholders
+        const placeholders = document.querySelectorAll('[data-i18n-placeholder]');
+        placeholders.forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+             if (translations[lang] && translations[lang][key]) {
+                 el.placeholder = translations[lang][key];
+             }
+        });
+
+        // Update aria-labels for sidebar navigation
+        document.querySelectorAll('.nav-item').forEach(el => {
+            const section = el.getAttribute('data-section');
+            if (section) {
+                const labelKey = `nav_${section}`;
+                if (translations[lang] && translations[lang][labelKey]) {
+                    el.setAttribute('aria-label', translations[lang][labelKey]);
+                }
+            }
+        });
+      }
+
+      function toggleLanguage() {
+        currentLang = currentLang === 'np' ? 'en' : 'np';
+        document.documentElement.lang = currentLang;
+        updateButtonText(currentLang);
+        applyTranslations(currentLang);
+      }
+
+      // --- Sidebar and Navigation Logic (SIMPLIFIED/FIXED) ---
+      function switchSection(targetSectionId) {
+        // Deactivate all sections first
+        document.querySelectorAll('.section').forEach(section => {
+          section.classList.remove('active');
+        });
+
+        // Find the target section and activate it
+        const targetSection = document.getElementById(targetSectionId);
+        if (targetSection) {
+          // The CSS transition handles the smooth fade/slide now.
+          targetSection.classList.add('active');
+          window.scrollTo(0, 0); // Scroll to top when section changes
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const navItems = document.querySelectorAll('.nav-item');
+        const sidebar = document.querySelector('.sidebar');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menuIcon = document.querySelector('.menu-icon');
+
+        // Initial translation application
+        applyTranslations(currentLang);
+        updateButtonText(currentLang);
+
+        // Add the initial state to history for the default active section ('about')
+        history.replaceState({ section: 'about', detail: null }, '', '#about');
+
+
+        // Sidebar/Menu Toggle for Mobile
+        if (menuToggle) {
+          menuToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('open');
+            if (sidebar.classList.contains('open')) {
+              menuIcon.classList.remove('fa-bars');
+              menuIcon.classList.add('fa-xmark');
+            } else {
+              menuIcon.classList.remove('fa-xmark');
+              menuIcon.classList.add('fa-bars');
+            }
+          });
+        }
+
+
+        // Navigation logic for main sidebar items
+        navItems.forEach((item) => {
+          item.addEventListener('click', function () {
+            // Remove active from all navs
+            navItems.forEach((nav) => nav.classList.remove('active'));
+            item.classList.add('active');
+
+            const targetSectionId = item.getAttribute('data-section');
+            switchSection(targetSectionId); // Use the simplified switch function
+            
+            // FIX: Add state to browser history for main section navigation
+            history.pushState({ section: targetSectionId, detail: null }, '', `#${targetSectionId}`);
+
+            // Close sidebar on mobile after clicking a link
+            if (window.innerWidth <= 1024 && sidebar.classList.contains('open')) {
+              sidebar.classList.remove('open');
+              menuIcon.classList.remove('fa-xmark');
+              menuIcon.classList.add('fa-bars');
+            }
+          });
+        });
+        
+        // FIX: Handle browser back/forward buttons (popstate event)
+        window.addEventListener('popstate', function(event) {
+            const state = event.state;
+            if (state) {
+                let targetSectionId = state.detail || state.section;
+                
+                // If we're coming back from a detail page, we need to activate the 'services' nav item
+                if (state.detail) {
+                     targetSectionId = 'services'; // Switch to the services page
+                } else if (state.section) {
+                    targetSectionId = state.section;
+                } else {
+                    targetSectionId = 'about'; // Default to about if no state is present (shouldn't happen with replaceState)
+                }
+
+                switchSection(targetSectionId);
+                
+                // Update navigation item active state
+                document.querySelectorAll('.nav-item').forEach((nav) => nav.classList.remove('active'));
+                const navToActivate = document.querySelector(`.nav-item[data-section="${targetSectionId}"]`);
+                if (navToActivate) {
+                    navToActivate.classList.add('active');
+                }
+            } else {
+                 // Fallback if initial state was lost (unlikely with replaceState)
+                 switchSection('about');
+                 document.querySelectorAll('.nav-item').forEach((nav) => nav.classList.remove('active'));
+                 document.querySelector('.nav-item[data-section="about"]').classList.add('active');
+            }
+        });
+
+
+        // Ensure initial section is visible
+        const initialActive = document.querySelector('.section.active');
+        if (initialActive) {
+             initialActive.style.opacity = '1';
+             initialActive.style.transform = 'translateY(0)';
+        }
+        
+        // Final body fade in
+        document.body.style.opacity = '0';
+        setTimeout(() => {
+          document.body.style.transition = 'opacity 0.5s ease';
+          document.body.style.opacity = '1';
+        }, 100);
+      });
+      
+    </script>
+  </body>
+</html>
