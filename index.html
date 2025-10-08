@@ -1553,11 +1553,16 @@ body {
       // NEW: Function to handle closing the sidebar consistently
       function closeSidebar() {
           const sidebar = document.querySelector('.sidebar');
-          const menuIcon = document.querySelector('.menu-icon');
+          // FIX: Ensure we reference the mobile menu icon
+          const menuIcon = document.querySelector('.menu-icon'); 
+          
           sidebar.classList.remove('open');
-          // Change the icon in the header bar back to the hamburger
-          menuIcon.classList.remove('fa-xmark');
-          menuIcon.classList.add('fa-bars');
+          
+          // FIX: Change the icon in the header bar back to the hamburger
+          if (menuIcon) {
+              menuIcon.classList.remove('fa-xmark');
+              menuIcon.classList.add('fa-bars');
+          }
       }
 
 
@@ -1578,10 +1583,10 @@ body {
 
 
         // Sidebar/Menu Toggle for Mobile (Toggles open/close state)
-        if (menuToggle) {
+        if (menuToggle && menuIcon) {
           menuToggle.addEventListener('click', function () {
             if (sidebar.classList.contains('open')) {
-                closeSidebar(); // Use the dedicated close function
+                closeSidebar(); // Use the dedicated close function, which now resets the icon
             } else {
                 sidebar.classList.add('open');
                 // Change from bars to times (X) when open
@@ -1593,7 +1598,7 @@ body {
         
         // NEW: Internal Close Button listener
         if (sidebarCloseBtn) {
-            sidebarCloseBtn.addEventListener('click', closeSidebar);
+            sidebarCloseBtn.addEventListener('click', closeSidebar); // Now uses the fixed function
         }
 
 
@@ -1612,7 +1617,7 @@ body {
 
             // Close sidebar on mobile after clicking a link
             if (window.innerWidth <= 1024 && sidebar.classList.contains('open')) {
-              closeSidebar();
+              closeSidebar(); // This correctly resets the mobile header icon
             }
           });
         });
@@ -1648,7 +1653,7 @@ body {
             }
             
             // Ensure sidebar is closed when navigating history
-            closeSidebar(); 
+            closeSidebar(); // This correctly resets the mobile header icon
         });
 
 
