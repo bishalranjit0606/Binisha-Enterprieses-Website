@@ -1037,14 +1037,11 @@
       /* Reduced side padding slightly */
     }
 
-    /* Mobile Language Button (Order 1, Left) - Sleeker look */
+    /* Mobile Language Button (Sleeker look) */
     .lang-toggle-btn-mobile {
       background-color: transparent;
-      /* Changed to transparent for a cleaner look */
       color: var(--accent-color);
-      /* Highlight color */
       border: 1px solid var(--accent-color);
-      /* Subtle border */
       padding: 6px 10px;
       border-radius: 5px;
       font-weight: 500;
@@ -1052,8 +1049,6 @@
       transition: all var(--animation-medium) var(--ease-luxury);
       font-family: 'Poppins', sans-serif;
       font-size: 13px;
-      /* Smaller font for sleekness */
-      order: 1;
     }
 
     .lang-toggle-btn-mobile:hover {
@@ -1063,20 +1058,15 @@
       box-shadow: 0 4px 12px rgba(255, 51, 51, 0.3);
     }
 
-    /* Mobile Logo (Order 2, Center) - Enhanced font and color */
+    /* Mobile Logo */
     .mobile-logo {
       font-size: 1.3rem;
-      /* Slightly larger */
       font-weight: 700;
       color: var(--text-color);
       font-family: 'Poppins', sans-serif;
-      /* Using Poppins for logo on mobile */
-      text-align: center;
-      flex-grow: 1;
-      /* Allow it to take available space */
-      margin: 0 10px;
-      /* Space from buttons */
-      order: 2;
+      text-align: left;
+      margin-right: auto;
+      /* Pushes everything else to the right */
     }
 
     .mobile-logo .text-accent {
@@ -1084,15 +1074,19 @@
       font-weight: 800;
     }
 
-    /* Menu Toggle (Order 3, Right) - Bigger, more prominent icon */
+    /* Menu Toggle */
     .menu-toggle {
       font-size: 1.8rem;
-      /* Larger icon */
       cursor: pointer;
       color: var(--accent-color);
       padding: 5px;
-      /* Padding for better touch area */
-      order: 3;
+    }
+
+    /* Right Side Controls Container */
+    .mobile-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
 
 
@@ -1280,18 +1274,19 @@
 
 <body>
   <header class="header-bar">
-    <div style="display:flex; gap:10px; order:1; align-items:center;">
+    <div class="mobile-logo font-poppins" data-i18n="site_title">
+      <span class="text-accent">B</span>inisha
+    </div>
+
+    <div class="mobile-controls">
       <button id="lang-toggle-btn-mobile" onclick="toggleLanguage()" class="lang-toggle-btn-mobile">ENG</button>
       <button id="theme-toggle-mobile" class="theme-toggle-btn" style="width:30px; height:30px; font-size:12px;"
         onclick="toggleTheme()">
         <i class="fas fa-moon"></i>
       </button>
-    </div>
-    <div class="mobile-logo font-poppins" data-i18n="site_title">
-      <span class="text-accent">B</span>inisha
-    </div>
-    <div class="menu-toggle">
-      <i class="fas fa-bars menu-icon"></i>
+      <div class="menu-toggle">
+        <i class="fas fa-bars menu-icon"></i>
+      </div>
     </div>
   </header>
 
