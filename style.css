@@ -1901,22 +1901,35 @@ ul {
     cursor: pointer;
 }
 
-.gallery-item:hover {
-    transform: scale(1.03) translateY(-5px);
-    z-index: 10;
+.gallery-item:hover .image-frame-luxury {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transform: translateY(-3px);
 }
 
-/* Ensure the luxury frame fits well */
+/* Simple clean frame for gallery */
 .gallery-item .image-frame-luxury {
     width: 100%;
     height: 300px;
-    /* Fixed height for consistency */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
 }
 
 .gallery-item .image-frame-luxury img {
     height: 100%;
     width: 100%;
     object-fit: cover;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    max-width: none;
+}
+
+/* Hide the decorative frame accent for gallery items */
+.gallery-item .frame-accent {
+    display: none;
 }
 
 @keyframes scroll-right {
@@ -1937,6 +1950,7 @@ ul {
 
     .gallery-item .image-frame-luxury {
         height: 220px;
+        border-radius: 6px;
     }
 
     .blog-section {
@@ -1951,6 +1965,7 @@ ul {
 
     .gallery-item .image-frame-luxury {
         height: 180px;
+        border-radius: 6px;
     }
 }
 
