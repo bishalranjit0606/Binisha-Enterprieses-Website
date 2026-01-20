@@ -249,6 +249,53 @@ ul {
     box-shadow: 0 4px 15px rgba(220, 28, 60, 0.35);
 }
 
+/* Language Toggle Button */
+.language-toggle {
+    background: transparent;
+    color: var(--text-dark);
+    padding: 8px 16px;
+    border: 1.5px solid var(--accent-color);
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    box-shadow: 0 2px 8px rgba(220, 28, 60, 0.15);
+}
+
+.language-toggle i {
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    transition: all 0.3s ease;
+}
+
+.language-toggle:hover {
+    background: var(--accent-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(220, 28, 60, 0.35);
+}
+
+.language-toggle:hover i {
+    color: white;
+    transform: rotate(15deg);
+}
+
+.language-toggle:active {
+    transform: translateY(0);
+}
+
+#lang-text {
+    font-weight: 700;
+    min-width: 20px;
+    text-align: center;
+}
 
 
 
