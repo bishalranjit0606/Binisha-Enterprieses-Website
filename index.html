@@ -378,6 +378,31 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
+    <!-- Service Details Modal -->
+    <div id="service-modal" class="service-modal" aria-hidden="true">
+        <div class="service-modal-overlay" id="modal-overlay"></div>
+        <div class="service-modal-content fade-in-up">
+            <button class="modal-close" id="modal-close" aria-label="Close Modal">&times;</button>
+
+            <div class="modal-body">
+                <h3 id="modal-title" class="modal-title">Service Name</h3>
+                <p id="modal-desc" class="modal-description">Companies we provide regarding this service:</p>
+
+                <div class="company-list-container">
+                    <ul id="company-list" class="company-list">
+                        <!-- Companies will be injected here -->
+                    </ul>
+                </div>
+
+                <div class="modal-actions">
+                    <a id="modal-whatsapp-btn" href="#" target="_blank" class="btn btn-primary modal-btn">
+                        <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 

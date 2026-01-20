@@ -389,3 +389,157 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Service Modal Functionality
+    const serviceModal = document.getElementById('service-modal');
+    const modalCloseBtn = document.getElementById('modal-close');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const serviceCards = document.querySelectorAll('.service-card');
+
+    // Service Data with Mock Companies and Images
+    const servicesData = [
+        {
+            title: "Insurance Services",
+            image: "images/3.jpg", // Using existing gallery image as placeholder
+            companies: [
+                "Nepal Life Insurance",
+                "LIC Nepal",
+                "National Life Insurance",
+                "Asian Life Insurance",
+                "Surya Jyoti Life Insurance",
+                "Reliable Nepal Life Insurance",
+                "Citizen Life Insurance",
+                "Sun Nepal Life Insurance",
+                "Sanima Reliance Life Insurance",
+                "Himalayan Life Insurance",
+                "Prabhu Mahalaxmi Life Insurance",
+                "Siddhartha Premier Insurance",
+                "Sagarmatha Lumbini Insurance",
+                "IGI Prudential Insurance",
+                "Shikhar Insurance",
+                "Neco Insurance",
+                "United Ajod Insurance",
+                "Sanima GIC Insurance",
+                "NLG Insurance",
+                "Salpa Insurance"
+            ],
+            whatsappMessage: "Hello, I would like to know more about your Insurance Services."
+        },
+        {
+            title: "Remittance / Money Transfer",
+            image: "images/4.jpg",
+            companies: [
+                "IME",
+                "Prabhu Money Transfer",
+                "Himal Remit",
+                "City Express",
+                "Western Union",
+                "Esewa Money Transfer",
+                "Khalti"
+            ],
+            whatsappMessage: "Hello, I need to send/receive money. Please assist."
+        },
+        {
+            title: "Air Ticket Booking",
+            image: "images/5.jpg",
+            companies: [
+                "Buddha Air",
+                "Yeti Airlines",
+                "Shree Airlines",
+                "Saurya Airlines",
+                "Nepal Airlines",
+                "Himalaya Airlines",
+                "Qatar Airways",
+                "Fly Dubai",
+                "Air Arabia"
+            ],
+            whatsappMessage: "Hello, I want to book a flight ticket."
+        },
+        {
+            title: "Mobile and DTH Recharge",
+            image: "images/6.jpg",
+            companies: [
+                "NTC (Namaste)",
+                "Ncell",
+                "Smart Cell",
+                "Dish Home",
+                "Mero TV",
+                "Net TV",
+                "Sim TV"
+            ],
+            whatsappMessage: "Hello, I need a mobile/DTH recharge."
+        },
+        {
+            title: "Bill Payment Service",
+            image: "images/7.jpg",
+            companies: [
+                "Nepal Electricity Authority",
+                "Khanepani (Water)",
+                "Worldlink",
+                "Vianet",
+                "Classic Tech",
+                "Subisu"
+            ],
+            whatsappMessage: "Hello, I want to pay my utility bills."
+        }
+    ];
+
+    if (serviceModal && serviceCards.length > 0) {
+        // Open Modal
+        serviceCards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                // Ensure we don't go out of bounds if services mismatch
+                if (index < servicesData.length) {
+                    const data = servicesData[index];
+                    populateModal(data);
+                    serviceModal.classList.add('active');
+                    serviceModal.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                }
+            });
+        });
+
+        // Close Modal Functions
+        const closeModal = () => {
+            serviceModal.classList.remove('active');
+            serviceModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        };
+
+        if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+        if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && serviceModal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
+
+    function populateModal(data) {
+        const titleEl = document.getElementById('modal-title');
+        const listEl = document.getElementById('company-list');
+        const waBtn = document.getElementById('modal-whatsapp-btn');
+
+        if (titleEl) titleEl.textContent = data.title;
+
+        // Populate Companies
+        if (listEl) {
+            listEl.innerHTML = ''; // Clear existing
+            data.companies.forEach(company => {
+                const li = document.createElement('li');
+                li.textContent = company;
+                listEl.appendChild(li);
+            });
+        }
+
+        // Update WhatsApp Link
+        if (waBtn) {
+            const phoneNumber = "9779855029952"; // Using the number from footer
+            const encodedMsg = encodeURIComponent(data.whatsappMessage);
+            waBtn.href = `https://wa.me/${phoneNumber}?text=${encodedMsg}`;
+        }
+    }
+});
