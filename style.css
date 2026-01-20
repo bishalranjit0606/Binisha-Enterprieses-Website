@@ -1944,6 +1944,16 @@ ul {
     }
 }
 
+@media (max-width: 480px) {
+    .gallery-item {
+        width: 260px;
+    }
+
+    .gallery-item .image-frame-luxury {
+        height: 180px;
+    }
+}
+
 /* Neighborhoods Section */
 .neighborhoods-section {
     padding: 50px 0;
@@ -2178,6 +2188,13 @@ ul {
 
 .contact-info {
     flex: 1;
+}
+
+.contact-map {
+    flex: 2;
+    height: 550px;
+    border-radius: 8px;
+    border: 0;
 }
 
 .info-title {
@@ -2943,6 +2960,14 @@ ul {
 
     .contact-form-wrapper {
         padding: 25px;
+    }
+
+    .contact-section iframe,
+    .contact-map {
+        width: 100% !important;
+        height: 350px !important;
+        border-radius: 8px;
+        max-width: 100% !important;
     }
 
     .info-title {
