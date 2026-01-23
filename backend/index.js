@@ -8,7 +8,15 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:3000',
+        'https://binisha-enterprises.vercel.app',
+        /\.vercel\.app$/ // Allow all Vercel preview deployments
+    ],
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

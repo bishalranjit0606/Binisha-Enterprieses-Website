@@ -5,6 +5,7 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { ContentProvider } from './contexts/ContentContext';
 import MainLayout from './MainLayout';
 import ScrollToTop from './components/ScrollToTop';
+import { API_BASE_URL } from './config';
 import './styles/index.css';
 
 import AdminLayout from './components/admin/AdminLayout';
@@ -25,7 +26,7 @@ function App() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/content')
+    axios.get(`${API_BASE_URL}/api/content`)
       .then(response => {
         setData(response.data);
         setLoading(false);
