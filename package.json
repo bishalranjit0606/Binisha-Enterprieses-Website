@@ -1,0 +1,27 @@
+{
+  "name": "binisha-enterprieses-website",
+  "version": "1.0.0",
+  "description": "A simple static website made for Binisha, built with HTML, CSS, and JavaScript. The site includes Nepali and English translations, making it accessible for both Nepali and English users.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "backend": "npm run dev --prefix backend",
+    "frontend": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bishalranjit0606/Binisha-Enterprieses-Website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bishalranjit0606/Binisha-Enterprieses-Website/issues"
+  },
+  "homepage": "https://github.com/bishalranjit0606/Binisha-Enterprieses-Website#readme",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
