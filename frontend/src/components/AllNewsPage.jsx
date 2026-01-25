@@ -4,9 +4,12 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { getImageUrl } from '../utils/image';
 import '../styles/index.css';
 
+import { useNavigate } from 'react-router-dom';
+
 const AllNewsPage = () => {
     const { news } = useContent();
     const { language, t } = useLanguage();
+    const navigate = useNavigate();
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -29,7 +32,12 @@ const AllNewsPage = () => {
                     {news && news.map((item, index) => {
                         const { day, month } = formatDate(item.date);
                         return (
-                            <div className="news-card" key={item.id} style={{ animationDelay: `${index * 0.05}s` }}>
+                            <div
+                                className="news-card"
+                                key={item.id}
+                                style={{ animationDelay: `${index * 0.05}s`, cursor: 'pointer' }}
+                                onClick={() => navigate(`/news/${item.id}`)}
+                            >
                                 <div className="news-image">
                                     <img src={getImageUrl(item.image_url)} alt={language === 'en' ? item.title_en : item.title_ne} />
                                 </div>

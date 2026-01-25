@@ -8,21 +8,25 @@ axios.defaults.baseURL = API_BASE_URL;
 
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ContentProvider } from './contexts/ContentContext';
+import { AuthProvider } from './contexts/AuthContext'; // Added AuthProvider
+
 import MainLayout from './MainLayout';
 import ScrollToTop from './components/ScrollToTop';
 
 import './styles/index.css';
 
 import AdminLayout from './components/admin/AdminLayout';
+import LoginPage from './components/admin/LoginPage'; // Added LoginPage
+import ProtectedRoute from './components/admin/ProtectedRoute'; // Added ProtectedRoute
 import TranslationsManager from './components/admin/TranslationsManager';
 import ServicesManager from './components/admin/ServicesManager';
 import GalleryManager from './components/admin/GalleryManager';
 import NewsManager from './components/admin/NewsManager';
-
 import SettingsManager from './components/admin/SettingsManager';
 
 import PublicPageLayout from './PublicPageLayout';
 import AllNewsPage from './components/AllNewsPage';
+import NewsDetail from './components/NewsDetail';
 import AllGalleryPage from './components/AllGalleryPage';
 
 function App() {
@@ -62,29 +66,40 @@ function App() {
   return (
     <LanguageProvider initialTranslations={data.translations}>
       <ContentProvider initialContent={data}>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<MainLayout />} />
-          <Route path="/news" element={
-            <PublicPageLayout>
-              <AllNewsPage />
-            </PublicPageLayout>
-          } />
-          <Route path="/gallery" element={
-            <PublicPageLayout>
-              <AllGalleryPage />
-            </PublicPageLayout>
-          } />
+        <AuthProvider>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<MainLayout />} />
+            <Route path="/news" element={
+              <PublicPageLayout>
+                <AllNewsPage />
+              </PublicPageLayout>
+            } />
+            <Route path="/news/:id" element={
+              <PublicPageLayout>
+                <NewsDetail />
+              </PublicPageLayout>
+            } />
+            <Route path="/gallery" element={
+              <PublicPageLayout>
+                <AllGalleryPage />
+              </PublicPageLayout>
+            } />
 
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<TranslationsManager />} />
-            <Route path="translations" element={<TranslationsManager />} />
-            <Route path="services" element={<ServicesManager />} />
-            <Route path="gallery" element={<GalleryManager />} />
-            <Route path="news" element={<NewsManager />} />
-            <Route path="settings" element={<SettingsManager />} />
-          </Route>
-        </Routes>
+            <Route path="/login" element={<LoginPage />} />
+
+            <Route element={<ProtectedRoute />}>
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<TranslationsManager />} />
+                <Route path="translations" element={<TranslationsManager />} />
+                <Route path="services" element={<ServicesManager />} />
+                <Route path="gallery" element={<GalleryManager />} />
+                <Route path="news" element={<NewsManager />} />
+                <Route path="settings" element={<SettingsManager />} />
+              </Route>
+            </Route>
+          </Routes>
+        </AuthProvider>
       </ContentProvider>
     </LanguageProvider>
   );

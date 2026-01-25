@@ -39,3 +39,16 @@ exports.getContent = async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 };
+
+exports.getNewsItem = async (req, res) => {
+    try {
+        const item = await db.News.findByPk(req.params.id);
+        if (!item) {
+            return res.status(404).json({ message: 'News not found' });
+        }
+        res.json(item);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};

@@ -23,9 +23,12 @@ app.use(express.urlencoded({ extended: true }));
 // Static files (for uploads in the future)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+const authMiddleware = require('./middleware/authMiddleware');
+
 // Routes
+app.use('/api/auth', require('./routes/auth'));
 app.use('/api', require('./routes/api'));
-app.use('/api/admin', require('./routes/admin'));
+app.use('/api/admin', authMiddleware, require('./routes/admin'));
 
 // Sync DB and Start Server
 db.sequelize.sync({ alter: true }).then(() => {
