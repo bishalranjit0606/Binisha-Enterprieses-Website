@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: binisha-api
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: binisha-db
+          property: connectionString
+      - key: NODE_ENV
+        value: production
+
+databases:
+  - name: binisha-db
+    plan: free
+    databaseName: binisha_db
+    user: binisha_user

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useContent } from '../../contexts/ContentContext';
 import axios from 'axios';
+import { getImageUrl } from '../../utils/image';
 
 const GalleryManager = () => {
     const { gallery } = useContent();
@@ -71,7 +72,7 @@ const GalleryManager = () => {
                     <div key={item.id} className="admin-card" style={{ padding: '0', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                         <div style={{ height: '200px', width: '100%', overflow: 'hidden' }}>
                             <img
-                                src={`/${item.image_url}`}
+                                src={getImageUrl(item.image_url)}
                                 alt={item.alt}
                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             />

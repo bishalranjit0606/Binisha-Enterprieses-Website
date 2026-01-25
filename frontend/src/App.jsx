@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
+import { API_BASE_URL } from './config';
+
+// Set global axios default baseURL
+axios.defaults.baseURL = API_BASE_URL;
+
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ContentProvider } from './contexts/ContentContext';
 import MainLayout from './MainLayout';
 import ScrollToTop from './components/ScrollToTop';
-import { API_BASE_URL } from './config';
+
 import './styles/index.css';
 
 import AdminLayout from './components/admin/AdminLayout';

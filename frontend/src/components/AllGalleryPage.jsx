@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useContent } from '../contexts/ContentContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { getImageUrl } from '../utils/image';
 import '../styles/index.css';
 
 const AllGalleryPage = () => {
@@ -32,14 +33,14 @@ const AllGalleryPage = () => {
 
                     <div className="gallery-grid">
                         {gallery && gallery.map((item, index) => (
-                            <div 
-                                className="gallery-grid-item" 
-                                key={item.id} 
+                            <div
+                                className="gallery-grid-item"
+                                key={item.id}
                                 style={{ animationDelay: `${index * 0.05}s` }}
                                 onClick={() => openImageModal(item)}
                             >
                                 <div className="gallery-grid-image-wrapper">
-                                    <img src={item.image_url} alt={item.alt || 'Gallery Image'} />
+                                    <img src={getImageUrl(item.image_url)} alt={item.alt || 'Gallery Image'} />
                                     <div className="gallery-grid-overlay">
                                         <i className="fas fa-search-plus"></i>
                                     </div>
@@ -57,7 +58,7 @@ const AllGalleryPage = () => {
                         <button className="gallery-modal-close" onClick={closeImageModal}>
                             <i className="fas fa-times"></i>
                         </button>
-                        <img src={selectedImage.image_url} alt={selectedImage.alt || 'Gallery Image'} />
+                        <img src={getImageUrl(selectedImage.image_url)} alt={selectedImage.alt || 'Gallery Image'} />
                     </div>
                 </div>
             )}

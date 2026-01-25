@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useContent } from '../../contexts/ContentContext';
 import axios from 'axios';
+import { getImageUrl } from '../../utils/image';
 
 const NewsManager = () => {
     const { news } = useContent();
@@ -115,7 +116,7 @@ const NewsManager = () => {
                                         />
                                     </div>
                                     {formData.image_url && (
-                                        <img src={`/${formData.image_url}`} alt="Preview" style={{ height: '50px', borderRadius: '4px', border: '1px solid #ddd' }} />
+                                        <img src={getImageUrl(formData.image_url)} alt="Preview" style={{ height: '50px', borderRadius: '4px', border: '1px solid #ddd' }} />
                                     )}
                                 </div>
                             </div>
@@ -159,7 +160,7 @@ const NewsManager = () => {
                 {news && news.map(item => (
                     <div key={item.id} className="admin-card" style={{ padding: '0', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                         <div style={{ height: '180px', width: '100%', overflow: 'hidden', position: 'relative' }}>
-                            <img src={`/${item.image_url}`} alt={item.title_en} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={getImageUrl(item.image_url)} alt={item.title_en} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             <div style={{
                                 position: 'absolute', top: '10px', right: '10px',
                                 background: 'rgba(0,0,0,0.7)', color: 'white',

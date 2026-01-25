@@ -1,6 +1,7 @@
 import React from 'react';
 import { useContent } from '../contexts/ContentContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { getImageUrl } from '../utils/image';
 import '../styles/index.css';
 
 const AllNewsPage = () => {
@@ -30,7 +31,7 @@ const AllNewsPage = () => {
                         return (
                             <div className="news-card" key={item.id} style={{ animationDelay: `${index * 0.05}s` }}>
                                 <div className="news-image">
-                                    <img src={`/${item.image_url}`} alt={language === 'en' ? item.title_en : item.title_ne} />
+                                    <img src={getImageUrl(item.image_url)} alt={language === 'en' ? item.title_en : item.title_ne} />
                                 </div>
                                 <div className="news-body">
                                     <div className="news-date">
