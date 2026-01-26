@@ -23,6 +23,7 @@ import ServicesManager from './components/admin/ServicesManager';
 import GalleryManager from './components/admin/GalleryManager';
 import NewsManager from './components/admin/NewsManager';
 import SettingsManager from './components/admin/SettingsManager';
+import Dashboard from './components/admin/Dashboard'; // Added Dashboard
 
 import PublicPageLayout from './PublicPageLayout';
 import AllNewsPage from './components/AllNewsPage';
@@ -90,7 +91,7 @@ function App() {
 
             <Route element={<ProtectedRoute />}>
               <Route path="/admin" element={<AdminLayout />}>
-                <Route index element={<TranslationsManager />} />
+                <Route index element={<Dashboard />} />
                 <Route path="translations" element={<TranslationsManager />} />
                 <Route path="services" element={<ServicesManager />} />
                 <Route path="gallery" element={<GalleryManager />} />

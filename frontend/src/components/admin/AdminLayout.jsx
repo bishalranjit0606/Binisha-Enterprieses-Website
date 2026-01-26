@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import '../../styles/admin.css';
 
 const AdminLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const location = useLocation();
+    const { logout } = useAuth();
 
     const isActive = (path) => {
         return location.pathname === path ? 'active' : '';
@@ -35,6 +37,15 @@ const AdminLayout = () => {
                     <ul>
                         <li className="admin-nav-item">
                             <Link
+                                to="/admin"
+                                className={`admin-nav-link ${isActive('/admin')}`}
+                                onClick={closeSidebar}
+                            >
+                                <i className="fas fa-tachometer-alt"></i> Dashboard
+                            </Link>
+                        </li>
+                        <li className="admin-nav-item">
+                            <Link
                                 to="/admin/translations"
                                 className={`admin-nav-link ${isActive('/admin/translations')}`}
                                 onClick={closeSidebar}
@@ -53,20 +64,20 @@ const AdminLayout = () => {
                         </li>
                         <li className="admin-nav-item">
                             <Link
-                                to="/admin/gallery"
-                                className={`admin-nav-link ${isActive('/admin/gallery')}`}
-                                onClick={closeSidebar}
-                            >
-                                <i className="fas fa-images"></i> Gallery
-                            </Link>
-                        </li>
-                        <li className="admin-nav-item">
-                            <Link
                                 to="/admin/news"
                                 className={`admin-nav-link ${isActive('/admin/news')}`}
                                 onClick={closeSidebar}
                             >
                                 <i className="fas fa-newspaper"></i> News
+                            </Link>
+                        </li>
+                        <li className="admin-nav-item">
+                            <Link
+                                to="/admin/gallery"
+                                className={`admin-nav-link ${isActive('/admin/gallery')}`}
+                                onClick={closeSidebar}
+                            >
+                                <i className="fas fa-images"></i> Gallery
                             </Link>
                         </li>
                         <li className="admin-nav-item">
@@ -87,6 +98,18 @@ const AdminLayout = () => {
                             >
                                 <i className="fas fa-external-link-alt"></i> View Site
                             </Link>
+                        </li>
+                        <li className="admin-nav-item logout-item">
+                            <button
+                                onClick={() => {
+                                    logout();
+                                    closeSidebar();
+                                }}
+                                className="admin-nav-link logout-btn"
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', width: '100%', textAlign: 'left', padding: '12px 20px', fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '15px', color: '#B0B0B0' }}
+                            >
+                                <i className="fas fa-sign-out-alt"></i> Logout
+                            </button>
                         </li>
                     </ul>
                 </nav>
