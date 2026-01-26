@@ -39,7 +39,7 @@ const AllNewsPage = () => {
                                 onClick={() => navigate(`/news/${item.id}`)}
                             >
                                 <div className="news-image">
-                                    <img src={getImageUrl(item.image_url)} alt={language === 'en' ? item.title_en : item.title_ne} />
+                                    <img src={getImageUrl(item.image_url)} alt={(language === 'en' ? item.title_en : item.title_ne) || item.title_en || item.title_ne} />
                                 </div>
                                 <div className="news-body">
                                     <div className="news-date">
@@ -48,10 +48,10 @@ const AllNewsPage = () => {
                                     </div>
                                     <div className="news-content">
                                         <h3 className="news-title">
-                                            {language === 'en' ? item.title_en : item.title_ne}
+                                            {(language === 'en' ? item.title_en : item.title_ne) || item.title_en || item.title_ne}
                                         </h3>
                                         <p className="news-excerpt">
-                                            {language === 'en' ? item.excerpt_en : item.excerpt_ne}
+                                            {(language === 'en' ? item.excerpt_en : item.excerpt_ne) || item.excerpt_en || item.excerpt_ne}
                                         </p>
                                     </div>
                                 </div>

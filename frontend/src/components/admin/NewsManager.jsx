@@ -66,11 +66,25 @@ const NewsManager = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Fallback logic for bilingual content
+        const finalData = { ...formData };
+
+        // If Nepali is blank, use English
+        if (!finalData.title_ne) finalData.title_ne = finalData.title_en;
+        if (!finalData.excerpt_ne) finalData.excerpt_ne = finalData.excerpt_en;
+        if (!finalData.body_ne) finalData.body_ne = finalData.body_en;
+
+        // If English is blank (less likely due to 'required' but good for safety), use Nepali
+        if (!finalData.title_en) finalData.title_en = finalData.title_ne;
+        if (!finalData.excerpt_en) finalData.excerpt_en = finalData.excerpt_ne;
+        if (!finalData.body_en) finalData.body_en = finalData.body_ne;
+
         try {
             if (editingId) {
-                await axios.put(`/api/admin/news/${editingId}`, formData);
+                await axios.put(`/api/admin/news/${editingId}`, finalData);
             } else {
-                await axios.post('/api/admin/news', formData);
+                await axios.post('/api/admin/news', finalData);
             }
             alert('Saved successfully!');
             refreshContent();
