@@ -19,9 +19,13 @@ This guide will help you put your website live on the internet using AWS. I have
 ### 3. Network Settings (Security)
 - In the same "Launch Instance" screen, look for "Network settings."
 - Check these boxes:
-  - [x] Allow SSH traffic (so you can manage the server)
-  - [x] Allow HTTP traffic from the internet (so people can see your site)
-  - [x] Allow HTTPS traffic from the internet (for secure browsing later)
+  - [x] Allow SSH traffic (for management)
+  - [x] Allow HTTP traffic (for the website)
+  - [x] Allow HTTPS traffic (for secure site)
+
+> [!IMPORTANT]
+> **Essential Step:** After launching, you MUST go to your Security Group and add an **Inbound Rule** for **Port 5001** (Custom TCP) from source `0.0.0.0/0`. This is where your database-api lives!
+
 - Click **"Launch Instance"** at the bottom.
 
 ### 4. Get your Server's Public IP
@@ -92,8 +96,66 @@ Now, we want the website to update automatically every time you make a "git push
 
 ---
 
+---
+
+## 📋 Phase 4: Connecting your Domain (Name.com)
+
+Now let's make your website look professional with your own domain name.
+
+### 1. Point Domain to your Server (Name.com)
+1.  Log in to your **Name.com** account.
+2.  Click on **"My Domains"** and select your domain (e.g., `binishaenterprises.app`).
+3.  On the left side, click **"Manage DNS Records"**.
+4.  You need to add two records:
+    - **Record 1 (The Main Domain):**
+        - **Type:** `A`
+        - **Host:** Leave blank (or type `@`)
+        - **Answer:** Paste your Server IP: `13.61.35.220`
+    - **Record 2 (The WWW version):**
+        - **Type:** `A` (or CNAME)
+        - **Host:** `www`
+        - **Answer:** Paste your Server IP: `13.61.35.220`
+5.  Click **"Add Record"**. 
+    *Note: It might take 10-20 minutes for the internet to update.*
+
+### 2. Update the Website Settings
+Now your server needs to know it has a name. log into your EC2 terminal:
+```bash
+cd ~/Binisha-Enterprieses-Website
+nano .env
+```
+Change the line to your domain (use `http` for now):
+```text
+VITE_API_URL=http://binishaenterprises.app:5001
+```
+(Save and Exit)
+
+### 3. Setup Free SSL (HTTPS)
+Since Port 80 is used by the website, we must briefly stop it to let Certbot through:
+```bash
+# 1. Go to project and STOP the website briefly
+cd ~/Binisha-Enterprieses-Website
+sudo docker compose down
+
+# 2. Get the certificate (replace with your domain)
+sudo certbot certonly --standalone -d binishaenterprises.app -d www.binishaenterprises.app
+
+# 3. Double check your .env is correct (use https now!)
+nano .env
+# VITE_API_URL=https://binishaenterprises.app:5001
+```
+*(Certbot will save files to `/etc/letsencrypt`, which my new config will automatically find!)*
+
+### 4. Restart with Domain & Security
+Now, rebuild to apply the "Padlock" security:
+```bash
+sudo docker compose up -d --build
+```
+
+---
+
 ## ✅ Deployment Complete!
-Your website is now live at: **http://your-server-ip**
+Your website is live and secure at: **https://binishaenterprises.app**
 
 ### Important Notes:
 - **Cost:** This uses the AWS Free Tier, so it is **$0** for the first 12 months.
