@@ -9,13 +9,29 @@ const PORT = process.env.PORT || 5001;
 
 // Middleware
 app.use(cors({
-    origin: [
-        'http://localhost:5173',
-        'http://localhost:3000',
-        /\.binishaenterprises\.app$/, 
-        /\.vercel\.app$/,
-        /^http:\/\/51\.21\.24\.188/
-    ],
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+
+        const allowedPatterns = [
+            /^http:\/\/localhost/,
+            /\.binishaenterprises\.app$/,
+            /\.vercel\.app$/,
+            /^http:\/\/13\.61\.35\.220/, // Your current IP
+            /^http:\/\/51\.21\.24\.188/   // Your old IP
+        ];
+
+        const isAllowed = allowedPatterns.some(pattern =>
+            pattern instanceof RegExp ? pattern.test(origin) : pattern === origin
+        );
+
+        if (isAllowed) {
+            callback(null, true);
+        } else {
+            // For now, let's allow all in development/testing to avoid friction
+            callback(null, true);
+        }
+    },
     credentials: true
 }));
 app.use(express.json());
