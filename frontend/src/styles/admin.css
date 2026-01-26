@@ -59,12 +59,17 @@ body {
     flex: 1;
     padding: 20px 0;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .admin-nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .admin-nav-item {
@@ -304,4 +309,104 @@ body {
     .admin-table td {
         padding: 10px 15px;
     }
+}
+
+/* Dashboard Specific Styles */
+.admin-dashboard-container {
+    padding: 10px;
+}
+
+.welcome-card {
+    background: linear-gradient(135deg, #1C2541 0%, #0B132B 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.welcome-card h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: white;
+}
+
+.welcome-card p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 35px;
+}
+
+.stat-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.stat-card {
+    background: var(--admin-white);
+    padding: 30px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: var(--transition);
+    box-shadow: var(--admin-shadow);
+    border: 1px solid var(--admin-border);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--admin-shadow-hover);
+    border-color: var(--admin-accent);
+}
+
+.stat-icon {
+    font-size: 2.2rem;
+    color: var(--admin-accent);
+    background: rgba(220, 20, 60, 0.05);
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+.stat-info h3 {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+    color: var(--admin-primary);
+}
+
+.stat-info p {
+    font-size: 0.9rem;
+    color: var(--admin-text-light);
+    margin: 0;
+}
+
+/* Logout Button Style */
+.logout-item {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 10px;
+}
+
+.admin-nav-link.logout-btn {
+    color: #ff4d4d !important;
+    transition: var(--transition);
+}
+
+.admin-nav-link.logout-btn:hover {
+    background: rgba(255, 77, 77, 0.1) !important;
+    color: #ff3333 !important;
+    border-left-color: #ff4d4d !important;
 }
