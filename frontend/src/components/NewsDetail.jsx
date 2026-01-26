@@ -88,12 +88,9 @@ const NewsDetail = () => {
                 </div>
 
                 <div className="news-detail-body" style={{ fontSize: '1.1rem', lineHeight: '1.8', color: '#333', whiteSpace: 'pre-wrap' }}>
-                    {language === 'en' ? newsItem.excerpt_en : newsItem.excerpt_ne}
-                    {/* Note: If you have a separate body field in DB, use that. Currently reusing excerpt as requested "body" wasn't explicitly in schema previously seen, assuming excerpt holds the content or user wants to add body field later. Based on request "body of the news", I'll check if schema has body, if not I'll just use excerpt for now but styled as body. 
-                       Actually, looking at previous schema view, only excerpt_en/ne exist. 
-                       For now I will use excerpt. If user meant a new "body" field, I'd need to migrate DB. 
-                       I'll stick to excerpt as the content for now.
-                    */}
+                    {language === 'en'
+                        ? (newsItem.body_en || newsItem.excerpt_en)
+                        : (newsItem.body_ne || newsItem.excerpt_ne)}
                 </div>
             </div>
         </div>

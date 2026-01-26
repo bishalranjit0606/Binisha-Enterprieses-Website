@@ -7,13 +7,17 @@ const NewsManager = () => {
     const { news } = useContent();
     const [openForm, setOpenForm] = useState(false);
     const [editingId, setEditingId] = useState(null);
+    const [activeLang, setActiveLang] = useState('en'); // 'en' or 'ne'
+
     const [formData, setFormData] = useState({
         image_url: '',
         date: new Date().toISOString().split('T')[0],
         title_en: '',
         title_ne: '',
         excerpt_en: '',
-        excerpt_ne: ''
+        excerpt_ne: '',
+        body_en: '',
+        body_ne: ''
     });
 
     const resetForm = () => {
@@ -23,20 +27,25 @@ const NewsManager = () => {
             title_en: '',
             title_ne: '',
             excerpt_en: '',
-            excerpt_ne: ''
+            excerpt_ne: '',
+            body_en: '',
+            body_ne: ''
         });
         setEditingId(null);
         setOpenForm(false);
+        setActiveLang('en');
     };
 
     const handleEdit = (item) => {
         setFormData({
-            image_url: item.image_url,
+            image_url: item.image_url || '',
             date: item.date,
-            title_en: item.title_en,
-            title_ne: item.title_ne,
-            excerpt_en: item.excerpt_en,
-            excerpt_ne: item.excerpt_ne
+            title_en: item.title_en || '',
+            title_ne: item.title_ne || '',
+            excerpt_en: item.excerpt_en || '',
+            excerpt_ne: item.excerpt_ne || '',
+            body_en: item.body_en || '',
+            body_ne: item.body_ne || ''
         });
         setEditingId(item.id);
         setOpenForm(true);
@@ -81,33 +90,60 @@ const NewsManager = () => {
     };
 
     return (
-        <div>
+        <div className="news-management">
             <div className="admin-content-header">
-                <h2 className="admin-title">Manage News</h2>
+                <h2 className="admin-title">News & Updates</h2>
                 {!openForm && (
                     <button className="admin-btn admin-btn-primary" onClick={() => setOpenForm(true)}>
-                        <i className="fas fa-plus"></i> Add News Item
+                        <i className="fas fa-plus"></i> Add New News Item
                     </button>
                 )}
             </div>
 
             {openForm && (
                 <div className="admin-card">
-                    <h3 className="admin-title" style={{ fontSize: '1.2rem', marginBottom: '20px' }}>
-                        {editingId ? 'Edit News' : 'New News'}
-                    </h3>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+                        <h3 className="admin-title" style={{ fontSize: '1.2rem', margin: 0 }}>
+                            {editingId ? 'Edit News Content' : 'Create New Article'}
+                        </h3>
+                        {/* Language Toggle */}
+                        <div style={{ display: 'flex', background: '#f0f0f0', padding: '4px', borderRadius: '8px' }}>
+                            <button
+                                type="button"
+                                onClick={() => setActiveLang('en')}
+                                style={{
+                                    padding: '6px 15px', border: 'none', borderRadius: '6px', cursor: 'pointer',
+                                    background: activeLang === 'en' ? 'white' : 'transparent',
+                                    fontWeight: activeLang === 'en' ? '600' : '400',
+                                    boxShadow: activeLang === 'en' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none'
+                                }}
+                            >English</button>
+                            <button
+                                type="button"
+                                onClick={() => setActiveLang('ne')}
+                                style={{
+                                    padding: '6px 15px', border: 'none', borderRadius: '6px', cursor: 'pointer',
+                                    background: activeLang === 'ne' ? 'white' : 'transparent',
+                                    fontWeight: activeLang === 'ne' ? '600' : '400',
+                                    boxShadow: activeLang === 'ne' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none'
+                                }}
+                            >Nepali</button>
+                        </div>
+                    </div>
+
                     <form onSubmit={handleSubmit}>
+                        {/* Common Fields */}
                         <div className="admin-row">
                             <div className="admin-form-group">
-                                <label className="admin-label">Date</label>
+                                <label className="admin-label">Publish Date</label>
                                 <input type="date" className="admin-input" value={formData.date} onChange={e => setFormData({ ...formData, date: e.target.value })} required />
                             </div>
                             <div className="admin-form-group">
-                                <label className="admin-label">Image</label>
+                                <label className="admin-label">Featured Image</label>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                                     <div style={{ position: 'relative', overflow: 'hidden', display: 'inline-block' }}>
                                         <button type="button" className="admin-btn admin-btn-secondary">
-                                            <i className="fas fa-upload"></i> Upload Image
+                                            <i className="fas fa-upload"></i> Upload
                                         </button>
                                         <input
                                             type="file"
@@ -116,37 +152,47 @@ const NewsManager = () => {
                                         />
                                     </div>
                                     {formData.image_url && (
-                                        <img src={getImageUrl(formData.image_url)} alt="Preview" style={{ height: '50px', borderRadius: '4px', border: '1px solid #ddd' }} />
+                                        <img src={getImageUrl(formData.image_url)} alt="Preview" style={{ height: '45px', borderRadius: '4px', border: '1px solid #ddd' }} />
                                     )}
                                 </div>
                             </div>
                         </div>
 
-                        <div className="admin-row">
+                        {/* Language Specific Fields (English) */}
+                        <div style={{ display: activeLang === 'en' ? 'block' : 'none' }}>
                             <div className="admin-form-group">
-                                <label className="admin-label">Title (English)</label>
-                                <input className="admin-input" value={formData.title_en} onChange={e => setFormData({ ...formData, title_en: e.target.value })} required />
+                                <label className="admin-label">News Title (English)</label>
+                                <input className="admin-input" value={formData.title_en} onChange={e => setFormData({ ...formData, title_en: e.target.value })} placeholder="Main heading..." required={activeLang === 'en'} />
                             </div>
                             <div className="admin-form-group">
-                                <label className="admin-label">Title (Nepali)</label>
-                                <input className="admin-input" value={formData.title_ne} onChange={e => setFormData({ ...formData, title_ne: e.target.value })} />
-                            </div>
-                        </div>
-
-                        <div className="admin-row">
-                            <div className="admin-form-group">
-                                <label className="admin-label">Excerpt (English)</label>
-                                <textarea className="admin-textarea" rows="3" value={formData.excerpt_en} onChange={e => setFormData({ ...formData, excerpt_en: e.target.value })} required />
+                                <label className="admin-label">Subtitle / Excerpt (English)</label>
+                                <input className="admin-input" value={formData.excerpt_en} onChange={e => setFormData({ ...formData, excerpt_en: e.target.value })} placeholder="A brief summary for the list page..." />
                             </div>
                             <div className="admin-form-group">
-                                <label className="admin-label">Excerpt (Nepali)</label>
-                                <textarea className="admin-textarea" rows="3" value={formData.excerpt_ne} onChange={e => setFormData({ ...formData, excerpt_ne: e.target.value })} />
+                                <label className="admin-label">Main News Body (English)</label>
+                                <textarea className="admin-textarea" rows="8" value={formData.body_en} onChange={e => setFormData({ ...formData, body_en: e.target.value })} placeholder="Enter the full news content here..." required={activeLang === 'en'} />
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                        {/* Language Specific Fields (Nepali) */}
+                        <div style={{ display: activeLang === 'ne' ? 'block' : 'none' }}>
+                            <div className="admin-form-group">
+                                <label className="admin-label">समाचारको शीर्षक (नेपाली)</label>
+                                <input className="admin-input" value={formData.title_ne} onChange={e => setFormData({ ...formData, title_ne: e.target.value })} placeholder="शीर्षक यहाँ लेख्नुहोस्..." required={activeLang === 'ne'} />
+                            </div>
+                            <div className="admin-form-group">
+                                <label className="admin-label">उपशीर्षक / सारांश (नेपाली)</label>
+                                <input className="admin-input" value={formData.excerpt_ne} onChange={e => setFormData({ ...formData, excerpt_ne: e.target.value })} placeholder="छोटो विवरण..." />
+                            </div>
+                            <div className="admin-form-group">
+                                <label className="admin-label">पूर्ण समाचार विवरण (नेपाली)</label>
+                                <textarea className="admin-textarea" rows="8" value={formData.body_ne} onChange={e => setFormData({ ...formData, body_ne: e.target.value })} placeholder="यहाँ समाचार लेख्नुहोस्..." required={activeLang === 'ne'} />
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '10px', marginTop: '20px', borderTop: '1px solid #eee', paddingTop: '20px' }}>
                             <button type="submit" className="admin-btn admin-btn-primary">
-                                <i className="fas fa-save"></i> Save News
+                                <i className="fas fa-save"></i> {editingId ? 'Update News' : 'Publish News'}
                             </button>
                             <button type="button" onClick={resetForm} className="admin-btn admin-btn-secondary">
                                 Cancel
@@ -171,14 +217,17 @@ const NewsManager = () => {
                         </div>
                         <div style={{ padding: '20px', flex: 1 }}>
                             <h4 style={{ margin: '0 0 10px 0', color: '#1C2541' }}>{item.title_en}</h4>
-                            <p style={{ fontSize: '0.9rem', color: '#666', lineHeight: '1.5' }}>{item.excerpt_en}</p>
+                            <p style={{ fontSize: '0.85rem', color: '#666', lineHeight: '1.5', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                {item.excerpt_en}
+                            </p>
+                            {item.title_ne && <div style={{ fontSize: '0.8rem', color: '#999', marginTop: '5px', fontStyle: 'italic' }}>नेपाली उपलब्ध छ</div>}
                         </div>
                         <div style={{ padding: '0 20px 20px 20px', display: 'flex', gap: '10px' }}>
-                            <button onClick={() => handleEdit(item)} className="admin-btn admin-btn-secondary" style={{ flex: 1, justifyContent: 'center' }}>
-                                Edit
+                            <button onClick={() => handleEdit(item)} className="admin-btn admin-btn-secondary" style={{ flex: 1, justifyContent: 'center', height: '35px', fontSize: '0.8rem' }}>
+                                <i className="fas fa-edit"></i> Edit
                             </button>
-                            <button onClick={() => handleDelete(item.id)} className="admin-btn admin-btn-danger" style={{ flex: 1, justifyContent: 'center' }}>
-                                Delete
+                            <button onClick={() => handleDelete(item.id)} className="admin-btn admin-btn-danger" style={{ flex: 1, justifyContent: 'center', height: '35px', fontSize: '0.8rem' }}>
+                                <i className="fas fa-trash"></i> Delete
                             </button>
                         </div>
                     </div>

@@ -8,6 +8,8 @@ const News = sequelize.define('News', {
     title_ne: DataTypes.STRING,
     excerpt_en: DataTypes.TEXT,
     excerpt_ne: DataTypes.TEXT,
+    body_en: DataTypes.TEXT,
+    body_ne: DataTypes.TEXT,
 });
 
 module.exports = News;
