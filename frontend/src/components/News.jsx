@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useContent } from '../contexts/ContentContext';
+import { getImageUrl } from '../utils/image';
 
 const News = () => {
     const { t, tHtml, language } = useLanguage();
@@ -25,14 +26,18 @@ const News = () => {
                 <div className="news-grid">
                     {visibleNews.map((item, index) => {
                         const { day, month } = formatDate(item.date);
+                        const title = (language === 'en' ? item.title_en : item.title_ne) || item.title_en || item.title_ne;
+                        const excerpt = (language === 'en' ? item.excerpt_en : item.excerpt_ne) || item.excerpt_en || item.excerpt_ne;
+
                         return (
-                            <div
+                            <Link
+                                to={`/news/${item.id}`}
                                 className="news-card fade-on-scroll"
                                 key={item.id}
-                                style={{ animationDelay: `${index * 0.1}s` }}
+                                style={{ animationDelay: `${index * 0.1}s`, textDecoration: 'none' }}
                             >
                                 <div className="news-image">
-                                    <img src={`/${item.image_url}`} alt={language === 'en' ? item.title_en : item.title_ne} />
+                                    <img src={getImageUrl(item.image_url)} alt={title} />
                                 </div>
                                 <div className="news-body">
                                     <div className="news-date">
@@ -40,15 +45,11 @@ const News = () => {
                                         <span className="month">{month}</span>
                                     </div>
                                     <div className="news-content">
-                                        <h3 className="news-title">
-                                            {language === 'en' ? item.title_en : item.title_ne}
-                                        </h3>
-                                        <p className="news-excerpt">
-                                            {language === 'en' ? item.excerpt_en : item.excerpt_ne}
-                                        </p>
+                                        <h3 className="news-title">{title}</h3>
+                                        <p className="news-excerpt">{excerpt}</p>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         );
                     })}
                 </div>
