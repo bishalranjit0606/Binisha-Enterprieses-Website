@@ -124,9 +124,9 @@ Now your server needs to know it has a name. log into your EC2 terminal:
 cd ~/Binisha-Enterprieses-Website
 nano .env
 ```
-Change the line to your domain (use `http` for now):
+Change the line to your domain (No port number needed now!):
 ```text
-VITE_API_URL=http://binishaenterprises.app:5001
+VITE_API_URL=https://binishaenterprises.app
 ```
 (Save and Exit)
 
@@ -142,7 +142,7 @@ sudo certbot certonly --standalone -d binishaenterprises.app -d www.binishaenter
 
 # 3. Double check your .env is correct (use https now!)
 nano .env
-# VITE_API_URL=https://binishaenterprises.app:5001
+# VITE_API_URL=https://binishaenterprises.app
 ```
 *(Certbot will save files to `/etc/letsencrypt`, which my new config will automatically find!)*
 
