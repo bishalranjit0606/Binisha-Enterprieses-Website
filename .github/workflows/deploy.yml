@@ -19,7 +19,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             # Go to project folder
-            cd ~/binisha/Binisha-Enterprieses-Website
+            cd ~/Binisha-Enterprieses-Website
             
             # Pull latest code
             git pull origin main
