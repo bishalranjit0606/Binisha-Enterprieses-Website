@@ -6,6 +6,12 @@ export const LanguageProvider = ({ children, initialTranslations = {} }) => {
     const [language, setLanguage] = useState(localStorage.getItem('preferredLanguage') || 'en');
     const [translations, setTranslations] = useState(initialTranslations);
 
+    useEffect(() => {
+        if (initialTranslations && Object.keys(initialTranslations).length > 0) {
+            setTranslations(initialTranslations);
+        }
+    }, [initialTranslations]);
+
     const switchLanguage = (lang) => {
         setLanguage(lang);
         localStorage.setItem('preferredLanguage', lang);

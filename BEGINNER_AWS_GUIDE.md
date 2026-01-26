@@ -163,3 +163,17 @@ Your website is live and secure at: **https://binishaenterprises.app**
 - **Admin Access:** Login at `http://your-server-ip/login` using the default credentials in the README.
 
 🚀 **Everything is ready!**
+
+---
+
+### 🆘 Troubleshooting: "Container name already in use"
+If you see an error saying a container name is "already in use," run this "Hard Reset" to clear the stuck containers:
+```bash
+cd ~/Binisha-Enterprieses-Website
+# 1. Stop everything
+sudo docker compose down --remove-orphans
+# 2. Force delete any stuck containers
+sudo docker rm -f binisha-api binisha-web binisha-db
+# 3. Start again
+sudo docker compose up -d --build
+```
