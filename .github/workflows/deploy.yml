@@ -25,7 +25,7 @@ jobs:
             git pull origin main
             
             # Re-build and restart containers
-            docker compose up -d --build
+            sudo docker compose up -d --build
             
             # Clean up old images to save disk space (important for cheap EC2)
-            docker image prune -f
+            sudo docker image prune -f
