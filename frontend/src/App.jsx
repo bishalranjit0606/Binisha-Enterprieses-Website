@@ -1,29 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { API_BASE_URL } from './config';
-
-// Set global axios default baseURL
-axios.defaults.baseURL = API_BASE_URL;
-
+import { useContent } from './contexts/ContentContext';
 import { LanguageProvider } from './contexts/LanguageContext';
-import { ContentProvider } from './contexts/ContentContext';
-import { AuthProvider } from './contexts/AuthContext'; // Added AuthProvider
+import { AuthProvider } from './contexts/AuthContext';
 
 import MainLayout from './MainLayout';
 import ScrollToTop from './components/ScrollToTop';
-
 import './styles/index.css';
 
 import AdminLayout from './components/admin/AdminLayout';
-import LoginPage from './components/admin/LoginPage'; // Added LoginPage
-import ProtectedRoute from './components/admin/ProtectedRoute'; // Added ProtectedRoute
+import LoginPage from './components/admin/LoginPage';
+import ProtectedRoute from './components/admin/ProtectedRoute';
 import TranslationsManager from './components/admin/TranslationsManager';
 import ServicesManager from './components/admin/ServicesManager';
 import GalleryManager from './components/admin/GalleryManager';
 import NewsManager from './components/admin/NewsManager';
 import SettingsManager from './components/admin/SettingsManager';
-import Dashboard from './components/admin/Dashboard'; // Added Dashboard
+import Dashboard from './components/admin/Dashboard';
 
 import PublicPageLayout from './PublicPageLayout';
 import AllNewsPage from './components/AllNewsPage';
@@ -31,22 +24,7 @@ import NewsDetail from './components/NewsDetail';
 import AllGalleryPage from './components/AllGalleryPage';
 
 function App() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    axios.get(`${API_BASE_URL}/api/content`)
-      .then(response => {
-        setData(response.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Failed to fetch content", err);
-        setError("Failed to load website content.");
-        setLoading(false);
-      });
-  }, []);
+  const { translations, loading, error } = useContent();
 
   if (loading) {
     return (
@@ -65,43 +43,41 @@ function App() {
   }
 
   return (
-    <LanguageProvider initialTranslations={data.translations}>
-      <ContentProvider initialContent={data}>
-        <AuthProvider>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<MainLayout />} />
-            <Route path="/news" element={
-              <PublicPageLayout>
-                <AllNewsPage />
-              </PublicPageLayout>
-            } />
-            <Route path="/news/:id" element={
-              <PublicPageLayout>
-                <NewsDetail />
-              </PublicPageLayout>
-            } />
-            <Route path="/gallery" element={
-              <PublicPageLayout>
-                <AllGalleryPage />
-              </PublicPageLayout>
-            } />
+    <LanguageProvider initialTranslations={translations}>
+      <AuthProvider>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<MainLayout />} />
+          <Route path="/news" element={
+            <PublicPageLayout>
+              <AllNewsPage />
+            </PublicPageLayout>
+          } />
+          <Route path="/news/:id" element={
+            <PublicPageLayout>
+              <NewsDetail />
+            </PublicPageLayout>
+          } />
+          <Route path="/gallery" element={
+            <PublicPageLayout>
+              <AllGalleryPage />
+            </PublicPageLayout>
+          } />
 
-            <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
 
-            <Route element={<ProtectedRoute />}>
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route index element={<Dashboard />} />
-                <Route path="translations" element={<TranslationsManager />} />
-                <Route path="services" element={<ServicesManager />} />
-                <Route path="gallery" element={<GalleryManager />} />
-                <Route path="news" element={<NewsManager />} />
-                <Route path="settings" element={<SettingsManager />} />
-              </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="translations" element={<TranslationsManager />} />
+              <Route path="services" element={<ServicesManager />} />
+              <Route path="gallery" element={<GalleryManager />} />
+              <Route path="news" element={<NewsManager />} />
+              <Route path="settings" element={<SettingsManager />} />
             </Route>
-          </Routes>
-        </AuthProvider>
-      </ContentProvider>
+          </Route>
+        </Routes>
+      </AuthProvider>
     </LanguageProvider>
   );
 }

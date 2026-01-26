@@ -3,7 +3,7 @@ import { useContent } from '../../contexts/ContentContext';
 import axios from 'axios';
 
 const ServicesManager = () => {
-    const { services } = useContent();
+    const { services, refreshContent } = useContent();
     const [openForm, setOpenForm] = useState(false); // For creating new
     const [editingId, setEditingId] = useState(null);
     const [formData, setFormData] = useState({
@@ -50,7 +50,8 @@ const ServicesManager = () => {
                 await axios.post('/api/admin/services', formData);
             }
             alert('Saved successfully!');
-            window.location.reload();
+            refreshContent();
+            resetForm();
         } catch (err) {
             console.error(err);
             alert('Failed to save');
@@ -61,7 +62,7 @@ const ServicesManager = () => {
         if (!window.confirm('Delete this service?')) return;
         try {
             await axios.delete(`/api/admin/services/${id}`);
-            window.location.reload();
+            refreshContent();
         } catch (err) {
             alert('Failed to delete');
         }

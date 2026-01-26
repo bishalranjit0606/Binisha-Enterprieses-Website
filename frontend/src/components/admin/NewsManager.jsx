@@ -4,7 +4,7 @@ import axios from 'axios';
 import { getImageUrl } from '../../utils/image';
 
 const NewsManager = () => {
-    const { news } = useContent();
+    const { news, refreshContent } = useContent();
     const [openForm, setOpenForm] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [activeLang, setActiveLang] = useState('en'); // 'en' or 'ne'
@@ -73,7 +73,8 @@ const NewsManager = () => {
                 await axios.post('/api/admin/news', formData);
             }
             alert('Saved successfully!');
-            window.location.reload();
+            refreshContent();
+            resetForm();
         } catch (err) {
             alert('Failed to save');
         }
@@ -83,7 +84,7 @@ const NewsManager = () => {
         if (!window.confirm('Delete this news?')) return;
         try {
             await axios.delete(`/api/admin/news/${id}`);
-            window.location.reload();
+            refreshContent();
         } catch (err) {
             alert('Failed to delete');
         }

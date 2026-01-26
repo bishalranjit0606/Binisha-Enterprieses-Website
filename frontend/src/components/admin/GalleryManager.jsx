@@ -4,7 +4,7 @@ import axios from 'axios';
 import { getImageUrl } from '../../utils/image';
 
 const GalleryManager = () => {
-    const { gallery } = useContent();
+    const { gallery, refreshContent } = useContent();
     const [uploading, setUploading] = useState(false);
 
     const handleUpload = async (e) => {
@@ -29,7 +29,7 @@ const GalleryManager = () => {
             });
 
             alert('Uploaded successfully!');
-            window.location.reload();
+            refreshContent();
         } catch (err) {
             console.error(err);
             alert('Upload failed');
@@ -43,7 +43,7 @@ const GalleryManager = () => {
         try {
             await axios.delete(`/api/admin/gallery/${id}`);
             alert('Deleted successfully!');
-            window.location.reload();
+            refreshContent();
         } catch (err) {
             console.error(err);
             alert('Delete failed');

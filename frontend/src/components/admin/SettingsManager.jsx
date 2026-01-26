@@ -3,7 +3,7 @@ import { useContent } from '../../contexts/ContentContext';
 import axios from 'axios';
 
 const SettingsManager = () => {
-    const { settings } = useContent();
+    const { settings, refreshContent } = useContent();
     const [localSettings, setLocalSettings] = useState({});
     const [loading, setLoading] = useState(false);
 
@@ -54,7 +54,7 @@ const SettingsManager = () => {
 
             await Promise.all(promises);
             alert('Settings saved successfully!');
-            window.location.reload();
+            refreshContent();
         } catch (err) {
             console.error(err);
             alert('Failed to save settings');
