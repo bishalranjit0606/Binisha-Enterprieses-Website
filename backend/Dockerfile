@@ -7,16 +7,16 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
+# Install dependencies (production only for small image)
 RUN npm ci --only=production
 
 # Copy application code
 COPY . .
 
-# Create uploads directory
+# Create uploads directory (needed for file handling)
 RUN mkdir -p uploads
 
-# Expose port
+# Expose backend port
 EXPOSE 5001
 
 # Start the application

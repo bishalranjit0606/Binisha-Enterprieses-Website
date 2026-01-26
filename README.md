@@ -133,6 +133,29 @@ binisha/
    - Website: http://localhost:5173
    - Admin Panel: http://localhost:5173/login
 
+## 🚀 Deployment to AWS EC2 (Simple & Low Cost)
+
+The project is optimized for a simple, single-instance EC2 setup using Docker.
+
+### 1. Initial Server Setup
+Run this once on your EC2 after installing Docker:
+```bash
+# Upload and run the included deployment assistant
+chmod +x deploy_ec2.sh
+./deploy_ec2.sh
+```
+
+### 2. Configure & Start
+1. Create a `.env` file in the root folder.
+2. Set your server IP: `VITE_API_URL=http://your-server-ip`
+3. Run `docker compose up -d --build`
+
+### 3. Automated Updates (CI/CD)
+Add these **Secrets** to your GitHub repository settings to enable automatic updates on every `git push`:
+- `EC2_HOST`: Your server IP
+- `EC2_USERNAME`: `ubuntu`
+- `EC2_SSH_KEY`: Your private `.pem` key content
+
 ## 🔐 Admin Access
 
 **Default Credentials:**
