@@ -141,22 +141,13 @@ binisha/
 
 **⚠️ Important:** Change the password immediately after first login!
 
-## 📦 Deployment
+## 🔐 Admin Access
 
-See [deployment_guide.md](deployment_guide.md) for detailed deployment instructions.
+**Default Credentials:**
+- Email: `pathlaiya123@gmail.com`
+- Password: `admin123`
 
-### Quick Deploy
-
-**Backend (Render):**
-1. Create PostgreSQL database on Render
-2. Create Web Service from GitHub repo
-3. Set environment variables
-4. Run `node seed.js` in Shell
-
-**Frontend (Vercel):**
-1. Import GitHub repo
-2. Set `VITE_API_URL` environment variable
-3. Deploy
+**⚠️ Important:** Change the password immediately after first login!
 
 ## 🎨 Features Overview
 
