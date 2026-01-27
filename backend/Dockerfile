@@ -13,8 +13,8 @@ RUN npm ci --only=production
 # Copy application code
 COPY . .
 
-# Create necessary directories
-RUN mkdir -p uploads images
+# Create uploads directory (needed for file handling)
+RUN mkdir -p uploads
 
 # Expose backend port
 EXPOSE 5001
