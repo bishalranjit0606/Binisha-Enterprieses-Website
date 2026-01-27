@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useContent } from '../contexts/ContentContext';
+import { getImageUrl } from '../utils/image';
 
 const Gallery = () => {
     const { t, tHtml, language } = useLanguage();
@@ -26,8 +27,8 @@ const Gallery = () => {
                     {gallery && gallery.concat(gallery).map((item, index) => (
                         <div className="gallery-item" key={`${item.id}-${index}`}>
                             <div className="image-frame-luxury">
-                                {/* Use image_url directly */}
-                                <img src={item.image_url} alt={item.alt || 'Gallery Image'} />
+                                {/* Use getImageUrl helper */}
+                                <img src={getImageUrl(item.image_url)} alt={item.alt || 'Gallery Image'} />
                             </div>
                         </div>
                     ))}
