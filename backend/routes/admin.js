@@ -7,7 +7,7 @@ const path = require('path');
 // Multer Setup
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/');
+        cb(null, 'images/');
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname));
@@ -32,7 +32,7 @@ router.delete('/news/:id', adminController.deleteNews);
 // Upload Route
 router.post('/upload', upload.single('image'), (req, res) => {
     if (req.file) {
-        res.json({ url: `uploads/${req.file.filename}` });
+        res.json({ url: `images/${req.file.filename}` });
     } else {
         res.status(400).json({ error: 'No file uploaded' });
     }

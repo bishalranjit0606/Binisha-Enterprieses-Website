@@ -43,7 +43,7 @@ services:
     build:
       context: ./frontend
       args:
-        VITE_API_URL: ${VITE_API_URL:-https://binishaenterprises.app/api}
+        VITE_API_URL: ${VITE_API_URL:-https://binishaenterprises.app}
     container_name: binisha-web
     restart: unless-stopped
     ports:
