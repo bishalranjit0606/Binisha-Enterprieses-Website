@@ -282,3 +282,28 @@ This project is licensed under the ISC License.
 ---
 
 **Made with ❤️ in Nepal 🇳🇵**
+
+---
+
+## 🛠️ Deployment Troubleshooting
+
+### 1. "fatal: not a git repository"
+**Reason**: You are in the home directory (`~`), but the code is inside the project folder.  
+**Fix**: `cd Binisha-Enterprieses-Website`
+
+### 2. "docker-compose: command not found"
+**Reason**: Modern Ubuntu systems use `docker compose` (no hyphen).  
+**Fix**: Use `sudo docker compose` (without the hyphen).
+
+### 3. Update Site with Latest Code
+```bash
+cd Binisha-Enterprieses-Website
+git pull origin main
+sudo docker compose up --build -d
+```
+
+### 4. Check Status & Logs
+```bash
+sudo docker compose ps      # View running containers
+sudo docker compose logs -f # View real-time logs (Ctrl+C to exit)
+```
