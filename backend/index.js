@@ -34,8 +34,19 @@ app.use('/api', require('./routes/api'));
 app.use('/api/admin', authMiddleware, require('./routes/admin'));
 
 // Sync DB and Start Server
-db.sequelize.sync({ alter: true }).then(() => {
+db.sequelize.sync({ alter: true }).then(async () => {
     console.log('Database synced');
+
+    // Ensure essential translations exist (Fix for missing keys on live db)
+    try {
+        await db.Translation.findOrCreate({
+            where: { key: 'nav_news' },
+            defaults: { key: 'nav_news', en: 'Latest News', ne: 'ताजा समाचार' }
+        });
+    } catch (e) {
+        console.error('Failed to auto-seed translations:', e);
+    }
+
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
