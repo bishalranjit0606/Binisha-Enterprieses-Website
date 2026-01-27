@@ -2,6 +2,7 @@ import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useContent } from '../contexts/ContentContext';
 import { FaAward, FaUsers } from 'react-icons/fa';
+import { getImageUrl } from '../utils/image';
 
 const Hero = () => {
     const { t, tHtml, language } = useLanguage();
@@ -36,7 +37,7 @@ const Hero = () => {
 
                     <div className="image-frame-luxury">
                         <img
-                            src={settings?.hero_image ? `/${settings.hero_image}` : "images/1.png"}
+                            src={getImageUrl(settings?.hero_image || "images/1.png")}
                             alt="Binisha Enterprises Office"
                         />
                         <div className="frame-accent"></div>

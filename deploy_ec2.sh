@@ -41,7 +41,11 @@ if [ ! -f ".env" ]; then
     exit 1
 fi
 
-# 5. Start the engine
+# 5. Ensure Uploads directory exists and is writable
+mkdir -p backend/uploads
+sudo chmod -R 777 backend/uploads
+
+# 6. Start the engine
 echo "🏗️  Starting containers..."
 sudo docker compose up -d --build
 
