@@ -41,7 +41,7 @@ if [ ! -f ".env" ]; then
     exit 1
 fi
 
-# 5. Ensure Uploads directory exists and is writable
+# 5. Ensure Uploads directory exists and is writable for Docker volumes
 mkdir -p backend/uploads
 sudo chmod -R 777 backend/uploads
 
