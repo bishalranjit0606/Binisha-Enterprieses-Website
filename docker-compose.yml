@@ -32,6 +32,8 @@ services:
       JWT_SECRET: ${JWT_SECRET:-secret_key_binisha_2026_secure_token}
     ports:
       - "5001:5001"
+    volumes:
+      - ./backend/uploads:/app/uploads
     depends_on:
       postgres:
         condition: service_healthy
@@ -43,7 +45,7 @@ services:
     build:
       context: ./frontend
       args:
-        VITE_API_URL: ${VITE_API_URL:-https://binishaenterprises.app/api}
+        VITE_API_URL: ${VITE_API_URL:-https://binishaenterprises.app}
     container_name: binisha-web
     restart: unless-stopped
     ports:
