@@ -301,6 +301,12 @@ cd Binisha-Enterprieses-Website
 git pull origin main
 sudo docker compose up --build -d
 ```
+### 4. Check Status & Logs
+```bash
+sudo docker compose ps      # View running containers
+sudo docker compose logs -f # View real-time logs (Ctrl+C to exit)
+```
+
 
 ### 4. Check Status & Logs
 ```bash
