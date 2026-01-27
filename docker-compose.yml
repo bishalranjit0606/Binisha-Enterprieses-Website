@@ -53,7 +53,6 @@ services:
       - "443:443"
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt:ro # Mount SSL certificates
-      - ./backend/uploads:/usr/share/nginx/html/uploads:ro # Shared uploads volume
     depends_on:
       - backend
     networks:
