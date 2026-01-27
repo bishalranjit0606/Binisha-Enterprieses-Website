@@ -15,6 +15,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - binisha-net
 
   # API
   backend:
@@ -33,13 +35,15 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - binisha-net
 
   # Web
   frontend:
     build:
       context: ./frontend
       args:
-        VITE_API_URL: ${VITE_API_URL:-http://localhost:5001}
+        VITE_API_URL: ${VITE_API_URL:-https://binishaenterprises.app/api}
     container_name: binisha-web
     restart: unless-stopped
     ports:
@@ -49,6 +53,12 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt:ro # Mount SSL certificates
     depends_on:
       - backend
+    networks:
+      - binisha-net
+
+networks:
+  binisha-net:
+    driver: bridge
 
 volumes:
   postgres_data:
