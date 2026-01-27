@@ -24,6 +24,10 @@ jobs:
             # Pull latest code
             git pull origin main
             
+            # Ensure Uploads directory exists and is writable for Docker volumes
+            mkdir -p backend/uploads
+            sudo chmod -R 777 backend/uploads
+            
             # Re-build and restart containers
             sudo docker compose up -d --build
             
