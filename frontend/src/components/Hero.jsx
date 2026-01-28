@@ -28,12 +28,17 @@ const Hero = () => {
                     </div>
                 </div>
                 <div className="hero-image fade-on-scroll">
-                    {floatingBoxes && floatingBoxes.map((box, index) => (
-                        <div key={box.id || index} className={`floating-box ${box.position_class}`}>
-                            {getIcon(box.icon)}
-                            <span>{language === 'en' ? box.text_en : box.text_ne}</span>
-                        </div>
-                    ))}
+                    {floatingBoxes && floatingBoxes.map((box, index) => {
+                        const translationKey = box.position_class === 'floating-box-1' ? 'float_experience' :
+                            box.position_class === 'floating-box-3' ? 'float_customers' : null;
+
+                        return (
+                            <div key={box.id || index} className={`floating-box ${box.position_class}`}>
+                                {getIcon(box.icon)}
+                                <span>{translationKey ? t(translationKey) : (language === 'en' ? box.text_en : box.text_ne)}</span>
+                            </div>
+                        );
+                    })}
 
                     <div className="image-frame-luxury">
                         <img
