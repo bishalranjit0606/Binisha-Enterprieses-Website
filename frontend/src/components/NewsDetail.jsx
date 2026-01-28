@@ -70,9 +70,21 @@ const NewsDetail = () => {
                 </button>
 
                 <div className="news-detail-header">
-                    <h1 style={{ fontSize: '2.5rem', marginBottom: '15px', color: '#1C2541' }}>
+                    <h1 style={{ fontSize: '2.5rem', marginBottom: '10px', color: '#1C2541' }}>
                         {language === 'en' ? newsItem.title_en : newsItem.title_ne}
                     </h1>
+
+                    {/* Subtitle / Excerpt Section */}
+                    <div className="news-detail-subtitle" style={{
+                        fontSize: '1.25rem',
+                        color: '#555',
+                        marginBottom: '15px',
+                        fontWeight: '500',
+                        lineHeight: '1.4'
+                    }}>
+                        {language === 'en' ? newsItem.excerpt_en : newsItem.excerpt_ne}
+                    </div>
+
                     <div style={{ color: '#888', marginBottom: '30px', fontSize: '0.9rem' }}>
                         <i className="far fa-calendar-alt" style={{ marginRight: '8px' }}></i>
                         {formattedDate}
@@ -87,11 +99,12 @@ const NewsDetail = () => {
                     />
                 </div>
 
-                <div className="news-detail-body" style={{ fontSize: '1.1rem', lineHeight: '1.8', color: '#333', whiteSpace: 'pre-wrap' }}>
-                    {language === 'en'
-                        ? (newsItem.body_en || newsItem.excerpt_en)
-                        : (newsItem.body_ne || newsItem.excerpt_ne)}
-                </div>
+                <div className="news-detail-body ql-editor"
+                    style={{ fontSize: '1.1rem', lineHeight: '1.8', color: '#333' }}
+                    dangerouslySetInnerHTML={{
+                        __html: language === 'en' ? newsItem.body_en : newsItem.body_ne
+                    }}
+                />
             </div>
         </div>
     );

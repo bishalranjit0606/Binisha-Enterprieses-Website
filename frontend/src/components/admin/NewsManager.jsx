@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useContent } from '../../contexts/ContentContext';
 import axios from 'axios';
 import { getImageUrl } from '../../utils/image';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 const NewsManager = () => {
     const { news, refreshContent } = useContent();
@@ -19,6 +21,23 @@ const NewsManager = () => {
         body_en: '',
         body_ne: ''
     });
+
+    const quillModules = {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            ['link', 'image'],
+            ['clean']
+        ],
+    };
+
+    const quillFormats = [
+        'header',
+        'bold', 'italic', 'underline', 'strike',
+        'list', 'bullet',
+        'link', 'image'
+    ];
 
     const resetForm = () => {
         setFormData({
@@ -185,7 +204,14 @@ const NewsManager = () => {
                             </div>
                             <div className="admin-form-group">
                                 <label className="admin-label">Main News Body (English)</label>
-                                <textarea className="admin-textarea" rows="8" value={formData.body_en} onChange={e => setFormData({ ...formData, body_en: e.target.value })} placeholder="Enter the full news content here..." required={activeLang === 'en'} />
+                                <ReactQuill
+                                    theme="snow"
+                                    value={formData.body_en}
+                                    onChange={(content) => setFormData({ ...formData, body_en: content })}
+                                    modules={quillModules}
+                                    formats={quillFormats}
+                                    style={{ height: '300px', marginBottom: '50px' }}
+                                />
                             </div>
                         </div>
 
@@ -201,7 +227,14 @@ const NewsManager = () => {
                             </div>
                             <div className="admin-form-group">
                                 <label className="admin-label">पूर्ण समाचार विवरण (नेपाली)</label>
-                                <textarea className="admin-textarea" rows="8" value={formData.body_ne} onChange={e => setFormData({ ...formData, body_ne: e.target.value })} placeholder="यहाँ समाचार लेख्नुहोस्..." required={activeLang === 'ne'} />
+                                <ReactQuill
+                                    theme="snow"
+                                    value={formData.body_ne}
+                                    onChange={(content) => setFormData({ ...formData, body_ne: content })}
+                                    modules={quillModules}
+                                    formats={quillFormats}
+                                    style={{ height: '300px', marginBottom: '50px' }}
+                                />
                             </div>
                         </div>
 
