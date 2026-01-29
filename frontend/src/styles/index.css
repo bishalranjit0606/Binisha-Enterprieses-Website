@@ -1056,26 +1056,31 @@ ul {
 }
 
 .feed-card:hover .feed-image-box img {
-    transform: scale(1.1);
+    transform: scale(1.05);
+    /* Reduced scale for subtler feel */
 }
 
-.feed-date-chip {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(5px);
+.feed-card-header {
+    padding: 20px 25px 5px;
+}
+
+.feed-date-chip-inline {
+    background: #f0f2f5;
     padding: 6px 14px;
     border-radius: 50px;
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--primary-color);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 2;
+    color: #65676b;
+    display: inline-block;
+}
+
+.feed-date-chip {
+    display: none;
+    /* Hide old chip */
 }
 
 .feed-content-box {
-    padding: 25px;
+    padding: 15px 25px 20px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;

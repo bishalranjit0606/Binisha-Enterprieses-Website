@@ -4,12 +4,15 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { getImageUrl } from '../utils/image';
 import { Link } from 'react-router-dom';
 import { FaWhatsapp, FaFacebookMessenger, FaLink, FaShareAlt, FaCalendarAlt, FaConciergeBell, FaNewspaper } from 'react-icons/fa';
+import useScrollAnimation from '../hooks/useScrollAnimation';
 import '../styles/index.css';
 
 const AllFeedPage = () => {
     const { feed, services, news } = useContent();
     const { language } = useLanguage();
     const [copySuccess, setCopySuccess] = useState(null);
+
+    useScrollAnimation();
 
     const formatDate = (dateString) => {
         if (!dateString) return "";
@@ -112,11 +115,10 @@ const AllFeedPage = () => {
                                     key={item.id}
                                     style={{ animationDelay: `${index * 0.1}s` }}
                                 >
-                                    <div className="feed-image-box">
-                                        <div className="feed-date-chip">
+                                    <div className="feed-card-header">
+                                        <div className="feed-date-chip-inline">
                                             {day} {month}
                                         </div>
-                                        <img src={getImageUrl(item.image_url)} alt="Update" loading="lazy" />
                                     </div>
                                     <div className="feed-content-box">
                                         <h3 className="feed-card-title">
@@ -127,6 +129,11 @@ const AllFeedPage = () => {
                                         <p className="feed-card-excerpt">
                                             {item.caption}
                                         </p>
+                                    </div>
+                                    <div className="feed-image-box">
+                                        <img src={getImageUrl(item.image_url)} alt="Update" loading="lazy" />
+                                    </div>
+                                    <div className="feed-content-box" style={{ paddingTop: '0' }}>
                                         <div className="feed-card-footer">
                                             <span>{language === 'en' ? 'View Details' : 'विवरण हेर्नुहोस्'}</span>
                                             <i className="fas fa-chevron-right"></i>

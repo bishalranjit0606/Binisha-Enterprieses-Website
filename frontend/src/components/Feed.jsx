@@ -46,17 +46,21 @@ const Feed = () => {
                                 key={item.id}
                                 style={{ animationDelay: `${index * 0.1}s` }}
                             >
-                                <div className="feed-image-box">
-                                    <div className="feed-date-chip">
+                                <div className="feed-card-header">
+                                    <div className="feed-date-chip-inline">
                                         {day} {month}
                                     </div>
-                                    <img src={getImageUrl(item.image_url)} alt={title} />
                                 </div>
                                 <div className="feed-content-box">
                                     <h3 className="feed-card-title">{title}</h3>
                                     <p className="feed-card-excerpt">
                                         {item.caption}
                                     </p>
+                                </div>
+                                <div className="feed-image-box">
+                                    <img src={getImageUrl(item.image_url)} alt={title} />
+                                </div>
+                                <div className="feed-content-box" style={{ paddingTop: '0' }}>
                                     <div className="feed-card-footer">
                                         <span>{language === 'en' ? 'Read More' : 'थप पढ्नुहोस्'}</span>
                                         <i className="fas fa-chevron-right"></i>
