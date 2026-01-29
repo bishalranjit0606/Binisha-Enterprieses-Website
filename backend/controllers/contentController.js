@@ -12,6 +12,7 @@ exports.getContent = async (req, res) => {
         const news = await db.News.findAll({ order: [['date', 'DESC']] });
         const credentials = await db.Credential.findAll({ order: [['order', 'ASC']] });
         const floatingBoxes = await db.FloatingBox.findAll({ order: [['order', 'ASC']] });
+        const feed = await db.Feed.findAll({ order: [['id', 'DESC']] });
 
         // Transform translations to simple object { key: { en: ..., ne: ... } }
         const formattedTranslations = {};
