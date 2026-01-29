@@ -1121,6 +1121,91 @@ ul {
     font-size: 0.7rem;
 }
 
+/* Feed Detail Boxed UI */
+.feed-detail-box {
+    background: #fff;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    margin-top: 20px;
+}
+
+.feed-detail-share {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.feed-detail-share span {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.detail-share-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.detail-share-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #fff;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.detail-share-btn.whatsapp {
+    background: #25D366;
+}
+
+.detail-share-btn.messenger {
+    background: #0084FF;
+}
+
+.detail-share-btn.copy {
+    background: #6c757d;
+    position: relative;
+}
+
+.detail-share-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    filter: brightness(1.1);
+}
+
+.detail-share-btn .tooltip {
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s;
+}
+
+.detail-share-btn.success .tooltip {
+    opacity: 1;
+    visibility: visible;
+    bottom: 130%;
+}
+
 .news-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
