@@ -26,7 +26,8 @@
 
 html,
 body {
-    overflow-x: hidden;
+    overflow-x: clip;
+    /* 'hidden' can break sticky, 'clip' is safer */
     width: 100%;
     max-width: 100%;
     position: relative;
@@ -37,6 +38,40 @@ body {
     color: var(--text-dark);
     line-height: 1.6;
     scroll-behavior: smooth;
+}
+
+/* ... existing styles ... */
+
+.social-sidebar {
+    position: -webkit-sticky;
+    /* Safari support */
+    position: sticky;
+    top: 100px;
+    /* Increased buffer */
+    height: calc(100vh - 110px);
+    overflow-y: auto;
+    align-self: start;
+    /* Ensure it sticks at the top */
+    z-index: 10;
+    /* Ensure it stays above content if needed */
+}
+
+/* Scrollbar styling for sidebars */
+.social-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.social-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.social-sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.social-sidebar:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 ::selection {
@@ -2141,11 +2176,16 @@ ul {
     margin-bottom: 15px;
 }
 
+/* ... existing styles matched by context ... */
+/* NOTE: I am retargeting the specific sidebar block since the previous replace blocked out huge chunks */
 .social-sidebar {
+    position: -webkit-sticky;
     position: sticky;
-    top: 90px;
-    height: calc(100vh - 100px);
+    top: 100px;
+    height: calc(100vh - 110px);
     overflow-y: auto;
+    align-self: start;
+    z-index: 90;
 }
 
 /* Scrollbar hiding for sidebars */
