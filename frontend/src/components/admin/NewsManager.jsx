@@ -9,7 +9,6 @@ const NewsManager = () => {
     const { news, refreshContent } = useContent();
     const [openForm, setOpenForm] = useState(false);
     const [editingId, setEditingId] = useState(null);
-    const [activeLang, setActiveLang] = useState('en'); // 'en' or 'ne'
 
     const [formData, setFormData] = useState({
         image_url: '',
@@ -52,7 +51,6 @@ const NewsManager = () => {
         });
         setEditingId(null);
         setOpenForm(false);
-        setActiveLang('en');
     };
 
     const handleEdit = (item) => {
@@ -136,33 +134,10 @@ const NewsManager = () => {
 
             {openForm && (
                 <div className="admin-card">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+                    <div style={{ marginBottom: '25px' }}>
                         <h3 className="admin-title" style={{ fontSize: '1.2rem', margin: 0 }}>
                             {editingId ? 'Edit News Content' : 'Create New Article'}
                         </h3>
-                        {/* Language Toggle */}
-                        <div style={{ display: 'flex', background: '#f0f0f0', padding: '4px', borderRadius: '8px' }}>
-                            <button
-                                type="button"
-                                onClick={() => setActiveLang('en')}
-                                style={{
-                                    padding: '6px 15px', border: 'none', borderRadius: '6px', cursor: 'pointer',
-                                    background: activeLang === 'en' ? 'white' : 'transparent',
-                                    fontWeight: activeLang === 'en' ? '600' : '400',
-                                    boxShadow: activeLang === 'en' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none'
-                                }}
-                            >English</button>
-                            <button
-                                type="button"
-                                onClick={() => setActiveLang('ne')}
-                                style={{
-                                    padding: '6px 15px', border: 'none', borderRadius: '6px', cursor: 'pointer',
-                                    background: activeLang === 'ne' ? 'white' : 'transparent',
-                                    fontWeight: activeLang === 'ne' ? '600' : '400',
-                                    boxShadow: activeLang === 'ne' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none'
-                                }}
-                            >Nepali</button>
-                        </div>
                     </div>
 
                     <form onSubmit={handleSubmit}>
@@ -192,50 +167,51 @@ const NewsManager = () => {
                             </div>
                         </div>
 
-                        {/* Language Specific Fields (English) */}
-                        <div style={{ display: activeLang === 'en' ? 'block' : 'none' }}>
+                        {/* Article Fields - Both Languages */}
+                        <div className="admin-row">
                             <div className="admin-form-group">
                                 <label className="admin-label">News Title (English)</label>
-                                <input className="admin-input" value={formData.title_en} onChange={e => setFormData({ ...formData, title_en: e.target.value })} placeholder="Main heading..." required={activeLang === 'en'} />
+                                <input className="admin-input" value={formData.title_en} onChange={e => setFormData({ ...formData, title_en: e.target.value })} placeholder="Main heading..." required />
                             </div>
+                            <div className="admin-form-group">
+                                <label className="admin-label">समाचारको शीर्षक (नेपाली)</label>
+                                <input className="admin-input" value={formData.title_ne} onChange={e => setFormData({ ...formData, title_ne: e.target.value })} placeholder="शीर्षक यहाँ लेख्नुहोस्..." />
+                            </div>
+                        </div>
+
+                        <div className="admin-row">
                             <div className="admin-form-group">
                                 <label className="admin-label">Subtitle / Excerpt (English)</label>
                                 <input className="admin-input" value={formData.excerpt_en} onChange={e => setFormData({ ...formData, excerpt_en: e.target.value })} placeholder="A brief summary for the list page..." />
                             </div>
                             <div className="admin-form-group">
-                                <label className="admin-label">Main News Body (English)</label>
-                                <ReactQuill
-                                    theme="snow"
-                                    value={formData.body_en}
-                                    onChange={(content) => setFormData({ ...formData, body_en: content })}
-                                    modules={quillModules}
-                                    formats={quillFormats}
-                                    style={{ height: '300px', marginBottom: '50px' }}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Language Specific Fields (Nepali) */}
-                        <div style={{ display: activeLang === 'ne' ? 'block' : 'none' }}>
-                            <div className="admin-form-group">
-                                <label className="admin-label">समाचारको शीर्षक (नेपाली)</label>
-                                <input className="admin-input" value={formData.title_ne} onChange={e => setFormData({ ...formData, title_ne: e.target.value })} placeholder="शीर्षक यहाँ लेख्नुहोस्..." required={activeLang === 'ne'} />
-                            </div>
-                            <div className="admin-form-group">
                                 <label className="admin-label">उपशीर्षक / सारांश (नेपाली)</label>
                                 <input className="admin-input" value={formData.excerpt_ne} onChange={e => setFormData({ ...formData, excerpt_ne: e.target.value })} placeholder="छोटो विवरण..." />
                             </div>
-                            <div className="admin-form-group">
-                                <label className="admin-label">पूर्ण समाचार विवरण (नेपाली)</label>
-                                <ReactQuill
-                                    theme="snow"
-                                    value={formData.body_ne}
-                                    onChange={(content) => setFormData({ ...formData, body_ne: content })}
-                                    modules={quillModules}
-                                    formats={quillFormats}
-                                    style={{ height: '300px', marginBottom: '50px' }}
-                                />
-                            </div>
+                        </div>
+
+                        <div className="admin-form-group">
+                            <label className="admin-label">Main News Body (English)</label>
+                            <ReactQuill
+                                theme="snow"
+                                value={formData.body_en}
+                                onChange={(content) => setFormData({ ...formData, body_en: content })}
+                                modules={quillModules}
+                                formats={quillFormats}
+                                style={{ height: '300px', marginBottom: '50px' }}
+                            />
+                        </div>
+
+                        <div className="admin-form-group" style={{ marginTop: '20px' }}>
+                            <label className="admin-label">पूर्ण समाचार विवरण (नेपाली)</label>
+                            <ReactQuill
+                                theme="snow"
+                                value={formData.body_ne}
+                                onChange={(content) => setFormData({ ...formData, body_ne: content })}
+                                modules={quillModules}
+                                formats={quillFormats}
+                                style={{ height: '300px', marginBottom: '50px' }}
+                            />
                         </div>
 
                         <div style={{ display: 'flex', gap: '10px', marginTop: '20px', borderTop: '1px solid #eee', paddingTop: '20px' }}>
