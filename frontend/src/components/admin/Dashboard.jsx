@@ -5,6 +5,7 @@ import {
     FaConciergeBell,
     FaImages,
     FaNewspaper,
+    FaRss,
     FaCog,
     FaExternalLinkAlt
 } from 'react-icons/fa';
@@ -15,6 +16,7 @@ const Dashboard = () => {
         { title: 'Translations', icon: <FaLanguage />, link: '/admin/translations', desc: 'Edit English & Nepali text' },
         { title: 'Services', icon: <FaConciergeBell />, link: '/admin/services', desc: 'Manage service providers' },
         { title: 'News', icon: <FaNewspaper />, link: '/admin/news', desc: 'Post latest updates' },
+        { title: 'Feed', icon: <FaRss />, link: '/admin/feed', desc: 'Quick updates & posts' },
         { title: 'Gallery', icon: <FaImages />, link: '/admin/gallery', desc: 'Manage your photos' },
         { title: 'Settings', icon: <FaCog />, link: '/admin/settings', desc: 'Contact & Map info' },
         { title: 'View Site', icon: <FaExternalLinkAlt />, link: '/', desc: 'Visit public website', external: true },
