@@ -5,6 +5,7 @@ import Services from './components/Services';
 import WhyUs from './components/WhyUs';
 import Gallery from './components/Gallery';
 import News from './components/News';
+import Feed from './components/Feed';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
@@ -21,6 +22,7 @@ const MainLayout = () => {
             <WhyUs />
             <Gallery />
             <News />
+            <Feed />
             <Contact />
             <Footer />
             <FloatingWhatsApp />

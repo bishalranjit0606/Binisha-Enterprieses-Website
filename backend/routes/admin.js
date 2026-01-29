@@ -29,6 +29,9 @@ router.post('/news', adminController.createNews);
 router.put('/news/:id', adminController.updateNews);
 router.delete('/news/:id', adminController.deleteNews);
 
+router.post('/feed', adminController.createFeed);
+router.delete('/feed/:id', adminController.deleteFeed);
+
 // Upload Route
 router.post('/upload', upload.single('image'), (req, res) => {
     if (req.file) {

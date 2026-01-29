@@ -32,7 +32,8 @@ exports.getContent = async (req, res) => {
             gallery,
             news,
             credentials,
-            floatingBoxes
+            floatingBoxes,
+            feed // Added this line
         });
     } catch (err) {
         console.error(err);

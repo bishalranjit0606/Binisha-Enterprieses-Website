@@ -104,3 +104,33 @@ exports.deleteNews = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+// Feed
+exports.createFeed = async (req, res) => {
+    try {
+        const item = await db.Feed.create(req.body);
+
+        // If an image is provided, automatically add it to the Gallery
+        if (req.body.image_url) {
+            await db.Gallery.create({
+                image_url: req.body.image_url,
+                alt: req.body.caption || 'Feed Image',
+                order: 0
+            });
+        }
+
+        res.json(item);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.deleteFeed = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await db.Feed.destroy({ where: { id } });
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};

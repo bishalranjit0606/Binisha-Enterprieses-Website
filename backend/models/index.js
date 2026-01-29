@@ -7,6 +7,7 @@ const Gallery = require('./Gallery');
 const News = require('./News');
 const Credential = require('./Credential');
 const FloatingBox = require('./FloatingBox');
+const Feed = require('./Feed');
 
 // Associations
 Service.hasMany(ServiceCompany, { foreignKey: 'serviceId', as: 'companies' });
@@ -21,7 +22,8 @@ const db = {
     Gallery,
     News,
     Credential,
-    FloatingBox
+    FloatingBox,
+    Feed
 };
 
 module.exports = db;

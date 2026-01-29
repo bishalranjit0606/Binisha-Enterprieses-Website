@@ -15,12 +15,14 @@ import TranslationsManager from './components/admin/TranslationsManager';
 import ServicesManager from './components/admin/ServicesManager';
 import GalleryManager from './components/admin/GalleryManager';
 import NewsManager from './components/admin/NewsManager';
+import FeedManager from './components/admin/FeedManager';
 import SettingsManager from './components/admin/SettingsManager';
 import Dashboard from './components/admin/Dashboard';
 
 import PublicPageLayout from './PublicPageLayout';
 import AllNewsPage from './components/AllNewsPage';
 import NewsDetail from './components/NewsDetail';
+import AllFeedPage from './components/AllFeedPage';
 import AllGalleryPage from './components/AllGalleryPage';
 
 function App() {
@@ -58,6 +60,11 @@ function App() {
               <NewsDetail />
             </PublicPageLayout>
           } />
+          <Route path="/feed" element={
+            <PublicPageLayout>
+              <AllFeedPage />
+            </PublicPageLayout>
+          } />
           <Route path="/gallery" element={
             <PublicPageLayout>
               <AllGalleryPage />
@@ -73,6 +80,7 @@ function App() {
               <Route path="services" element={<ServicesManager />} />
               <Route path="gallery" element={<GalleryManager />} />
               <Route path="news" element={<NewsManager />} />
+              <Route path="feed" element={<FeedManager />} />
               <Route path="settings" element={<SettingsManager />} />
             </Route>
           </Route>

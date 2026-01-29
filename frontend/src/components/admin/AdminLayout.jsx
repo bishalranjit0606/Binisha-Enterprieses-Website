@@ -73,6 +73,15 @@ const AdminLayout = () => {
                         </li>
                         <li className="admin-nav-item">
                             <Link
+                                to="/admin/feed"
+                                className={`admin-nav-link ${isActive('/admin/feed')}`}
+                                onClick={closeSidebar}
+                            >
+                                <i className="fas fa-rss"></i> Feed
+                            </Link>
+                        </li>
+                        <li className="admin-nav-item">
+                            <Link
                                 to="/admin/gallery"
                                 className={`admin-nav-link ${isActive('/admin/gallery')}`}
                                 onClick={closeSidebar}
