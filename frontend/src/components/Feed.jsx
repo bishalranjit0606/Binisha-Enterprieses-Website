@@ -32,33 +32,34 @@ const Feed = () => {
                     <h4 className="section-subtitle">{t('feed_subtitle') === 'feed_subtitle' ? (language === 'en' ? 'STAY UPDATED' : 'अपडेट रहनुहोस्') : t('feed_subtitle')}</h4>
                     <h2 className="section-title" dangerouslySetInnerHTML={{ __html: language === 'en' ? 'Our <span class="text-accent">Updates</span>' : 'हाम्रा <span class="text-accent">अपडेटहरू</span>' }}></h2>
                 </div>
-                <div className="news-grid">
+                <div className="feed-grid">
                     {visibleFeed.map((item, index) => {
-                        const { day, month } = formatDate(item.date || item.createdAt);
+                        const dateObj = new Date(item.date || item.createdAt);
+                        const day = dateObj.getDate();
+                        const month = dateObj.toLocaleString('default', { month: 'short' });
                         const title = getFeedTitle(item);
 
                         return (
                             <Link
                                 to={`/feed/${item.id}`}
-                                className="news-card fade-on-scroll"
+                                className="feed-card fade-on-scroll"
                                 key={item.id}
-                                style={{ animationDelay: `${index * 0.1}s`, textDecoration: 'none' }}
+                                style={{ animationDelay: `${index * 0.1}s` }}
                             >
-                                <div className="news-image">
+                                <div className="feed-image-box">
+                                    <div className="feed-date-chip">
+                                        {day} {month}
+                                    </div>
                                     <img src={getImageUrl(item.image_url)} alt={title} />
                                 </div>
-                                <div className="news-body">
-                                    <div className="news-date">
-                                        <span className="day">{day}</span>
-                                        <span className="month">{month}</span>
-                                    </div>
-                                    <div className="news-content">
-                                        <h3 className="news-title">{title}</h3>
-                                        <p className="news-excerpt" style={{ whiteSpace: 'pre-line' }}>
-                                            {item.caption && item.caption.length > 100
-                                                ? item.caption.substring(0, 100) + '...'
-                                                : item.caption}
-                                        </p>
+                                <div className="feed-content-box">
+                                    <h3 className="feed-card-title">{title}</h3>
+                                    <p className="feed-card-excerpt">
+                                        {item.caption}
+                                    </p>
+                                    <div className="feed-card-footer">
+                                        <span>{language === 'en' ? 'Read More' : 'थप पढ्नुहोस्'}</span>
+                                        <i className="fas fa-chevron-right"></i>
                                     </div>
                                 </div>
                             </Link>

@@ -100,52 +100,41 @@ const AllFeedPage = () => {
                         <h2 className="section-title" dangerouslySetInnerHTML={{ __html: language === 'en' ? 'Our <span class="text-accent">Updates</span>' : 'हाम्रा <span class="text-accent">अपडेटहरू</span>' }}></h2>
                     </div>
 
-                    <div className="social-feed-container">
-                        {feed && feed.map((item, index) => (
-                            <div
-                                className="social-post-card"
-                                key={item.id}
-                                id={`post-${item.id}`}
-                                style={{ animationDelay: `${index * 0.1}s` }}
-                            >
-                                <div className="post-header">
-                                    <div className="post-date">
-                                        <FaCalendarAlt className="date-icon" />
-                                        <span>{formatDate(item.date || item.createdAt)}</span>
+                    <div className="feed-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+                        {feed && feed.map((item, index) => {
+                            const dateObj = new Date(item.date || item.createdAt);
+                            const day = dateObj.getDate();
+                            const month = dateObj.toLocaleString('default', { month: 'short' });
+                            return (
+                                <Link
+                                    to={`/feed/${item.id}`}
+                                    className="feed-card fade-on-scroll"
+                                    key={item.id}
+                                    style={{ animationDelay: `${index * 0.1}s` }}
+                                >
+                                    <div className="feed-image-box">
+                                        <div className="feed-date-chip">
+                                            {day} {month}
+                                        </div>
+                                        <img src={getImageUrl(item.image_url)} alt="Update" loading="lazy" />
                                     </div>
-                                </div>
-
-                                {item.caption && (
-                                    <div className="post-caption">
-                                        <p>{item.caption}</p>
+                                    <div className="feed-content-box">
+                                        <h3 className="feed-card-title">
+                                            {item.caption && item.caption.split(' ').length > 5
+                                                ? item.caption.split(' ').slice(0, 5).join(' ') + '...'
+                                                : (item.caption || (language === 'en' ? 'New Post' : 'नयाँ पोष्ट'))}
+                                        </h3>
+                                        <p className="feed-card-excerpt">
+                                            {item.caption}
+                                        </p>
+                                        <div className="feed-card-footer">
+                                            <span>{language === 'en' ? 'View Details' : 'विवरण हेर्नुहोस्'}</span>
+                                            <i className="fas fa-chevron-right"></i>
+                                        </div>
                                     </div>
-                                )}
-
-                                {item.image_url && (
-                                    <div className="post-image">
-                                        <img src={getImageUrl(item.image_url)} alt="Feed update" loading="lazy" />
-                                    </div>
-                                )}
-
-                                <div className="post-actions">
-                                    <span className="share-label">
-                                        <FaShareAlt /> {language === 'en' ? 'Share' : 'साझा गर्नुहोस्'}:
-                                    </span>
-                                    <div className="action-buttons">
-                                        <button className="action-btn whatsapp" onClick={() => shareSocial('whatsapp', item)} title="Share on WhatsApp">
-                                            <FaWhatsapp />
-                                        </button>
-                                        <button className="action-btn messenger" onClick={() => shareSocial('messenger', item)} title="Share on Facebook">
-                                            <FaFacebookMessenger />
-                                        </button>
-                                        <button className={`action-btn copy-link ${copySuccess === item.id ? 'success' : ''}`} onClick={() => handleCopyLink(item.id)} title="Copy Link">
-                                            <FaLink />
-                                            {copySuccess === item.id && <span className="tooltip">Copied!</span>}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                                </Link>
+                            );
+                        })}
                     </div>
                 </main>
 
