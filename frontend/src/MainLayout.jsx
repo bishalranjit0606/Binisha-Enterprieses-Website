@@ -20,9 +20,9 @@ const MainLayout = () => {
             <Hero />
             <Services />
             <WhyUs />
-            <Gallery />
-            <News />
             <Feed />
+            <News />
+            <Gallery />
             <Contact />
             <Footer />
             <FloatingWhatsApp />

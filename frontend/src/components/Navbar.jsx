@@ -101,7 +101,7 @@ const Navbar = () => {
                 </button>
 
                 <ul className={`nav-menu ${menuOpen ? 'active' : ''}`} id="nav-menu">
-                    {['home', 'services', 'why-us', 'gallery', 'news', 'feed', 'contact'].map(item => (
+                    {['home', 'services', 'why-us', 'feed', 'news', 'gallery', 'contact'].map(item => (
                         <li className="nav-item" key={item}>
                             <Link
                                 to={`/#${item}`}
