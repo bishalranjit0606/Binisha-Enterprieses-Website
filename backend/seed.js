@@ -12,6 +12,7 @@ const seed = async () => {
             nav_why_us: { en: "Why Us?", ne: "हामीलाई किन?" },
             nav_gallery: { en: "Our Gallery", ne: "हाम्रो ग्यालरी" },
             nav_news: { en: "Latest News", ne: "ताजा समाचार" },
+            nav_feed: { en: "Our Updates", ne: "हाम्रा अपडेटहरू" },
             nav_contact: { en: "Contact Us", ne: "सम्पर्क गर्नुहोस्" },
             hero_title: { en: "Your Trusted Local <span class=\"red-text\">Digital and Financial Service Provider </span>", ne: "तपाईंको विश्वसनीय स्थानीय <span class=\"red-text\">डिजिटल र वित्तीय सेवा प्रदायक</span>" },
             hero_desc: { en: "Welcome to Binisha Enterprises, your reliable local service shop in Pathalaiya, Bara, Nepal. We support our community by providing essential daily financial and digital services.", ne: "बिनिशा इन्टरप्राइजेजमा स्वागत छ, पथलैया, बारा, नेपालमा तपाईंको भरपर्दो स्थानीय सेवा पसल। हामी आवश्यक दैनिक वित्तीय र डिजिटल सेवाहरू प्रदान गरेर हाम्रो समुदायलाई सहयोग गर्छौं।" },

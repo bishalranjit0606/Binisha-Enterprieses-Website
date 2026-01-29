@@ -108,7 +108,9 @@ const Navbar = () => {
                                 className={`nav-link ${activeSection === item ? 'active' : ''} ${item === 'contact' ? 'btn-contact' : ''}`}
                                 onClick={(e) => handleLinkClick(e, item)}
                             >
-                                {t(`nav_${item.replace('-', '_')}`)}
+                                {t(`nav_${item.replace('-', '_')}`) === `nav_${item.replace('-', '_')}`
+                                    ? (item.charAt(0).toUpperCase() + item.slice(1).replace('-', ' '))
+                                    : t(`nav_${item.replace('-', '_')}`)}
                             </Link>
                         </li>
                     ))}

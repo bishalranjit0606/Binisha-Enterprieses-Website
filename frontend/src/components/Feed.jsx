@@ -29,10 +29,8 @@ const Feed = () => {
         <section className="news-section" id="feed" style={{ backgroundColor: '#FEFCF8' }}>
             <div className="container">
                 <div className="section-header center-text fade-on-scroll">
-                    <h4 className="section-subtitle">{t('feed_subtitle') === 'feed_subtitle' ? (language === 'en' ? 'Stay Updated' : 'अपडेट रहनुहोस्') : t('feed_subtitle')}</h4>
-                    <h2 className="section-title">
-                        {language === 'en' ? 'Our <span class="text-accent">Updates</span>' : 'हाम्रा <span class="text-accent">अपडेटहरू</span>'}
-                    </h2>
+                    <h4 className="section-subtitle">{t('feed_subtitle') === 'feed_subtitle' ? (language === 'en' ? 'STAY UPDATED' : 'अपडेट रहनुहोस्') : t('feed_subtitle')}</h4>
+                    <h2 className="section-title" dangerouslySetInnerHTML={{ __html: language === 'en' ? 'Our <span class="text-accent">Updates</span>' : 'हाम्रा <span class="text-accent">अपडेटहरू</span>' }}></h2>
                 </div>
                 <div className="news-grid">
                     {visibleFeed.map((item, index) => {
@@ -50,7 +48,7 @@ const Feed = () => {
                                         <img src={getImageUrl(item.image_url)} alt={title} />
                                     </div>
                                 )}
-                                <div className="news-body">
+                                <div className="news-body" style={{ minHeight: '120px' }}>
                                     <div className="news-date">
                                         <span className="day">{day}</span>
                                         <span className="month">{month}</span>
@@ -67,7 +65,7 @@ const Feed = () => {
 
                 <div className="load-more-container fade-on-scroll" style={{ animationDelay: '0.3s' }}>
                     <Link to="/feed" className="btn-load-more">
-                        {t('load_more') === 'load_more' ? (language === 'en' ? 'Load More' : 'थप हेर्नुहोस्') : t('load_more')}
+                        {language === 'en' ? 'LOAD MORE UPDATES' : 'थप अपडेटहरू हेर्नुहोस्'}
                     </Link>
                 </div>
             </div>

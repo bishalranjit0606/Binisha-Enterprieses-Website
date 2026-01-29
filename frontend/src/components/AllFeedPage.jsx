@@ -28,9 +28,7 @@ const AllFeedPage = () => {
         <section className="news-section" style={{ minHeight: '80vh', padding: '60px 0' }}>
             <div className="container">
                 <div className="section-header center-text">
-                    <h2 className="section-title">
-                        {language === 'en' ? 'Our Updates & Feed' : 'हाम्रा अपडेट र फिड'}
-                    </h2>
+                    <h2 className="section-title" dangerouslySetInnerHTML={{ __html: language === 'en' ? 'Our <span class="text-accent">Updates</span> & Feed' : 'हाम्रा <span class="text-accent">अपडेटहरू</span> र फिड' }}></h2>
                     <div className="section-line"></div>
                 </div>
 
