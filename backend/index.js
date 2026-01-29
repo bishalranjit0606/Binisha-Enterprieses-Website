@@ -43,6 +43,10 @@ db.sequelize.sync({ alter: true }).then(async () => {
             where: { key: 'nav_news' },
             defaults: { key: 'nav_news', en: 'Latest News', ne: 'ताजा समाचार' }
         });
+        await db.Translation.findOrCreate({
+            where: { key: 'nav_feed' },
+            defaults: { key: 'nav_feed', en: 'Updates', ne: 'अपडेटहरू' }
+        });
     } catch (e) {
         console.error('Failed to auto-seed translations:', e);
     }
