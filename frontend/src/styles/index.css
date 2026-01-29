@@ -2108,20 +2108,20 @@ ul {
 
 /* 3-Column Social Layout */
 .container-fluid.social-layout {
-    max-width: 1400px;
+    max-width: 1600px;
+    /* Increased max-width */
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 280px 1fr 300px;
-    gap: 30px;
-    padding: 0 20px;
+    grid-template-columns: 350px 1fr 380px;
+    /* Wider sidebars */
+    gap: 40px;
+    padding: 0 40px;
     align-items: start;
-    /* Sticky sidebars need this */
 }
 
 /* Remove default padding from the section in 3-column mode */
 .social-feed-section {
     padding: 20px 0 60px 0;
-    /* Minimized top padding */
     background-color: #f0f2f5;
     min-height: 100vh;
 }
@@ -2144,7 +2144,6 @@ ul {
 .social-sidebar {
     position: sticky;
     top: 90px;
-    /* Adjust based on navbar height */
     height: calc(100vh - 100px);
     overflow-y: auto;
 }
@@ -2167,22 +2166,28 @@ ul {
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 25px;
+    /* Increased padding */
     border: 1px solid #ddd;
+    min-height: calc(100vh - 120px);
+    /* Make it span the height of the sticky container */
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 25px;
     color: var(--primary-color);
-    padding-bottom: 10px;
+    padding-bottom: 12px;
     border-bottom: 2px solid var(--accent-color);
 }
 
 .sidebar-header h3 {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+    /* Increased font size */
     font-weight: 700;
     margin: 0;
 }
@@ -2191,22 +2196,27 @@ ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    flex-grow: 1;
+    /* Allow content to grow */
 }
 
 .sidebar-list li {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
+    /* More spacing */
 }
 
 /* Services Mini Item */
 .service-item-mini {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 8px 10px;
+    gap: 15px;
+    padding: 10px 12px;
     border-radius: 6px;
     transition: background 0.2s;
     color: #333;
     font-weight: 500;
+    font-size: 1.05rem;
+    /* Larger font */
 }
 
 .service-item-mini:hover {
@@ -2216,30 +2226,34 @@ ul {
 
 .service-item-mini i {
     color: var(--accent-color);
-    width: 20px;
+    width: 24px;
+    /* Larger icon space */
     text-align: center;
+    font-size: 1.1rem;
 }
 
 /* News Mini Item */
 .news-item-mini {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     text-decoration: none;
     color: inherit;
     align-items: center;
 }
 
 .news-item-mini img {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    /* Larger image */
+    height: 70px;
     border-radius: 6px;
     object-fit: cover;
     flex-shrink: 0;
 }
 
 .news-mini-content h4 {
-    font-size: 0.9rem;
-    line-height: 1.3;
+    font-size: 1rem;
+    /* Larger font */
+    line-height: 1.4;
     margin: 0;
     color: #333;
     display: -webkit-box;
@@ -2254,13 +2268,20 @@ ul {
 }
 
 .news-mini-date {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: #888;
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 }
 
 /* Responsive Grid */
+@media (max-width: 1400px) {
+    .container-fluid.social-layout {
+        grid-template-columns: 280px 1fr 300px;
+        padding: 0 20px;
+    }
+}
+
 @media (max-width: 1200px) {
     .container-fluid.social-layout {
         grid-template-columns: 240px 1fr 280px;
@@ -2270,7 +2291,6 @@ ul {
 @media (max-width: 992px) {
     .container-fluid.social-layout {
         grid-template-columns: 1fr;
-        /* Stack everything on tablet/mobile */
         max-width: 700px;
     }
 
@@ -2279,10 +2299,12 @@ ul {
         height: auto;
         margin-bottom: 30px;
         display: none;
-        /* Optionally hide on smaller screens or move below */
     }
 
-    /* If you want to show them below the feed instead */
+    .sidebar-card {
+        min-height: auto;
+    }
+
     .left-sidebar {
         order: 2;
         display: block;
