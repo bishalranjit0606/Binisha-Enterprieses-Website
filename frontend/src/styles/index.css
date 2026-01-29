@@ -1896,10 +1896,11 @@ ul {
 .news-detail-body.ql-editor {
     padding: 0;
     overflow: visible;
+    line-height: 1.6;
 }
 
 .news-detail-body.ql-editor p {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .news-detail-body.ql-editor ul,
@@ -1909,7 +1910,7 @@ ul {
 }
 
 .news-detail-body.ql-editor li {
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .news-detail-body.ql-editor h1,

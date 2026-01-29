@@ -100,7 +100,7 @@ const NewsDetail = () => {
                 </div>
 
                 <div className="news-detail-body ql-editor"
-                    style={{ fontSize: '1.1rem', lineHeight: '1.8', color: '#333' }}
+                    style={{ fontSize: '1.1rem', color: '#333' }}
                     dangerouslySetInnerHTML={{
                         __html: language === 'en' ? newsItem.body_en : newsItem.body_ne
                     }}
