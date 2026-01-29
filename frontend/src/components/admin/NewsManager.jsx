@@ -13,12 +13,9 @@ const NewsManager = () => {
     const [formData, setFormData] = useState({
         image_url: '',
         date: new Date().toISOString().split('T')[0],
-        title_en: '',
-        title_ne: '',
-        excerpt_en: '',
-        excerpt_ne: '',
-        body_en: '',
-        body_ne: ''
+        title: '',
+        excerpt: '',
+        body: ''
     });
 
     const quillModules = {
@@ -42,12 +39,9 @@ const NewsManager = () => {
         setFormData({
             image_url: '',
             date: new Date().toISOString().split('T')[0],
-            title_en: '',
-            title_ne: '',
-            excerpt_en: '',
-            excerpt_ne: '',
-            body_en: '',
-            body_ne: ''
+            title: '',
+            excerpt: '',
+            body: ''
         });
         setEditingId(null);
         setOpenForm(false);
@@ -57,12 +51,9 @@ const NewsManager = () => {
         setFormData({
             image_url: item.image_url || '',
             date: item.date,
-            title_en: item.title_en || '',
-            title_ne: item.title_ne || '',
-            excerpt_en: item.excerpt_en || '',
-            excerpt_ne: item.excerpt_ne || '',
-            body_en: item.body_en || '',
-            body_ne: item.body_ne || ''
+            title: item.title || '',
+            excerpt: item.excerpt || '',
+            body: item.body || ''
         });
         setEditingId(item.id);
         setOpenForm(true);
@@ -83,25 +74,11 @@ const NewsManager = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Fallback logic for bilingual content
-        const finalData = { ...formData };
-
-        // If Nepali is blank, use English
-        if (!finalData.title_ne) finalData.title_ne = finalData.title_en;
-        if (!finalData.excerpt_ne) finalData.excerpt_ne = finalData.excerpt_en;
-        if (!finalData.body_ne) finalData.body_ne = finalData.body_en;
-
-        // If English is blank (less likely due to 'required' but good for safety), use Nepali
-        if (!finalData.title_en) finalData.title_en = finalData.title_ne;
-        if (!finalData.excerpt_en) finalData.excerpt_en = finalData.excerpt_ne;
-        if (!finalData.body_en) finalData.body_en = finalData.body_ne;
-
         try {
             if (editingId) {
-                await axios.put(`/api/admin/news/${editingId}`, finalData);
+                await axios.put(`/api/admin/news/${editingId}`, formData);
             } else {
-                await axios.post('/api/admin/news', finalData);
+                await axios.post('/api/admin/news', formData);
             }
             alert('Saved successfully!');
             refreshContent();
@@ -141,7 +118,6 @@ const NewsManager = () => {
                     </div>
 
                     <form onSubmit={handleSubmit}>
-                        {/* Common Fields */}
                         <div className="admin-row">
                             <div className="admin-form-group">
                                 <label className="admin-label">Publish Date</label>
@@ -167,47 +143,22 @@ const NewsManager = () => {
                             </div>
                         </div>
 
-                        {/* Article Fields - Both Languages */}
-                        <div className="admin-row">
-                            <div className="admin-form-group">
-                                <label className="admin-label">News Title (English)</label>
-                                <input className="admin-input" value={formData.title_en} onChange={e => setFormData({ ...formData, title_en: e.target.value })} placeholder="Main heading..." required />
-                            </div>
-                            <div className="admin-form-group">
-                                <label className="admin-label">समाचारको शीर्षक (नेपाली)</label>
-                                <input className="admin-input" value={formData.title_ne} onChange={e => setFormData({ ...formData, title_ne: e.target.value })} placeholder="शीर्षक यहाँ लेख्नुहोस्..." />
-                            </div>
-                        </div>
-
-                        <div className="admin-row">
-                            <div className="admin-form-group">
-                                <label className="admin-label">Subtitle / Excerpt (English)</label>
-                                <input className="admin-input" value={formData.excerpt_en} onChange={e => setFormData({ ...formData, excerpt_en: e.target.value })} placeholder="A brief summary for the list page..." />
-                            </div>
-                            <div className="admin-form-group">
-                                <label className="admin-label">उपशीर्षक / सारांश (नेपाली)</label>
-                                <input className="admin-input" value={formData.excerpt_ne} onChange={e => setFormData({ ...formData, excerpt_ne: e.target.value })} placeholder="छोटो विवरण..." />
-                            </div>
+                        <div className="admin-form-group">
+                            <label className="admin-label">News Title</label>
+                            <input className="admin-input" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder="Enter title here..." required />
                         </div>
 
                         <div className="admin-form-group">
-                            <label className="admin-label">Main News Body (English)</label>
-                            <ReactQuill
-                                theme="snow"
-                                value={formData.body_en}
-                                onChange={(content) => setFormData({ ...formData, body_en: content })}
-                                modules={quillModules}
-                                formats={quillFormats}
-                                style={{ height: '300px', marginBottom: '50px' }}
-                            />
+                            <label className="admin-label">Subtitle / Excerpt</label>
+                            <input className="admin-input" value={formData.excerpt} onChange={e => setFormData({ ...formData, excerpt: e.target.value })} placeholder="A brief summary for the list page..." />
                         </div>
 
-                        <div className="admin-form-group" style={{ marginTop: '20px' }}>
-                            <label className="admin-label">पूर्ण समाचार विवरण (नेपाली)</label>
+                        <div className="admin-form-group">
+                            <label className="admin-label">News Body</label>
                             <ReactQuill
                                 theme="snow"
-                                value={formData.body_ne}
-                                onChange={(content) => setFormData({ ...formData, body_ne: content })}
+                                value={formData.body}
+                                onChange={(content) => setFormData({ ...formData, body: content })}
                                 modules={quillModules}
                                 formats={quillFormats}
                                 style={{ height: '300px', marginBottom: '50px' }}
@@ -230,7 +181,7 @@ const NewsManager = () => {
                 {news && news.map(item => (
                     <div key={item.id} className="admin-card" style={{ padding: '0', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                         <div style={{ height: '180px', width: '100%', overflow: 'hidden', position: 'relative' }}>
-                            <img src={getImageUrl(item.image_url)} alt={item.title_en} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={getImageUrl(item.image_url)} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             <div style={{
                                 position: 'absolute', top: '10px', right: '10px',
                                 background: 'rgba(0,0,0,0.7)', color: 'white',
@@ -240,11 +191,10 @@ const NewsManager = () => {
                             </div>
                         </div>
                         <div style={{ padding: '20px', flex: 1 }}>
-                            <h4 style={{ margin: '0 0 10px 0', color: '#1C2541' }}>{item.title_en}</h4>
+                            <h4 style={{ margin: '0 0 10px 0', color: '#1C2541' }}>{item.title}</h4>
                             <p style={{ fontSize: '0.85rem', color: '#666', lineHeight: '1.5', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                                {item.excerpt_en}
+                                {item.excerpt}
                             </p>
-                            {item.title_ne && <div style={{ fontSize: '0.8rem', color: '#999', marginTop: '5px', fontStyle: 'italic' }}>नेपाली उपलब्ध छ</div>}
                         </div>
                         <div style={{ padding: '0 20px 20px 20px', display: 'flex', gap: '10px' }}>
                             <button onClick={() => handleEdit(item)} className="admin-btn admin-btn-secondary" style={{ flex: 1, justifyContent: 'center', height: '35px', fontSize: '0.8rem' }}>

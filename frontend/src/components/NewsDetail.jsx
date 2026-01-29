@@ -71,7 +71,7 @@ const NewsDetail = () => {
 
                 <div className="news-detail-header">
                     <h1 style={{ fontSize: '2.5rem', marginBottom: '10px', color: '#1C2541' }}>
-                        {language === 'en' ? newsItem.title_en : newsItem.title_ne}
+                        {newsItem.title}
                     </h1>
 
                     {/* Subtitle / Excerpt Section */}
@@ -82,7 +82,7 @@ const NewsDetail = () => {
                         fontWeight: '500',
                         lineHeight: '1.4'
                     }}>
-                        {language === 'en' ? newsItem.excerpt_en : newsItem.excerpt_ne}
+                        {newsItem.excerpt}
                     </div>
 
                     <div style={{ color: '#888', marginBottom: '30px', fontSize: '0.9rem' }}>
@@ -102,7 +102,7 @@ const NewsDetail = () => {
                 <div className="news-detail-body ql-editor"
                     style={{ fontSize: '1.1rem', color: '#333' }}
                     dangerouslySetInnerHTML={{
-                        __html: language === 'en' ? newsItem.body_en : newsItem.body_ne
+                        __html: newsItem.body
                     }}
                 />
             </div>

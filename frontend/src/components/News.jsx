@@ -26,8 +26,8 @@ const News = () => {
                 <div className="news-grid">
                     {visibleNews.map((item, index) => {
                         const { day, month } = formatDate(item.date);
-                        const title = (language === 'en' ? item.title_en : item.title_ne) || item.title_en || item.title_ne;
-                        const excerpt = (language === 'en' ? item.excerpt_en : item.excerpt_ne) || item.excerpt_en || item.excerpt_ne;
+                        const title = item.title;
+                        const excerpt = item.excerpt;
 
                         return (
                             <Link
