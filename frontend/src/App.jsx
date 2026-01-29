@@ -24,6 +24,7 @@ import AllNewsPage from './components/AllNewsPage';
 import NewsDetail from './components/NewsDetail';
 import AllFeedPage from './components/AllFeedPage';
 import AllGalleryPage from './components/AllGalleryPage';
+import FeedDetail from './components/FeedDetail';
 
 function App() {
   const { translations, loading, error } = useContent();
@@ -68,6 +69,11 @@ function App() {
           <Route path="/gallery" element={
             <PublicPageLayout>
               <AllGalleryPage />
+            </PublicPageLayout>
+          } />
+          <Route path="/feed/:id" element={
+            <PublicPageLayout>
+              <FeedDetail />
             </PublicPageLayout>
           } />
 

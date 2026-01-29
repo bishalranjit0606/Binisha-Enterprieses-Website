@@ -54,3 +54,16 @@ exports.getNewsItem = async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 };
+
+exports.getFeedItem = async (req, res) => {
+    try {
+        const item = await db.Feed.findByPk(req.params.id);
+        if (!item) {
+            return res.status(404).json({ message: 'Update not found' });
+        }
+        res.json(item);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};

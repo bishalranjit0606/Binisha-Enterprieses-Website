@@ -38,27 +38,30 @@ const Feed = () => {
                         const title = getFeedTitle(item);
 
                         return (
-                            <div
+                            <Link
+                                to={`/feed/${item.id}`}
                                 className="news-card fade-on-scroll"
                                 key={item.id}
-                                style={{ animationDelay: `${index * 0.1}s` }}
+                                style={{ animationDelay: `${index * 0.1}s`, textDecoration: 'none' }}
                             >
-                                {item.image_url && (
-                                    <div className="news-image">
-                                        <img src={getImageUrl(item.image_url)} alt={title} />
-                                    </div>
-                                )}
-                                <div className="news-body" style={{ minHeight: '120px' }}>
+                                <div className="news-image">
+                                    <img src={getImageUrl(item.image_url)} alt={title} />
+                                </div>
+                                <div className="news-body">
                                     <div className="news-date">
                                         <span className="day">{day}</span>
                                         <span className="month">{month}</span>
                                     </div>
                                     <div className="news-content">
                                         <h3 className="news-title">{title}</h3>
-                                        <p className="news-excerpt" style={{ whiteSpace: 'pre-wrap' }}>{item.caption}</p>
+                                        <p className="news-excerpt" style={{ whiteSpace: 'pre-line' }}>
+                                            {item.caption && item.caption.length > 100
+                                                ? item.caption.substring(0, 100) + '...'
+                                                : item.caption}
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         );
                     })}
                 </div>
