@@ -71,14 +71,25 @@ const AllFeedPage = () => {
                             <h3>{language === 'en' ? 'Our Services' : 'हाम्रा सेवाहरू'}</h3>
                         </div>
                         <ul className="sidebar-list">
-                            {services && services.map(service => (
-                                <li key={service.id}>
-                                    <div className="service-item-mini">
-                                        <i className={service.icon}></i>
-                                        <span>{language === 'en' ? service.title_en : service.title_ne}</span>
-                                    </div>
-                                </li>
-                            ))}
+                            {services && services.map(service => {
+                                const desc = language === 'en' ? service.desc_en : service.desc_ne;
+                                const shortDesc = desc ? (desc.split(' ').slice(0, 8).join(' ') + '...') : '';
+                                return (
+                                    <li key={service.id}>
+                                        <a href="/#services" className="service-item-mini clickable">
+                                            <div className="service-icon-wrapper">
+                                                <i className={service.icon}></i>
+                                            </div>
+                                            <div className="service-info-mini">
+                                                <span className="service-title-mini">
+                                                    {language === 'en' ? service.title_en : service.title_ne}
+                                                </span>
+                                                {shortDesc && <span className="service-hint-mini">{shortDesc}</span>}
+                                            </div>
+                                        </a>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </div>
                 </aside>
